@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mejores Amigos · Panel</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="assets/img/icono-ma.png">
+  <link rel="preload" href="assets/fonts/bricolage-grotesque-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/panel.css">
+</head>
+<body>
+
+  <!-- Sprite de íconos: trazo 1.8, heredan currentColor -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V20h14V9.5"/><path d="M10 20v-5h4v5"/></symbol>
+      <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.6-3.6 3.2-5.5 6.5-5.5s5.9 1.9 6.5 5.5"/><path d="M15.5 4.8a3.3 3.3 0 0 1 0 6.4"/><path d="M18 14.8c2 .7 3.2 2.4 3.5 5.2"/></symbol>
+      <symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c.8-4.2 4-6.5 8-6.5s7.2 2.3 8 6.5"/></symbol>
+      <symbol id="i-sparkle" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5c.5 4.6 2.4 6.8 7 7.5-4.6.7-6.5 2.9-7 7.5-.5-4.6-2.4-6.8-7-7.5 4.6-.7 6.5-2.9 7-7.5Z"/><path d="M19 14.5c.25 2.1 1.1 3 3 3.3-1.9.3-2.75 1.2-3 3.2-.25-2-1.1-2.9-3-3.2 1.9-.3 2.75-1.2 3-3.3Z"/></symbol>
+      <symbol id="i-message" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5h16v10.5H9l-5 4V5.5Z"/><path d="M8.5 10.5h.01M12 10.5h.01M15.5 10.5h.01" stroke-width="2.6"/></symbol>
+      <symbol id="i-gift" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="8.5" width="17" height="4" rx="1"/><path d="M5 12.5V20h14v-7.5M12 8.5V20"/><path d="M12 8.5C10.5 5 7 4.5 7 6.8S10 8.5 12 8.5ZM12 8.5c1.5-3.5 5-4 5-1.7S14 8.5 12 8.5Z"/></symbol>
+      <symbol id="i-star" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.8l2.8 5.8 6.3.9-4.6 4.4 1.1 6.3L12 17.2 6.4 20.2l1.1-6.3L2.9 9.5l6.3-.9L12 2.8Z"/></symbol>
+      <symbol id="i-cake" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20.5h16v-7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v7Z"/><path d="M4 15.5c1.3 1 2.7 1 4 0s2.7-1 4 0 2.7 1 4 0 2.7-1 4 0"/><path d="M12 11.5V8"/><path d="M12 3.5c1 1.2 1 2.4 0 3-1-.6-1-1.8 0-3Z"/></symbol>
+      <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></symbol>
+      <symbol id="i-trend" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M9.5 20V5M15 20v-6M20.5 20V8"/></symbol>
+      <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></symbol>
+      <symbol id="i-heart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7.5-4.4-7.5-10A4.3 4.3 0 0 1 12 7.3 4.3 4.3 0 0 1 19.5 10c0 5.6-7.5 10-7.5 10Z"/></symbol>
+      <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+      <symbol id="i-checks" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m2.5 12.5 4 4L15 8"/><path d="m11.5 16.5 1 0L21 8"/></symbol>
+      <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+      <symbol id="i-send" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 3 10.5 13.5"/><path d="M21 3 14.5 21l-4-7.5L3 9.5 21 3Z"/></symbol>
+      <symbol id="i-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16v4Z"/></symbol>
+      <symbol id="i-settings" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/></symbol>
+      <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+      <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16.5V11a6 6 0 0 1 12 0v5.5l1.5 2h-15l1.5-2Z"/><path d="M10 20.5a2.2 2.2 0 0 0 4 0"/></symbol>
+      <symbol id="i-return" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></symbol>
+    </defs>
+  </svg>
+
+  <div class="app" id="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <img class="brand__mark" src="assets/img/icono-ma.png" alt="">
+        <div>
+          <div class="brand__name">mejores amigos</div>
+          <div class="brand__sub">Panel del restaurante</div>
+        </div>
+      </div>
+
+      <div class="venue">
+        <div class="venue__logo" data-bind="venue.initial">B</div>
+        <div>
+          <div class="venue__name" data-bind="venue.name">Brasa</div>
+          <div class="venue__meta" data-bind="venue.plan">Plan Estándar</div>
+        </div>
+      </div>
+
+      <nav class="nav" aria-label="Secciones">
+        <a class="nav__link" href="#inicio" data-route="inicio"><svg class="icon"><use href="#i-home"/></svg><span>Inicio</span></a>
+        <a class="nav__link" href="#clientes" data-route="clientes"><svg class="icon"><use href="#i-users"/></svg><span>Clientes</span></a>
+        <a class="nav__link" href="#sugerencias" data-route="sugerencias"><svg class="icon"><use href="#i-sparkle"/></svg><span>Sugerencias</span><span class="nav__count" id="nav-suggestions-count">4</span></a>
+        <a class="nav__link" href="#automaticos" data-route="automaticos"><svg class="icon"><use href="#i-message"/></svg><span>Mensajes automáticos</span></a>
+        <a class="nav__link" href="#premios" data-route="premios"><svg class="icon"><use href="#i-gift"/></svg><span>Premios</span></a>
+        <a class="nav__link" href="#ajustes" data-route="ajustes"><svg class="icon"><use href="#i-settings"/></svg><span>Ajustes</span></a>
+      </nav>
+
+      <div class="sidebar__foot">
+        <strong>Todo en automático</strong>
+        <p>Vos decidís qué se envía. El sistema lo hace solo, por WhatsApp.</p>
+      </div>
+    </aside>
+
+    <div class="main">
+      <header class="topbar">
+        <label class="search">
+          <svg class="icon icon--sm"><use href="#i-search"/></svg>
+          <span class="sr-only">Buscar cliente</span>
+          <input type="search" id="search" placeholder="Buscar cliente por nombre o teléfono">
+        </label>
+        <span class="topbar__date" data-bind="today">Lunes 9 de marzo</span>
+        <button class="btn btn--quiet" aria-label="Notificaciones"><svg class="icon"><use href="#i-bell"/></svg></button>
+        <div class="topbar__user"><span class="avatar" data-tone="1" data-bind="user.initials">MA</span></div>
+      </header>
+
+      <main class="content">
+        <!-- Inicio -->
+        <section class="view" data-view="inicio" aria-labelledby="t-inicio">
+          <div class="page-head">
+            <div>
+              <h1 class="page-head__title" id="t-inicio">Hola, <span data-bind="user.name">Mariano</span></h1>
+              <p class="page-head__sub">Así vienen tus clientes en Brasa este mes.</p>
+            </div>
+            <a class="btn btn--primary" href="#sugerencias"><svg class="icon icon--sm"><use href="#i-sparkle"/></svg>Ver sugerencias</a>
+          </div>
+
+          <div class="grid-kpi" id="kpis"></div>
+
+          <div class="grid-2">
+            <div class="stack">
+              <div class="section-head">
+                <h2 class="section-head__title"><span class="ai-tag"><svg class="icon"><use href="#i-sparkle"/></svg>Sistema de IA</span>Sugerencias de la semana</h2>
+                <a class="section-head__link" href="#sugerencias">Ver todas</a>
+              </div>
+              <div class="stack" id="home-suggestions"></div>
+            </div>
+
+            <div class="stack">
+              <div class="card">
+                <div class="card__header"><h2 class="card__title">Tus clientes</h2><a class="section-head__link" href="#clientes">Ver lista</a></div>
+                <div class="card__body stack">
+                  <div class="segments" id="home-segments"></div>
+                  <div class="people-list" id="home-people"></div>
+                </div>
+              </div>
+
+              <div class="card" id="weekday-card">
+                <div class="card__header"><h2 class="card__title">Visitas por día</h2><span class="subtle" style="font-size:var(--fs-sm)">Promedio del último mes</span></div>
+                <div class="card__body"><div class="bars" id="weekday-bars"></div></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Clientes -->
+        <section class="view" data-view="clientes" aria-labelledby="t-clientes">
+          <div class="page-head">
+            <div>
+              <h1 class="page-head__title" id="t-clientes">Clientes</h1>
+              <p class="page-head__sub">Cada persona que se sumó al club, con su historia en Brasa.</p>
+            </div>
+          </div>
+          <div class="segments" id="list-segments"></div>
+          <div class="card table-wrap">
+            <table class="table">
+              <thead>
+                <tr><th>Cliente</th><th>Segmento</th><th class="hide-sm">Visitas</th><th>Estrellitas</th><th class="hide-sm">Última visita</th><th class="hide-sm">Cumpleaños</th></tr>
+              </thead>
+              <tbody id="customers-body"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Sugerencias -->
+        <section class="view" data-view="sugerencias" aria-labelledby="t-sugerencias">
+          <div class="page-head">
+            <div>
+              <h1 class="page-head__title" id="t-sugerencias">Sugerencias del sistema de IA</h1>
+              <p class="page-head__sub">Qué enviar y a quién, cada semana. Vos aprobás y el mensaje sale solo por WhatsApp.</p>
+            </div>
+          </div>
+          <div class="stack" id="all-suggestions"></div>
+        </section>
+
+        <!-- Mensajes automáticos -->
+        <section class="view" data-view="automaticos" aria-labelledby="t-automaticos">
+          <div class="page-head">
+            <div>
+              <h1 class="page-head__title" id="t-automaticos">Mensajes automáticos</h1>
+              <p class="page-head__sub">Elegí qué mensajes querés que salgan solos. No hace falta escribir nada.</p>
+            </div>
+          </div>
+          <div class="callout">
+            <div class="callout__icon"><svg class="icon icon--lg"><use href="#i-sparkle"/></svg></div>
+            <div><strong>Vos decidís qué se envía. El sistema lo hace solo.</strong><p>Cada mensaje sale por WhatsApp en el momento justo, con el nombre de cada cliente.</p></div>
+          </div>
+          <div class="automations" id="automations"></div>
+        </section>
+
+        <!-- Premios y Ajustes (esqueleto para el panel real) -->
+        <section class="view" data-view="premios" aria-labelledby="t-premios">
+          <div class="page-head"><div><h1 class="page-head__title" id="t-premios">Premios</h1><p class="page-head__sub">Próximamente en esta demo.</p></div></div>
+        </section>
+        <section class="view" data-view="ajustes" aria-labelledby="t-ajustes">
+          <div class="page-head"><div><h1 class="page-head__title" id="t-ajustes">Ajustes</h1><p class="page-head__sub">Próximamente en esta demo.</p></div></div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- Ficha de cliente -->
+  <div class="drawer-backdrop" data-close-drawer></div>
+  <aside class="drawer" id="drawer" aria-label="Ficha de cliente"></aside>
+
+  <!-- Modal de envío -->
+  <div class="modal-backdrop" id="modal-backdrop">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="send-title" id="modal"></div>
+  </div>
+
+  <div class="toast" id="toast" role="status"><svg class="icon"><use href="#i-check"/></svg><span></span></div>
+
+  <script src="js/demo-data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

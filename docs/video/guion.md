@@ -66,12 +66,14 @@ El panel desliza con la lista de clientes. Se iluminan los segmentos **Nuevos 63
 **2 · Mensajes automáticos, en el momento justo** (0:35 – 0:41) — *el beneficio central, con más tiempo que los demás*
 Subtítulo: *Un sistema de IA te sugiere qué enviar. Vos aprobás y sale solo.*
 
-1. En el panel entra una **sugerencia generada por el sistema de IA**:
-   > 💡 *4 clientes cumplen años esta semana. Enviarles un saludo con postre de regalo.*
-   > Vista previa del mensaje · **[Aprobar y enviar]**
+1. En el panel entra una **sugerencia generada por el sistema de IA**, con cuenta regresiva:
+   > **Faltan 5 días para que Juli cumpla años.** *(También cumplen Martín en 2 días, Caro en 4 y Lucas en 6.)*
+   > Mensaje sugerido, **una invitación, no solo un saludo**:
+   > *"¡Hola, Juli! Faltan pocos días para tu cumple y en Brasa queremos festejarlo con vos. Vení cuando quieras esta semana: el postre corre por nuestra cuenta. ¿Te reservamos una mesa?"*
+   > **[Aprobar y enviar a los 4]**
 2. Un toque en **Aprobar y enviar** → el mensaje **se reparte solo** a cuatro avatares (Juli, Martín, Caro, Lucas), que se marcan uno por uno con un check: *"Enviado automáticamente a 4 clientes"*.
-3. El teléfono de Juli recibe:
-   > *¡Feliz cumple, Juli! 🎂 Esta semana el postre va por nuestra cuenta.*
+3. El teléfono de Juli recibe la invitación:
+   > *¡Hola, Juli! Faltan pocos días para tu cumple y en Brasa queremos festejarlo con vos. Vení cuando quieras esta semana: el postre corre por nuestra cuenta. ¿Te reservamos una mesa?*
 4. Cierra con la pantalla de **Mensajes automáticos** del panel: interruptores que se encienden en cascada: *Bienvenida* · *Saludo de cumpleaños* · *Aviso de premio disponible* · *"Te extrañamos" a los que dejan de venir*.
    > **Vos decidís qué se envía. El sistema lo hace solo.**
 
