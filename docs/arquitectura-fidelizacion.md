@@ -208,6 +208,29 @@ El QR fijo en la mesa sirve solo para **conocer el programa o recuperar la tarje
 - **MVP:** número nuevo dedicado por restaurante (una línea prepaga barata), con la WABA creada en el portfolio del restaurante. Alta manual: el restaurante agrega a Luz Sur como socio y se genera un token de *system user*. Así, cero proveedores.
 - **v2:** Luz Sur registrada como Tech Provider. Alta embebida en 5 minutos desde el panel y coexistencia con el número de siempre.
 
+### 3.8 Qué pasa si un cliente le escribe algo que no es un comando (una reserva, una pregunta) — indispensable en el MVP
+
+Como nadie mira ese número en tiempo real, hay un riesgo real: un cliente le escribe "¿tienen mesa para 4 esta noche?" al número del club y, si el bot no hace nada con eso, el mensaje se pierde y el restaurante pierde una reserva sin saberlo. Esto no se resuelve explicándoselo al cliente — se resuelve en el software, y va en el MVP, no en v2.
+
+**Regla del webhook:** todo mensaje entrante pasa por un matcher de comandos conocidos (código de visita, `TARJETA`, `BAJA`, `CANJE`, respuestas de opt-out). **Todo lo que no matchea dispara, en el momento, una respuesta automática de redirección** — nunca silencio:
+
+> "¡Hola! Este es el Club de Puntos de {restaurante} 🎁. Para reservas o consultas escribinos a {telefono_atencion} ({horario_atencion}). ¿Buscabas sumar tus puntos? Escaneá el QR de tu mesa."
+
+- El texto es otro `legal_documents`-like editable (`kind='out_of_scope_reply'`), con `{telefono_atencion}` y `{horario_atencion}` como datos del tenant (`tenants.settings`), no hardcodeados — cada restaurante carga su propio número de atención al darse de alta.
+- Es un mensaje de servicio (dentro de la ventana que abrió el propio cliente), así que no tiene costo de plantilla.
+- El cliente nunca queda esperando una respuesta que no va a llegar: la tiene al instante, aunque sea para redirigirlo.
+
+**Nada se pierde, aunque nadie lo vea en el momento:**
+
+```sql
+unmatched_messages   id, tenant_id, customer_phone_masked, body, wa_message_id,
+                     status ENUM('new','seen'), created_at, seen_by, seen_at
+```
+
+El panel muestra un aviso ("3 mensajes sin responder") con el texto completo, para que el dueño o el encargado lo vea al entrar y, si hace falta, llame al cliente por su cuenta. No es atención en tiempo real, pero tampoco es una pérdida silenciosa — es exactamente el mismo estándar que ya tiene la competencia (Lealtix, GastroStamps): ninguna atiende reservas por el número del programa de puntos, todas redirigen.
+
+**Se lo explicita en la venta:** el número del club **no reemplaza** el WhatsApp de atención del restaurante — es un asistente automático acotado a sumar y canjear puntos. Las reservas y consultas siguen entrando exactamente por donde siempre entraron.
+
 ### 3.6 Límites operativos de Meta que afectan al producto
 - **Límite de mensajes iniciados por el negocio:** un portfolio *no verificado* solo puede escribir a unos **250 destinatarios únicos cada 24 hs**. Una campaña a 1.200 personas tarda 5 días, y el aviso de baja a 2.000 clientes, 8 días (entra en los 30, pero justo). → La **verificación del negocio del restaurante en Meta** va en el checklist de alta, y el outbox reparte los envíos respetando el límite.
 - **Plantillas:** todo lo que se manda fuera de la ventana necesita una plantilla aprobada. Al dar de alta un restaurante, el sistema **crea por API las plantillas estándar** (aviso de baja, reactivación, cumpleaños, confirmación manual) en su WABA.
@@ -448,6 +471,7 @@ Hoy es 25/09/2026. Con una persona part-time y Claude Code, **un MVP de 8–10 s
 
 **WhatsApp**
 - Cloud API directa, WABA en el portfolio del restaurante, creación automática de plantillas y outbox con límite de ritmo.
+- **Respuesta automática a mensajes no reconocidos** con redirección al teléfono de atención real del restaurante (§3.8) + aviso en el panel. Nunca silencio ante un mensaje que no es un comando.
 
 **Legal (innegociable)**
 - `legal_documents` versionado + editor, `consent_events`, BAJA, **máquina de estados de baja completa** (aviso, recordatorios, cierre, archivo cifrado, purga a los 90 días), `audit_log`.
