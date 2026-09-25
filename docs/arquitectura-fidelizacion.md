@@ -214,6 +214,24 @@ El QR fijo en la mesa sirve solo para **conocer el programa o recuperar la tarje
 - **Opt-out desde la interfaz de WhatsApp:** el usuario puede frenar el marketing desde la propia app. El webhook y los errores de envío correspondientes se tratan igual que un BAJA de marketing.
 - **Arrancar ya** con la verificación de negocio de Luz Sur en Meta. Sin eso no hay onboarding ágil para la temporada.
 
+### 3.7 El alta en la práctica: qué pide Meta, cuánto tarda, y si hace falta ir con el celular del restaurante
+
+**No hace falta ir al local con su celular.** El único momento en que se necesita el teléfono es para recibir **un código por SMS o llamada de 6 dígitos**, una sola vez. Se puede hacer 100% remoto: por videollamada o llamada normal, el dueño te lee el código que le llega, y listo. Tampoco hace falta que instale nada ni que abra la app de WhatsApp Business en ese número — de hecho, en el MVP **no debe tenerlo asociado a esa app** (ver más abajo).
+
+**Paso a paso (MVP, sin coexistencia):**
+
+1. **Conseguir un número nuevo dedicado.** Una línea prepaga barata que nunca haya tenido WhatsApp personal ni WhatsApp Business App instalada (si la tuvo, hay que darla de baja de esa app primero). Puede comprarla el restaurante o vos y facturársela — es indistinto, pero conviene que la línea quede a nombre del restaurante para que sea inequívocamente su activo.
+2. **El restaurante crea (o ya tiene) su Meta Business Portfolio** — la cuenta empresarial de Meta, no una cuenta personal de Facebook. Si no la tiene, se crea en 5 minutos con el mail del restaurante.
+3. **El restaurante te agrega a vos (Luz Sur) como socio/administrador** de ese portfolio, con permisos sobre WhatsApp. Esto se hace con tu ID de negocio de Meta, sin que compartan contraseñas ni vos necesites loguearte como ellos.
+4. **Se crea la WABA (WhatsApp Business Account)** dentro de ese portfolio y se registra el número nuevo. Acá llega el SMS/llamada con el código — es el único paso que depende del dueño en tiempo real, y dura minutos.
+5. **Se genera un token de acceso de sistema** (*system user token*) de larga duración, para que el panel mande mensajes por API sin que nadie tenga que volver a loguearse. Este token se guarda cifrado en `tenants.wa_token_enc`.
+6. **Se cargan las plantillas** (aviso de baja, cumpleaños, reactivación) por API — quedan pendientes de aprobación de Meta, normalmente en minutos a pocas horas.
+7. **Se inicia la verificación de negocio** (nombre legal, CUIT, dirección — documentos con menos de un año), en paralelo, porque no bloquea empezar a mandar mensajes, pero **sí define el techo de destinatarios por día** (250/24 hs sin verificar, se eleva con volumen y buena reputación una vez verificado). Puede tardar de horas a **1–2 semanas** según la carga de Meta; en casos raros más. Por eso conviene iniciarla el mismo día del alta, no cuando ya se necesita mandar una campaña grande.
+
+**Tiempo real de tu parte:** el alta técnica (pasos 1 a 6) es de **20 a 40 minutos** en una sola llamada con el dueño. Lo que puede demorar días o semanas es la verificación de negocio (paso 7), que corre en paralelo y no frena el uso normal del sistema (sumar puntos, canjear, avisos chicos) — solo limita cuántas campañas grandes se pueden mandar por día mientras tanto.
+
+**v2, con Luz Sur como Tech Provider:** el flujo de arriba se reemplaza por *Embedded Signup* — una pantalla dentro de tu propio panel donde el dueño hace login con su cuenta de Meta y en 5 minutos queda todo conectado, incluida la opción de **coexistencia** (usar el número que ya tiene en su app). Para ofrecer esto, Luz Sur tiene que pasar su propia revisión de app ante Meta una vez (semanas), así que conviene arrancarla en paralelo al desarrollo del MVP, no después.
+
 ---
 
 ## 4. Modelo de datos multi-tenant
@@ -302,6 +320,14 @@ tenant_archives    id, tenant_id, file_path, sha256, encrypted_with, created_at,
 Lo que hace que se sienta inteligente no es el modelo: es que la sugerencia sea **específica** (números y nombres de segmento reales), **comparada con la temporada anterior** (lo que el dueño no puede calcular a mano) y **accionable con un toque** (el borrador de campaña con costo estimado ya armado). Eso es el Nivel 1 más un par de reglas del Nivel 2.
 
 **Privacidad:** al LLM se mandan **solo agregados**. Nunca teléfonos ni nombres de clientes.
+
+### 5.3 Por qué el costo de IA no depende de cuánto "use" el restaurante
+Esto está resuelto por diseño, no por confianza en que el restaurante se porte bien:
+
+- **En el MVP y v2 no hay ninguna caja de texto libre para el dueño.** El único uso de IA es el **Nivel 1**: un job semanal que **dispara el sistema, no el restaurante**. Una vez por semana, un tamaño de prompt fijo (los ~2 KB de métricas agregadas de §5.1) y una respuesta con **`max_tokens` fijado por código** (no lo decide el modelo ni el usuario). El restaurante no puede hacer que este proceso corra más seguido ni que devuelva una respuesta más larga, porque no tiene ningún control sobre él.
+- **Costo por restaurante, siempre acotado:** 1 llamada/semana × (~3.000–5.000 tokens de entrada + ≤800 de salida, con un modelo económico tipo Haiku) ≈ **centavos de dólar por mes**, sin importar cuántas visitas o campañas tenga ese restaurante — el volumen de negocio no infla el prompt, porque lo que se manda es un resumen agregado de tamaño constante, no el historial completo de cada cliente.
+- **Se loguea el consumo real por tenant** (`ai_usage_log`: tokens de entrada/salida, costo estimado, fecha) para detectar cualquier desvío y para poder mostrar, si hace falta, "cuánto cuesta la IA de este restaurante" — pero en la práctica es una cifra tan chica que no vale la pena facturarla aparte; ya está contemplada en los US$0,20–0,50/mes de §9.1.
+- **Si en v3 se agrega el chat "preguntale a tus datos" (interactivo, con preguntas libres del dueño), ahí sí hay que ponerle un techo explícito desde el primer día**, porque ahí el volumen de uso ya no lo controla el código sino la curiosidad del dueño: una cuota incluida en el plan (por ejemplo, 30 preguntas por mes), un `max_tokens` corto por respuesta, un modelo económico, y bloqueo o aviso al superar la cuota — nunca una llamada a la API sin límite superior definido de antemano. Es la única pieza de IA del roadmap que necesita este control; el resto (Niveles 1 y 2) ya nace acotado por ser un job batch, no una conversación.
 
 ---
 
