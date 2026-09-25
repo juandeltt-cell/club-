@@ -1,0 +1,4 @@
+node_modules/
+out/
+# se regenera con: npm run sfx
+public/audio/
