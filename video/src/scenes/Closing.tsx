@@ -44,8 +44,8 @@ const Punch: React.FC = () => (
     <div style={{ position: "absolute", left: 90, top: 560 }}>
       <MaskLines lines={["Más frecuencia.", "Más clientes.", "Más ventas."]} size={128} delay={2} gap={9} color={T.cream} accent={["frecuencia", "clientes", "ventas"]} />
     </div>
-    <Emoji3D name="chart_increasing" size={300} at={24} x={620} y={1080} rotate={-6} depth={1.4} />
-    <Emoji3D name="money_bag" size={190} at={30} x={420} y={1250} rotate={10} depth={1.2} />
+    <Emoji3D name="chart_increasing" size={220} at={24} x={680} y={1120} rotate={-6} depth={1.4} />
+    <Emoji3D name="money_bag" size={140} at={30} x={520} y={1280} rotate={10} depth={1.2} />
   </AbsoluteFill>
 );
 
@@ -93,11 +93,6 @@ const Brand: React.FC = () => {
         <span style={{ ...body(30, T.inkMuted, 600) }}>un producto de</span>
         <LuzSurBadge width={230} />
       </div>
-      {/* objetos 3D alrededor del logo */}
-      <Emoji3D name="star" size={130} at={10} x={40} y={200} rotate={-14} />
-      <Emoji3D name="red_heart" size={110} at={14} x={900} y={210} rotate={12} />
-      <Emoji3D name="wrapped_gift" size={130} at={18} x={880} y={1010} rotate={8} />
-      <Emoji3D name="hot_beverage" size={130} at={22} x={70} y={1020} rotate={-8} />
       {/* cinta: sin apps, sin tarjetas, solo WhatsApp */}
       <Marquee text="SIN APPS  ✦  SIN TARJETAS  ✦  SOLO WHATSAPP" y={1370} rotate={-5} bg={T.mint} color={T.ink} speed={5} size={50} at={30} />
       {/* amigos festejando */}

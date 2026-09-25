@@ -5,6 +5,8 @@ import { PanelShot, Tap } from "../components/Device";
 import { CameraMotionBlur } from "@remotion/motion-blur";
 import { Emoji3D, EmojiName } from "../components/Emoji";
 import { MaskLines, Spotlight } from "../components/Marks";
+import { Bars3D } from "../components/Bars3D";
+import { Star3D } from "../components/Star3D";
 import { CheckIcon, SparkleIcon, StarIcon } from "../components/Icons";
 import { SceneBg } from "../components/Layers";
 import { Counter, ease, useBreathe, useIn } from "../components/Motion";
@@ -46,17 +48,17 @@ const Sticker: React.FC<{ at: number; x: number; y: number; rotate?: number; bg?
   );
 };
 
-// ---------- ¿Y tu comercio qué gana? · grilla de 4 beneficios (local 0–108) ----------
+// ---------- ¿Y tu comercio qué gana? · grilla de 4 beneficios (local 0–148) ----------
 const BENTO: { n: number; label: string[]; icon: EmojiName; bg: string; fg: string }[] = [
   { n: 1, label: ["Conocé a", "tus clientes"], icon: "eyes", bg: T.cream, fg: T.ink },
-  { n: 2, label: ["Mensajes", "automáticos"], icon: "speech_balloon", bg: T.mint, fg: T.ink },
-  { n: 3, label: ["Clientes que", "vuelven"], icon: "counterclockwise_arrows_button", bg: T.star, fg: T.ink },
-  { n: 4, label: ["Días flojos,", "llenos"], icon: "tear-off_calendar", bg: "#FCE3CF", fg: T.ink },
+  { n: 2, label: ["Días flojos,", "llenos"], icon: "tear-off_calendar", bg: T.mint, fg: T.ink },
+  { n: 3, label: ["Mensajes", "automáticos"], icon: "speech_balloon", bg: T.star, fg: T.ink },
+  { n: 4, label: ["Clientes que", "vuelven"], icon: "counterclockwise_arrows_button", bg: "#FCE3CF", fg: T.ink },
 ];
 
 const BentoTile: React.FC<{ i: number; x: number; y: number }> = ({ i, x, y }) => {
   const t = BENTO[i];
-  const at = 22 + i * 7;
+  const at = 26 + i * 9;
   const p = useIn(at, theme.spring.bouncy);
   return (
     <div
@@ -67,7 +69,7 @@ const BentoTile: React.FC<{ i: number; x: number; y: number }> = ({ i, x, y }) =
       }}
     >
       <div style={{ ...display(40, t.fg, 800), opacity: 0.55 }}>0{t.n}</div>
-      <div style={{ position: "absolute", right: 16, top: 14 }}><Emoji3D name={t.icon} size={180} at={at + 4} depth={0.8} /></div>
+      <div style={{ position: "absolute", right: 16, top: 14 }}><Emoji3D name={t.icon} size={140} at={at + 4} depth={0.8} /></div>
       <div style={{ position: "absolute", left: 34, bottom: 30, ...display(54, t.fg, 800), lineHeight: 1.02 }}>
         {t.label.map((l) => <div key={l}>{l}</div>)}
       </div>
@@ -77,7 +79,7 @@ const BentoTile: React.FC<{ i: number; x: number; y: number }> = ({ i, x, y }) =
 
 export const CommerceTitle: React.FC = () => {
   const frame = useCurrentFrame();
-  const push = ease(frame, [0, 108], [1, 1.04], theme.ease.inOut);
+  const push = ease(frame, [0, 148], [1, 1.04], theme.ease.inOut);
   return (
     <AbsoluteFill style={{ transform: `scale(${push})` }}>
       <SceneBg variant="ink" />
@@ -95,9 +97,9 @@ export const CommerceTitle: React.FC = () => {
 // ---------- Placa de título de cada beneficio (pantalla propia) ----------
 const TITLES: Record<number, { lines: string[]; sub: string; accent: string[]; size: number; hero: EmojiName; side: EmojiName }> = {
   1: { lines: ["Conocé a", "tus clientes."], sub: "Sabé quién viene. Sabé quién vuelve.", accent: ["clientes"], size: 132, hero: "eyes", side: "red_heart" },
-  2: { lines: ["Mensajes", "automáticos,", "en el momento", "justo."], sub: "Más interacción con tus clientes, sin trabajo extra.", accent: ["automáticos", "justo"], size: 116, hero: "speech_balloon", side: "birthday_cake" },
-  3: { lines: ["Los clientes", "vuelven más", "seguido."], sub: "Recuperá a los que dejaron de venir.", accent: ["vuelven", "seguido"], size: 124, hero: "counterclockwise_arrows_button", side: "hot_beverage" },
-  4: { lines: ["Llená los", "días flojos."], sub: "Promos automáticas para tu día más tranquilo.", accent: ["flojos"], size: 132, hero: "tear-off_calendar", side: "star" },
+  2: { lines: ["Llená los", "días flojos."], sub: "Promos automáticas para tu día más tranquilo.", accent: ["flojos"], size: 132, hero: "tear-off_calendar", side: "star" },
+  3: { lines: ["Mensajes", "automáticos,", "en el momento", "justo."], sub: "Más interacción con tus clientes, sin trabajo extra.", accent: ["automáticos", "justo"], size: 116, hero: "speech_balloon", side: "birthday_cake" },
+  4: { lines: ["Los clientes", "vuelven más", "seguido."], sub: "Recuperá a los que dejaron de venir.", accent: ["vuelven", "seguido"], size: 124, hero: "counterclockwise_arrows_button", side: "hot_beverage" },
 };
 
 const TitleCard: React.FC<{ n: number }> = ({ n }) => {
@@ -134,8 +136,8 @@ const TitleCard: React.FC<{ n: number }> = ({ n }) => {
           );
         })}
       </div>
-      <Emoji3D name={t.hero} size={330} at={8} x={640} y={1230} rotate={-8} depth={1.3} />
-      <Emoji3D name={t.side} size={170} at={14} x={470} y={1480} rotate={12} depth={1.1} />
+      <Emoji3D name={t.hero} size={240} at={8} x={700} y={1300} rotate={-8} depth={1.3} />
+      <Emoji3D name={t.side} size={120} at={14} x={560} y={1500} rotate={12} depth={1.1} />
       <CameraMotionBlur samples={6} shutterAngle={160}>
         <div style={{ position: "absolute", left: 86, right: 40, top: 540 }}>
           <MaskLines lines={t.lines} size={t.size} delay={3} gap={4} color={fg} accent={t.accent} accentColor={acc} />
@@ -158,24 +160,22 @@ export const B2Title: React.FC = () => <TitleCard n={2} />;
 export const B3Title: React.FC = () => <TitleCard n={3} />;
 export const B4Title: React.FC = () => <TitleCard n={4} />;
 
-// ---------- 2 · Mensajes automáticos (local 0–216) ----------
+// ---------- 3 · Mensajes automáticos (local 0–203; "¡Enviado solo!" en la vuelta de la energía, 163) ----------
 export const OwnerMessages: React.FC = () => {
   const frame = useCurrentFrame();
-  const sent = [168, 173, 178, 183, 189].reduce((acc, at) => acc + ease(frame, [at, at + 4], [0, 1]), 0);
   const cardIn = useIn(4, theme.spring.smooth);
-  const cardOut = ease(frame, [158, 166], [0, 1], theme.ease.in);
+  const done = ease(frame, [150, 158], [0, 1]);
   const mark = ease(frame, [34, 56], [0, 1], theme.ease.inOut);
   const btn = useIn(112, theme.spring.bouncy);
   const pressed = frame >= 146 ? ease(frame, [146, 150], [0.94, 1]) : 1;
   return (
     <AbsoluteFill>
       <SceneBg />
-      <Sub text="El sistema de IA te sugiere qué enviar, en el momento justo." from={2} to={160} top={250} />
-      <Sub text="Vos aprobás. Sale solo por WhatsApp." from={164} top={250} />
+      <Sub text="El sistema de IA te sugiere qué enviar, en el momento justo." from={2} top={250} />
 
       {/* el mensaje sugerido, grande y con tiempo para leerlo */}
-      {frame < 168 && (
-        <div style={{ position: "absolute", left: WIN_X, top: 440, width: WIN_W, opacity: cardIn * (1 - cardOut), transform: `translateY(${(1 - cardIn) * 120 - cardOut * 60}px) scale(${interpolate(cardIn, [0, 1], [0.94, 1])})` }}>
+      {(
+        <div style={{ position: "absolute", left: WIN_X, top: 440, width: WIN_W, opacity: cardIn, transform: `translateY(${(1 - cardIn) * 120}px) scale(${interpolate(cardIn, [0, 1], [0.94, 1])})` }}>
           <div style={{ background: T.white, borderRadius: 44, border: `4px solid ${T.ink}`, padding: "34px 40px 40px", boxShadow: "0 30px 60px -30px rgba(2,49,42,0.45)" }}>
             <div style={{ display: "flex", alignItems: "center", gap: 12, ...body(30, T.mintDeep, 800), textTransform: "uppercase", letterSpacing: "0.04em" }}>
               <SparkleIcon size={34} color={T.mint} /> Sugerido por el sistema de IA
@@ -187,30 +187,26 @@ export const OwnerMessages: React.FC = () => {
               </span>{" "}
               ¿Te reservamos mesa?
             </div>
-            <div style={{ marginTop: 34, display: "inline-flex", alignItems: "center", gap: 14, background: T.mint, borderRadius: 80, padding: "24px 40px", ...body(38, T.white, 800), transform: `scale(${interpolate(btn, [0, 1], [0.6, 1]) * pressed})`, opacity: btn, transformOrigin: "left center", boxShadow: "0 16px 30px -10px rgba(5,171,135,0.6)" }}>
-              Aprobar y enviar a los 4
+            <div style={{ marginTop: 34, display: "inline-flex", alignItems: "center", gap: 14, background: done > 0.5 ? T.ink : T.mint, borderRadius: 80, padding: "24px 40px", ...body(38, T.white, 800), transform: `scale(${interpolate(btn, [0, 1], [0.6, 1]) * pressed})`, opacity: btn, transformOrigin: "left center", boxShadow: "0 16px 30px -10px rgba(5,171,135,0.6)" }}>
+              {done > 0.5 ? <><CheckIcon size={40} color={T.mint} /> Enviado a los 4</> : "Aprobar y enviar a los 4"}
             </div>
           </div>
-          <Emoji3D name="birthday_cake" size={190} at={14} x={790} y={-120} rotate={12} depth={1.2} />
+          <Emoji3D name="birthday_cake" size={140} at={14} x={820} y={-90} rotate={12} depth={1.2} />
           <Tap x={260} y={BTN_Y} at={146} />
         </div>
       )}
 
-      {/* se envía solo */}
-      <Shot from={164} to={216} top={560}>
-        <PanelShot frames={["panel/send-0.png", "panel/send-1.png", "panel/send-2.png", "panel/send-3.png", "panel/send-4.png", "panel/send-done.png"]} index={sent} srcWidth={1146} srcTop={980} srcHeight={560} width={WIN_W} />
-      </Shot>
-      <Sticker at={190} x={540} y={1110} rotate={5} bg={T.mint}>
+      <Sticker at={163} x={520} y={1150} rotate={5} bg={T.mint}>
         <CheckIcon size={46} color={T.white} /> ¡Enviado solo!
       </Sticker>
-      <Emoji3D name="party_popper" size={200} at={192} x={120} y={1180} rotate={-10} depth={1.3} />
+      <Emoji3D name="party_popper" size={140} at={166} x={330} y={1150} rotate={-10} depth={1.2} />
     </AbsoluteFill>
   );
 };
 
 const BTN_Y = 620; // centro del botón "Aprobar y enviar", relativo a la tarjeta
 
-// ---------- 3 · Vuelven más seguido (local 0–149; la energía vuelve en 109) ----------
+// ---------- 4 · Vuelven más seguido (local 0–161) ----------
 export const OwnerReturns: React.FC = () => {
   const frame = useCurrentFrame();
   const msgIn = useIn(4, theme.spring.smooth);
@@ -218,8 +214,8 @@ export const OwnerReturns: React.FC = () => {
   return (
     <AbsoluteFill>
       <SceneBg />
-      <Sub text="Vos decidís qué se envía. El sistema lo hace solo." from={2} top={250} />
-      <div style={{ position: "absolute", left: WIN_X, top: 440, width: WIN_W, opacity: msgIn, transform: `translateY(${(1 - msgIn) * 120}px)` }}>
+      <Sub text="Vos decidís. El sistema te sugiere propuestas de mensajes, y vos autorizás el envío." from={2} top={250} />
+      <div style={{ position: "absolute", left: WIN_X, top: 500, width: WIN_W, opacity: msgIn, transform: `translateY(${(1 - msgIn) * 120}px)` }}>
         <div style={{ background: T.chat, borderRadius: 44, border: `4px solid ${T.ink}`, overflow: "hidden", boxShadow: "0 30px 60px -30px rgba(2,49,42,0.45)" }}>
           <div style={{ background: T.ink, padding: "26px 34px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
             <div style={{ ...body(34, T.cream, 700) }}>Para: Martín</div>
@@ -236,48 +232,52 @@ export const OwnerReturns: React.FC = () => {
             </div>
           </div>
         </div>
-        <Emoji3D name="hot_beverage" size={200} at={20} x={780} y={-130} rotate={10} depth={1.2} />
+        <Emoji3D name="hot_beverage" size={140} at={20} x={820} y={-100} rotate={10} depth={1.2} />
       </div>
-      <Sticker at={109} x={250} y={1250} rotate={-4} bg={T.mint}>
+      <Sticker at={104} x={250} y={1310} rotate={-4} bg={T.mint}>
         <CheckIcon size={46} color={T.white} /> Enviado automáticamente
       </Sticker>
     </AbsoluteFill>
   );
 };
 
-// ---------- 4 · Días flojos (local 0–135) ----------
+// ---------- 2 · Días flojos (local 0–202) ----------
 export const OwnerSlowDays: React.FC = () => {
   const frame = useCurrentFrame();
   const kT = 900 / 1194;
-  const grow = ease(frame, [80, 104], [0, 10], theme.ease.out);
-  const promo = useIn(62, theme.spring.bouncy);
+  const promo = useIn(118, theme.spring.bouncy);
+  const lift = useIn(172, theme.spring.bouncy);
   return (
     <AbsoluteFill>
       <SceneBg />
-      <Sub text="El sistema detecta tu día más flojo y te propone una promo." from={2} to={60} top={250} />
-      <Sub text="Así tus clientes eligen el martes para sumar más rápido." from={64} top={250} />
-      <Shot from={4} to={64} top={420} left={90}>
+      <Sub text="El sistema detecta tu día más flojo y te propone una promo." from={2} to={116} top={250} />
+      <Sub text="Así tus clientes eligen el martes para sumar más rápido." from={120} top={250} />
+      <Shot from={4} to={118} top={420} left={90}>
         <PanelShot frames={["panel/sugg-tuesday.png"]} srcWidth={1194} srcHeight={1250} width={900}>
-          <Spotlight x={96 * kT} y={755 * kT} w={990 * kT} h={180 * kT} at={16} until={44} />
+          <Spotlight x={236 * kT} y={150 * kT} w={860 * kT} h={210 * kT} at={18} until={52} />
+          <Spotlight x={96 * kT} y={755 * kT} w={990 * kT} h={180 * kT} at={58} until={94} />
         </PanelShot>
-        <Tap x={470 * kT} y={1167 * kT} at={52} />
+        <Tap x={470 * kT} y={1167 * kT} at={104} />
       </Shot>
-      {frame >= 60 && (
-        <div style={{ position: "absolute", left: WIN_X, top: 420, width: WIN_W, display: "flex", alignItems: "center", gap: 30, background: T.ink, borderRadius: 44, padding: "30px 40px", opacity: promo, transform: `scale(${interpolate(promo, [0, 1], [0.7, 1])})` }}>
-          <div style={{ display: "flex", flex: "none" }}>
-            <Emoji3D name="star" size={110} at={64} float={0.4} depth={0.5} />
-            <Emoji3D name="star" size={110} at={68} float={0.4} depth={0.5} style={{ marginLeft: -40 }} />
+      {frame >= 116 && (
+        <div style={{ position: "absolute", left: WIN_X, top: 420, width: WIN_W, display: "flex", alignItems: "center", gap: 20, background: T.ink, borderRadius: 44, padding: "18px 40px 18px 20px", opacity: promo, transform: `scale(${interpolate(promo, [0, 1], [0.7, 1])})` }}>
+          <div style={{ display: "flex", flex: "none", width: 190, height: 150, position: "relative" }}>
+            <Star3D size={150} at={122} x={-6} y={0} />
+            <Star3D size={150} at={128} x={62} y={0} />
           </div>
-          <div style={{ ...display(60, T.cream, 800), lineHeight: 1.05 }}>
+          <div style={{ ...display(58, T.cream, 800), lineHeight: 1.05 }}>
             Los martes, cada visita suma <span style={{ color: T.star }}>2 estrellitas</span>
           </div>
         </div>
       )}
-      <Shot from={70} to={135} top={740}>
-        <PanelShot frames={Array.from({ length: 11 }, (_, i) => `panel/bars-${String(i).padStart(2, "0")}.png`)} index={grow} srcWidth={1194} srcHeight={864} width={WIN_W}>
-          <Spotlight x={156} y={270} w={150} h={400} at={104} radius={30} dim={0.35} />
-        </PanelShot>
+      <Shot from={126} to={202} top={700}>
+        <Bars3D at={126} grow={[146, 172]} boostTo={232} width={WIN_W} />
       </Shot>
+      {frame >= 172 && (
+        <div style={{ position: "absolute", left: 400, top: 870, background: T.mint, borderRadius: 40, padding: "10px 24px", ...display(44, T.white, 800), transform: `scale(${lift}) rotate(-5deg)`, boxShadow: "0 14px 26px -12px rgba(0,0,0,0.4)" }}>
+          +55% los martes
+        </div>
+      )}
     </AbsoluteFill>
   );
 };

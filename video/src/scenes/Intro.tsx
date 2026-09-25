@@ -61,25 +61,25 @@ export const LogoDrop: React.FC = () => {
     <AbsoluteFill>
       <SceneBg />
       <div style={{ opacity: rays * 0.9 }}>
-        <Sunburst color="rgba(5,171,135,0.10)" cy={660} />
+        <Sunburst color="rgba(5,171,135,0.10)" cy={960} />
       </div>
-      <div style={{ position: "absolute", left: 0, right: 0, top: 360, display: "flex", justifyContent: "center", opacity: 1 - answerOut, transform: `translateY(${-answerOut * 40}px)` }}>
+      <div style={{ position: "absolute", left: 0, right: 0, top: 640, display: "flex", justifyContent: "center", opacity: 1 - answerOut, transform: `translateY(${-answerOut * 40}px)` }}>
         <WordReveal text="Con" delay={0} style={{ ...display(150, T.ink) }} />
       </div>
-      <div style={{ position: "absolute", left: 540 - 450, top: 540, transform: `scale(${logoBreathe})` }}>
+      <div style={{ position: "absolute", left: 540 - 450, top: 960 - 117, transform: `scale(${logoBreathe})` }}>
         <LogoReveal width={900} delay={0} />
       </div>
-      <Burst at={2} cx={540} cy={660} count={22} />
+      <Burst at={2} cx={540} cy={960} count={18} />
       <div
         style={{
-          position: "absolute", left: 0, right: 0, top: 800, display: "flex", justifyContent: "center", ...display(190, T.mint),
+          position: "absolute", left: 0, right: 0, top: 1100, display: "flex", justifyContent: "center", ...display(190, T.mint),
           opacity: Math.min(1, si * 1.5) * (1 - answerOut), transform: `scale(${interpolate(si, [0, 1], [0.4, 1])}) rotate(${interpolate(si, [0, 1], [-12, -3])}deg) translateY(${answerOut * 40}px)`,
           textShadow: `0 0 50px ${T.mintGlow}`,
         }}
       >
         sí.
       </div>
-      <div style={{ position: "absolute", left: 0, right: 0, top: 930 }}>
+      <div style={{ position: "absolute", left: 0, right: 0, top: 1150 }}>
         <Lines
           lines={["Un nuevo sistema de", "fidelización de clientes", "para restaurantes."]}
           size={80} delay={66} lineGap={5} align="center" accent={["fidelización", "clientes"]}
@@ -131,8 +131,8 @@ export const AiLine: React.FC = () => {
   return (
     <AbsoluteFill>
       <SceneBg variant="ink" />
-      <div style={{ position: "absolute", left: 540 - 110, top: 250, transform: `scale(${spark})` }}>
-        <Emoji3D name="sparkles" size={220} at={0} float={1.4} />
+      <div style={{ position: "absolute", left: 540 - 80, top: 300, transform: `scale(${spark})` }}>
+        <Emoji3D name="sparkles" size={160} at={0} float={1.2} />
       </div>
       <div style={{ position: "absolute", left: 0, right: 0, top: 500 }}>
         <Lines lines={["Un sistema de IA", "te sugiere", "qué enviarles…"]} size={104} delay={4} lineGap={5} color={T.cream} align="center" />
@@ -143,9 +143,9 @@ export const AiLine: React.FC = () => {
       <div style={{ position: "absolute", left: 250, top: 1062 }}>
         <Underline w={580} at={36} />
       </div>
-      <FlyingBubble at={42} tx={70} ty={1240} tilt={-5} label="¡Feliz cumple!" icon={<Emoji3D name="birthday_cake" size={64} float={0} depth={0.4} />} />
-      <FlyingBubble at={48} tx={470} ty={1390} tilt={4} label="Tu premio te espera" icon={<Emoji3D name="wrapped_gift" size={64} float={0} depth={0.4} />} />
-      <FlyingBubble at={54} tx={140} ty={1550} tilt={-3} label="¡Te extrañamos!" icon={<Emoji3D name="red_heart" size={64} float={0} depth={0.4} />} />
+      <FlyingBubble at={42} tx={70} ty={1240} tilt={-5} label="¡Feliz cumple!" icon={<Emoji3D name="birthday_cake" size={54} float={0} depth={0.4} />} />
+      <FlyingBubble at={48} tx={470} ty={1390} tilt={4} label="Tu premio te espera" icon={<Emoji3D name="wrapped_gift" size={54} float={0} depth={0.4} />} />
+      <FlyingBubble at={54} tx={140} ty={1550} tilt={-3} label="¡Te extrañamos!" icon={<Emoji3D name="red_heart" size={54} float={0} depth={0.4} />} />
     </AbsoluteFill>
   );
 };

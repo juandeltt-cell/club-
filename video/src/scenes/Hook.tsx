@@ -2,7 +2,7 @@ import React from "react";
 import { noise2D } from "@remotion/noise";
 import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
 import { Character } from "../components/Character";
-import { Emoji3D, Odometer } from "../components/Emoji";
+import { Emoji3D, extrude, Odometer } from "../components/Emoji";
 import { SceneBg } from "../components/Layers";
 import { ease, useIn, WordReveal } from "../components/Motion";
 import { display, Lines } from "../components/Type";
@@ -20,7 +20,7 @@ export const Hook: React.FC = () => {
 const VisitStars: React.FC<{ at: number }> = ({ at }) => (
   <div style={{ display: "flex", gap: 6 }}>
     {Array.from({ length: 12 }).map((_, i) => (
-      <Emoji3D key={i} name="star" size={70} at={at + i * 2} float={0.3} depth={0.6} />
+      <Emoji3D key={i} name="star" size={62} at={at + i * 2} float={0.3} depth={0.6} />
     ))}
   </div>
 );
@@ -31,24 +31,26 @@ const Claim: React.FC = () => {
   return (
     <AbsoluteFill>
       <SceneBg />
-      <div style={{ position: "absolute", left: 90, top: 420, right: 50 }}>
+      <div style={{ position: "absolute", left: 90, top: 380, right: 50 }}>
         <Lines lines={["Hay un cliente", "que vino"]} size={116} delay={0} lineGap={4} />
         <div style={{ display: "flex", alignItems: "baseline", gap: 30, marginTop: 6 }}>
           <div
             style={{
               ...display(400, T.mint), lineHeight: 0.9, opacity: Math.min(1, drop * 1.5),
               transform: `translateY(${interpolate(drop, [0, 1], [60, 0])}px) scale(${interpolate(drop, [0, 1], [1.5, 1])})`, transformOrigin: "30% 70%",
-              textShadow: `0 0 60px ${T.mintGlow}`,
+              textShadow: extrude(14, T.mintDeep, T.mintGlow),
             }}
           >
             <Odometer to={12} delay={8} size={400} color={T.mint} />
           </div>
           <div style={{ ...display(150), opacity: veces, transform: `translateX(${(1 - veces) * 40}px)` }}>veces</div>
         </div>
-        <div style={{ margin: "18px 0 26px 6px" }}>
-          <VisitStars at={14} />
+        <div style={{ marginTop: 10 }}>
+          <Lines lines={["a tu restaurante", "este año."]} size={116} delay={22} lineGap={4} />
         </div>
-        <Lines lines={["a tu restaurante", "este año."]} size={116} delay={22} lineGap={4} />
+        <div style={{ marginTop: 44, marginLeft: 2 }}>
+          <VisitStars at={30} />
+        </div>
       </div>
     </AbsoluteFill>
   );

@@ -2,6 +2,7 @@ import React from "react";
 import { interpolate, useCurrentFrame } from "remotion";
 import { T, theme } from "../theme";
 import { ease, useIn, useOut, WordReveal } from "./Motion";
+import { extrude } from "./Emoji";
 
 export const display = (size: number, color: string = T.ink, weight = 800): React.CSSProperties => ({
   fontFamily: theme.fonts.display,
@@ -63,6 +64,7 @@ export const StepHeader: React.FC<{ num: string; label: string[]; at?: number; e
         style={{
           ...display(168, T.mint, 800),
           lineHeight: 0.86,
+          textShadow: extrude(8, T.mintDeep),
           opacity: p * (1 - out),
           transform: `translateY(${interpolate(p, [0, 1], [-70, 0]) - out * 40}px) rotateX(${interpolate(p, [0, 1], [70, 0])}deg)`,
           fontVariantNumeric: "tabular-nums",

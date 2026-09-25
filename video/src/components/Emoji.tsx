@@ -44,7 +44,8 @@ export const Emoji3D: React.FC<{
         src={staticFile(`emoji/${name}.png`)}
         style={{
           width: size, height: size, display: "block", transform: `rotateY(${tilt}deg)`,
-          filter: `drop-shadow(0 ${size * 0.08 * depth}px ${size * 0.1 * depth}px rgba(2,49,42,${0.22 + 0.1 * depth}))`,
+          // borde blanco tipo sticker troquelado + sombra
+          filter: `drop-shadow(3px 0 0 #fff) drop-shadow(-3px 0 0 #fff) drop-shadow(0 3px 0 #fff) drop-shadow(0 -3px 0 #fff) drop-shadow(0 ${size * 0.08 * depth}px ${size * 0.1 * depth}px rgba(2,49,42,${0.22 + 0.1 * depth}))`,
         }}
       />
     </div>
@@ -99,17 +100,38 @@ export const Marquee: React.FC<{ text: string; y: number; rotate?: number; bg?: 
   );
 };
 
-/** Inclinación 3D suave (perspectiva) para teléfonos y tarjetas. */
+/**
+ * Inclinación 3D (perspectiva): va de `from` a `to` dentro de `range` y queda quieta,
+ * así el texto no "vibra" al redibujarse cuadro a cuadro.
+ */
 export const Tilt3D: React.FC<{ from?: [number, number]; to?: [number, number]; range: [number, number]; children: React.ReactNode; style?: React.CSSProperties }> = ({
   from = [-22, 8], to = [-8, 3], range, children, style,
 }) => {
   const frame = useCurrentFrame();
   const p = ease(frame, range, [0, 1], theme.ease.inOut);
-  const ry = interpolate(p, [0, 1], [from[0], to[0]]) + Math.sin(frame / 40) * 2;
-  const rx = interpolate(p, [0, 1], [from[1], to[1]]) + Math.cos(frame / 50) * 1.5;
+  const ry = interpolate(p, [0, 1], [from[0], to[0]]);
+  const rx = interpolate(p, [0, 1], [from[1], to[1]]);
   return (
     <div style={{ perspective: 2200, ...style }}>
       <div style={{ transform: `rotateY(${ry}deg) rotateX(${rx}deg)`, transformStyle: "preserve-3d" }}>{children}</div>
     </div>
   );
 };
+
+/** Canto del teléfono: capas apiladas detrás de la pantalla para que tenga espesor al girar. */
+export const PhoneBody: React.FC<{ width: number; children: React.ReactNode }> = ({ width, children }) => {
+  const h = width * 2.05;
+  const r = width * 0.14;
+  return (
+    <div style={{ position: "relative", width, height: h, transformStyle: "preserve-3d" }}>
+      {Array.from({ length: 16 }).map((_, i) => (
+        <div key={i} style={{ position: "absolute", inset: 0, borderRadius: r, background: i === 15 ? "#0A1714" : i % 3 === 0 ? "#3A5A52" : "#27433C", transform: `translateZ(${-(i + 1) * 1.6}px)` }} />
+      ))}
+      <div style={{ position: "relative", transform: "translateZ(0.5px)" }}>{children}</div>
+    </div>
+  );
+};
+
+/** Sombra de texto en capas: tipografía "extruida" con volumen. */
+export const extrude = (depth: number, color: string, glow?: string) =>
+  [...Array.from({ length: depth }, (_, i) => `${(i + 1) * 0.7}px ${i + 1}px 0 ${color}`), `${depth * 0.7}px ${depth + 8}px 24px rgba(2,49,42,0.25)`, ...(glow ? [`0 0 60px ${glow}`] : [])].join(", ");

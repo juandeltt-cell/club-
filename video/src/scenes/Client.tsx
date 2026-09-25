@@ -2,7 +2,8 @@ import React from "react";
 import { AbsoluteFill, Img, interpolate, random, staticFile, useCurrentFrame } from "remotion";
 import { Character } from "../components/Character";
 import { Phone, Qr } from "../components/Device";
-import { Emoji3D, Tilt3D } from "../components/Emoji";
+import { Emoji3D, PhoneBody, Tilt3D } from "../components/Emoji";
+import { Star3D } from "../components/Star3D";
 import { DoubleCheckIcon, SparkleIcon, StarIcon } from "../components/Icons";
 import { SceneBg } from "../components/Layers";
 import { ease, useIn } from "../components/Motion";
@@ -108,7 +109,7 @@ const TableScene: React.FC<{ scanAt: number }> = ({ scanAt }) => {
       {/* sticker de confirmación */}
       <div
         style={{
-          position: "absolute", left: 600, top: 820, display: "flex", alignItems: "center", gap: 12, background: T.ink, color: T.cream,
+          position: "absolute", left: 300, top: 1490, display: "flex", alignItems: "center", gap: 12, background: T.ink, color: T.cream,
           borderRadius: 60, padding: "18px 30px", ...display(44, T.cream, 800), opacity: done, transform: `scale(${interpolate(done, [0, 1], [0.3, 1])}) rotate(6deg)`,
           boxShadow: "0 20px 40px -18px rgba(0,0,0,0.5)",
         }}
@@ -119,43 +120,28 @@ const TableScene: React.FC<{ scanAt: number }> = ({ scanAt }) => {
   );
 };
 
-// ---------- PASO 01 · escanea → bienvenida por WhatsApp (local 0–203) ----------
+// ---------- PASO 01 · escanea el QR → +1 estrellita (local 0–122) ----------
 export const StepScan: React.FC = () => {
   const frame = useCurrentFrame();
-  const zoom = ease(frame, [70, 90], [0, 1], theme.ease.inOut);
-  const phoneIn = useIn(80, theme.spring.smooth);
-  const push = ease(frame, [112, 150], [1, 1.2], theme.ease.inOut);
+  const pill = useIn(84, theme.spring.bouncy);
   return (
     <AbsoluteFill>
       <SceneBg />
-      <div style={{ position: "absolute", left: 90, top: 250, right: 40, zIndex: 5 }}>
-        <StepHeader num="01" label={["El cliente escanea", "el QR en la mesa"]} at={0} exitAt={196} />
+      <div style={{ position: "absolute", left: 90, top: 250, right: 40 }}>
+        <StepHeader num="01" label={["El cliente escanea", "el QR en la mesa"]} at={0} exitAt={116} />
       </div>
-      {frame < 94 && (
-        <AbsoluteFill style={{ transform: `scale(${1 + zoom * 2.4})`, transformOrigin: "676px 1190px", opacity: 1 - ease(frame, [82, 92], [0, 1]) }}>
-          <TableScene scanAt={22} />
-        </AbsoluteFill>
-      )}
-      {frame >= 78 && (
-        <>
-          <Emoji3D name="sparkles" size={150} at={112} x={80} y={620} rotate={-10} />
-          <div style={{ position: "absolute", left: PHONE_X, top: PHONE_Y, opacity: phoneIn, transform: `translateY(${(1 - phoneIn) * 300}px) scale(${interpolate(phoneIn, [0, 1], [0.7, 1]) * push})`, transformOrigin: "50% 25%" }}>
-            <Tilt3D range={[80, 170]} from={[-24, 10]} to={[-7, 3]}>
-              <Phone width={PHONE_W} screenBg={T.chat}>
-                <AbsoluteFill style={{ background: T.chat }}>
-                  <ChatHeader />
-                  <div style={{ padding: "30px 22px", display: "flex", flexDirection: "column", gap: 20 }}>
-                    <Bubble at={92} out>¡Hola! Quiero sumarme a Mejores Amigos</Bubble>
-                    <Bubble at={102} tagAt={114}>
-                      <b>¡Bienvenida a Mejores Amigos, Juli!</b> Sumaste tu 1.ª estrellita <StarInline />. <b>Con 5, desbloqueás tu primer premio.</b>
-                    </Bubble>
-                  </div>
-                </AbsoluteFill>
-              </Phone>
-            </Tilt3D>
-          </div>
-          <Emoji3D name="star" size={190} at={108} x={800} y={1320} rotate={14} depth={1.4} />
-        </>
+      <TableScene scanAt={22} />
+      {/* la estrellita que gana, en 3D real */}
+      <Star3D size={380} at={70} x={640} y={500} turns={1.5} />
+      {frame >= 84 && (
+        <div
+          style={{
+            position: "absolute", left: 650, top: 860, display: "flex", alignItems: "center", gap: 10, background: T.star, borderRadius: 60, padding: "14px 28px",
+            ...display(44, T.ink, 800), opacity: pill, transform: `scale(${interpolate(pill, [0, 1], [0.4, 1])}) rotate(-4deg)`, boxShadow: "0 16px 30px -14px rgba(0,0,0,0.45)",
+          }}
+        >
+          +1 estrellita
+        </div>
       )}
     </AbsoluteFill>
   );
@@ -177,7 +163,7 @@ export const StepVisits: React.FC = () => {
   return (
     <AbsoluteFill>
       <SceneBg />
-      <div style={{ position: "absolute", left: 90, top: 250, right: 40, zIndex: 5 }}>
+      <div style={{ position: "absolute", left: 90, top: 250, right: 40 }}>
         <StepHeader num="02" label={["En cada visita,", "suma una estrellita"]} at={0} exitAt={113} />
       </div>
       <div style={{ position: "absolute", left: 90, right: 60, top: 500, ...body(40, T.inkSoft, 600), opacity: sub * (1 - ease(frame, [111, 119], [0, 1])) }}>
@@ -218,7 +204,7 @@ const VisitRow: React.FC<{ date: string; at: number; index: number }> = ({ date,
         <div style={{ ...display(46, T.ink, 800) }}>Escaneó el QR</div>
       </div>
       <div style={{ transform: `scale(${star * (1 - fly * 0.6)}) translate(${fly * 200}px, ${fly * (380 - index * 150)}px) rotate(${star * 360}deg)`, opacity: 1 - fly }}>
-        <Emoji3D name="star" size={110} float={0} depth={0.6} />
+        <Emoji3D name="star" size={88} float={0} depth={0.6} />
       </div>
     </div>
   );
@@ -244,11 +230,12 @@ export const StepRedeem: React.FC = () => {
   return (
     <AbsoluteFill>
       <SceneBg />
-      <div style={{ position: "absolute", left: 90, top: 250, right: 40, zIndex: 5 }}>
+      <div style={{ position: "absolute", left: 90, top: 250, right: 40 }}>
         <StepHeader num="03" label={["Junta 5 y desbloquea", "su premio"]} at={0} exitAt={167} />
       </div>
       <div style={{ position: "absolute", left: PHONE_X, top: PHONE_Y, transform: `scale(${push})`, transformOrigin: "50% 30%" }}>
-        <Tilt3D range={[0, 90]} from={[16, 6]} to={[-6, 2]}>
+        <Tilt3D range={[0, 90]} from={[18, 6]} to={[-8, 2]}>
+        <PhoneBody width={PHONE_W}>
         <Phone width={PHONE_W} screenBg={T.cream}>
           <AbsoluteFill style={{ background: T.cream, padding: "100px 30px 30px" }}>
             <div style={{ ...body(24, T.inkMuted, 700), letterSpacing: "0.08em", textTransform: "uppercase" }}>Tu tarjeta en {VENUE}</div>
@@ -264,7 +251,7 @@ export const StepRedeem: React.FC = () => {
                 </div>
                 <div style={{ position: "absolute", inset: 0, backfaceVisibility: "hidden", transform: "rotateY(180deg)", borderRadius: 40, background: T.white, border: `5px dashed ${T.mint}`, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 14, padding: "0 30px", textAlign: "center" }}>
                   <div style={{ ...display(58, T.mintDeep) }}>¡Primer premio!</div>
-                  <Emoji3D name="shortcake" size={150} at={60} float={0.5} />
+                  <Emoji3D name="shortcake" size={120} at={60} float={0.3} />
                   <div style={{ ...body(34, T.ink, 700), lineHeight: 1.25 }}>Con tu próximo plato, el postre va sin cargo.</div>
                   <div style={{ ...display(46, T.inkMuted), letterSpacing: "0.08em", marginTop: 4 }}>482 913</div>
                 </div>
@@ -272,11 +259,12 @@ export const StepRedeem: React.FC = () => {
             </div>
           </AbsoluteFill>
         </Phone>
+        </PhoneBody>
         </Tilt3D>
       </div>
       {frame >= 26 && frame < 74 && <StarRain from={26} />}
-      <Emoji3D name="party_popper" size={200} at={70} x={40} y={1260} rotate={-8} depth={1.3} />
-      <Emoji3D name="wrapped_gift" size={170} at={78} x={840} y={640} rotate={12} />
+      <Star3D size={300} at={24} x={-20} y={1240} turns={2} />
+      <Emoji3D name="wrapped_gift" size={130} at={78} x={850} y={660} rotate={12} />
     </AbsoluteFill>
   );
 };
