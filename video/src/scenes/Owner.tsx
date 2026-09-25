@@ -122,7 +122,7 @@ export const OwnerMessages: React.FC = () => {
       {/* a · la sugerencia con cuenta regresiva */}
       <Shot from={8} to={78} top={690}>
         <PanelShot frames={["panel/sugg-birthday.png"]} srcWidth={1194} srcHeight={820} width={WIN_W} />
-        <HandCircle x={172} y={96} w={760} h={176} at={24} color={T.mint} width={8} />
+        <HandCircle x={296} y={114} w={164} h={76} at={24} color={T.mint} width={8} />
       </Shot>
 
       {/* b · el mensaje sugerido, grande y legible */}

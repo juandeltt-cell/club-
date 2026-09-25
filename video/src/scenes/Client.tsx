@@ -134,7 +134,7 @@ export const StepScan: React.FC = () => {
   const zoom = ease(frame, [96, 118], [0, 1], theme.ease.inOut);
   const phoneIn = useIn(106, theme.spring.smooth);
   const btn = useIn(150, theme.spring.bouncy);
-  const pressed = frame >= 172 ? ease(frame, [172, 176], [0.93, 1]) : 1;
+  const pressed = frame >= 166 ? ease(frame, [166, 170], [0.93, 1]) : 1;
   return (
     <AbsoluteFill>
       <SceneBg />
@@ -149,7 +149,7 @@ export const StepScan: React.FC = () => {
       {frame >= 104 && (
         <div style={{ position: "absolute", left: PHONE_X, top: PHONE_Y, opacity: phoneIn, transform: `scale(${interpolate(phoneIn, [0, 1], [0.5, 1])}) rotate(${interpolate(phoneIn, [0, 1], [-8, 0])}deg)`, transformOrigin: "50% 60%" }}>
           <Phone width={PHONE_W} screenBg={T.cream}>
-            {frame < 178 ? (
+            {frame < 186 ? (
               <AbsoluteFill style={{ background: T.cream }}>
                 <div style={{ background: T.ink, padding: "96px 34px 36px" }}>
                   <div style={{ ...display(54, T.cream) }}>{VENUE}</div>
@@ -175,15 +175,15 @@ export const StepScan: React.FC = () => {
               <AbsoluteFill style={{ background: T.chat }}>
                 <ChatHeader />
                 <div style={{ padding: "30px 22px", display: "flex", flexDirection: "column", gap: 20 }}>
-                  <Bubble at={180} out>Quiero sumarme al club de {VENUE}</Bubble>
-                  <Bubble at={190} tagAt={200}>
+                  <Bubble at={188} out>Quiero sumarme al club de {VENUE}</Bubble>
+                  <Bubble at={196} tagAt={206}>
                     <b>¡Bienvenida al club, Juli!</b> Sumaste tu 1.ª estrellita <StarInline />. Con 5 tenés un postre de regalo.
                   </Bubble>
                 </div>
               </AbsoluteFill>
             )}
           </Phone>
-          <Tap x={PHONE_W / 2} y={900} at={172} />
+          <Tap x={PHONE_W / 2} y={900} at={166} />
         </div>
       )}
     </AbsoluteFill>
