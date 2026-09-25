@@ -56,9 +56,10 @@ const SFX: [number, string, number][] = [
   // placas de beneficio
   ...[S.b1t, S.b2t, S.b3t, S.b4t].flatMap((sc): [number, string, number][] => [[sc.from + 3, "swish", 0.25], [sc.from + 12, "pop6", 0.2]]),
   // 2 · días flojos
-  [at(S.b2, 30), "pop4", 0.24], [at(S.b2, 78), "tap", 0.45], [at(S.b2, 92), "whoosh", 0.22], [at(S.b2, 96), "shimmer", 0.3], [at(S.b2, 124), "swish", 0.25], [at(S.b2, 150), "pop6", 0.35],
+  [at(S.b2, 20), "pop4", 0.22], [at(S.b2, 70), "pop4", 0.22], [at(S.b2, 128), "tap", 0.45], [at(S.b2, 144), "whoosh", 0.22], [at(S.b2, 148), "shimmer", 0.3], [at(S.b2, 180), "swish", 0.25], [at(S.b2, 208), "pop6", 0.35],
   // 3 · mensajes
-  [at(S.b3, 16), "pop4", 0.24], [at(S.b3, 30), "swish", 0.22], [at(S.b3, 100), "pop6", 0.3], [at(S.b3, 132), "tap", 0.45], [at(S.b3, 138), "ding", 0.35],
+  [at(S.b3, 16), "pop4", 0.24], [at(S.b3, 30), "swish", 0.22], [at(S.b3, 88), "pop6", 0.3], [at(S.b3, 118), "tap", 0.45], [at(S.b3, 124), "ding", 0.3],
+  [at(S.b3, 136), "whoosh", 0.25], [at(S.b3, 166), "pop5", 0.35], [at(S.b3, 168), "shimmer", 0.28],
   // 4 · vuelven
   [at(S.b4, 18), "pop4", 0.24], [at(S.b4, 28), "swish", 0.22],
   // remate + cierre

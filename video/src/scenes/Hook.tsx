@@ -38,7 +38,6 @@ const Claim: React.FC = () => {
             style={{
               ...display(400, T.mint), lineHeight: 0.9, opacity: Math.min(1, drop * 1.5),
               transform: `translateY(${interpolate(drop, [0, 1], [60, 0])}px) scale(${interpolate(drop, [0, 1], [1.5, 1])})`, transformOrigin: "30% 70%",
-              textShadow: `0 0 60px ${T.mintGlow}`,
             }}
           >
             <Odometer to={12} delay={6} size={400} color={T.mint} />
@@ -68,6 +67,24 @@ const FloatQ: React.FC<{ at: number; x: number; y: number; size: number; color: 
   );
 };
 
+/**
+ * Dolly zoom ("vértigo"): los anillos del fondo se abren hacia cámara mientras
+ * el círculo de la clienta queda del mismo tamaño. Receta de HyperFrames (camera-dolly-zoom).
+ */
+const DollyRings: React.FC<{ from: number }> = ({ from }) => {
+  const frame = useCurrentFrame();
+  const t = ease(frame, [from, 162], [0, 1], theme.ease.inOut);
+  const o = ease(frame, [from, from + 12], [0, 1]);
+  return (
+    <svg width={1080} height={1920} style={{ position: "absolute", inset: 0, opacity: o }}>
+      {Array.from({ length: 9 }).map((_, i) => {
+        const r = (340 + i * 150) * (1 + t * (1.1 + i * 0.12));
+        return <circle key={i} cx={540} cy={1200} r={r} fill="none" stroke={T.mint} strokeOpacity={0.4 - i * 0.035} strokeWidth={5 + i * 3} />;
+      })}
+    </svg>
+  );
+};
+
 const Question: React.FC = () => {
   const frame = useCurrentFrame();
   const q = QUESTION_AT;
@@ -79,6 +96,7 @@ const Question: React.FC = () => {
   return (
     <AbsoluteFill>
       <SceneBg variant="ink" />
+      <DollyRings from={q} />
       <div style={{ position: "absolute", left: 0, right: 0, top: 330, display: "flex", flexDirection: "column", alignItems: "center" }}>
         <WordReveal text="¿Sabés" delay={q + 4} style={{ ...display(190, T.cream) }} />
         <div style={{ position: "relative", marginTop: 6 }}>

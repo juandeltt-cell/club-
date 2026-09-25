@@ -93,7 +93,8 @@ export const Marquee: React.FC<{ text: string; y: number; rotate?: number; bg?: 
         transform: `rotate(${rotate}deg) scaleX(${p})`, boxShadow: "0 20px 40px -20px rgba(2,49,42,0.5)",
       }}
     >
-      <div style={{ whiteSpace: "nowrap", transform: `translateX(${-((frame * speed) % (size * unit.length * 0.62))}px)`, fontFamily: theme.fonts.display, fontWeight: 800, fontSize: size, color, letterSpacing: "0.02em" }}>
+      {/* sin "módulo": un corrimiento continuo y parejo, sin saltos al reiniciar */}
+      <div style={{ whiteSpace: "nowrap", transform: `translate3d(${-Math.round(frame * speed)}px, 0, 0)`, fontFamily: theme.fonts.display, fontWeight: 800, fontSize: size, color, letterSpacing: "0.02em" }}>
         {Array.from({ length: reps }).map((_, i) => <span key={i}>{unit}</span>)}
       </div>
     </div>

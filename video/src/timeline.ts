@@ -21,15 +21,15 @@ export const SCENES = {
   p1: span(beat(20), beat(29)), // escanea el QR en la mesa → +1 estrellita (3D)
   p2: span(beat(29), beat(37)), // cada visita suma una estrellita
   p3: span(beat(37), beat(48)), // junta 5 y desbloquea su premio
-  title: span(beat(48), beat(58)), // ¿Y tu comercio qué gana? · grilla de 4 beneficios
-  b1t: span(beat(58), beat(64)), // 1 · Conocé a tus clientes (solo placa)
-  b2t: span(beat(64), beat(71)), // 2 · Llená los días flojos: placa con la frase grande…
-  b2: span(beat(71), beat(84)), // …y el ejemplo en otra pantalla
-  b3t: span(beat(84), beat(91)), // 3 · Mensajes automáticos
-  b3: span(beat(91), beat(103)),
-  b4t: span(beat(103), beat(110)), // 4 · Vuelven más seguido (la energía vuelve durante la placa)
-  b4: span(beat(110), beat(119)),
-  closing: span(beat(119), beat(119) + 160), // remate + cierre
+  title: span(beat(48), beat(57)), // ¿Y tu comercio qué gana? · grilla de 4 beneficios
+  b1t: span(beat(57), beat(63)), // 1 · Conocé a tus clientes (solo placa)
+  b2t: span(beat(63), beat(71)), // 2 · Llená los días flojos: placa con la frase grande…
+  b2: span(beat(71), beat(90)), // …y el ejemplo, con tiempo para leer la sugerencia y la promo
+  b3t: span(beat(90), beat(98)), // 3 · Mensajes automáticos
+  b3: span(beat(98), beat(114)), // mensaje → "Enviado" → le llega a Juli (notificación)
+  b4t: span(beat(114), beat(124)), // 4 · Vuelven más seguido (frase larga: más tiempo)
+  b4: span(beat(124), beat(135)),
+  closing: span(beat(135), beat(135) + 160), // remate + cierre
 } as const;
 
-export const TOTAL_FRAMES = SCENES.closing.to; // ~64 s
+export const TOTAL_FRAMES = SCENES.closing.to; // ~71 s

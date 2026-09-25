@@ -1,6 +1,6 @@
-# Mejores Amigos — Guion del reel (v10)
+# Mejores Amigos — Guion del reel (v11)
 
-**Formato:** vertical 1080×1920 · 30 fps · **~64 s** (v9: 69,5 s · v8: 68,5 s · v7: 76 s · v6: 82 s)
+**Formato:** vertical 1080×1920 · 30 fps · **~71 s** (v10: 64 s · v9: 69,5 s · v8: 68,5 s · v7: 76 s · v6: 82 s)
 **Música:** `cancion.mp3` (~134 BPM), recortada: arranca en 4,68 s (3 compases antes de la subida) y termina con un fundido de 2 s a los 69,4 s. No hay cortes en el medio de la canción.
 
 | Canción | Tiempo en el reel | Uso |
@@ -16,6 +16,16 @@
 **Estilo:** íconos 3D (Microsoft Fluent Emoji, MIT) que flotan con sombra, grilla "bento" de beneficios, tipografía de peso variable, contador tipo cuentakilómetros, teléfono inclinado en 3D, cinta de texto en movimiento, kinetic type con máscaras, personajes ilustrados (Open Peeps), pantallas reales del panel con **foco** (se oscurece el resto y se enmarca el dato, sin trazos a mano), transiciones de marca, motion blur en los títulos, movimiento orgánico con ruido (@remotion/noise).
 
 ---
+
+## Cambios v11
+- **Más tiempo de lectura:** la sugerencia de los martes (foco en el título y después en el mensaje, 4,6 s), "Los martes, cada visita suma 2 estrellitas" con el gráfico (3,7 s), y la placa "Los clientes vuelven más seguido" con su frase (4,5 s).
+- **El "12"** sin resplandor (se notaba el recuadro de cada cifra).
+- **La cinta del cierre** corre pareja, sin saltos al reiniciar.
+- **Nuevo (recetas de HyperFrames):**
+  - *El mensaje le llega a Juli*: después de "Enviado", aparece su celular bloqueado y cae una notificación de vidrio ("liquid glass") de Brasa Restó.
+  - *Dolly zoom* en "¿Sabés quién es?": los anillos del fondo se abren hacia cámara mientras el círculo de la clienta queda quieto (efecto "vértigo").
+  - *Fondos aurora* en las placas de beneficio: manchas de color de marca que derivan lento.
+- **Archivo limpio de metadatos**: sin marcas de herramientas ni de IA (C2PA/IPTC) en el MP4.
 
 ## Cambios v10
 - **Sin vibración:** los resortes de entrada ahora quedan exactamente quietos al asentarse (antes oscilaban décimas de píxel y el texto "temblaba"), y no hay acercamientos lentos sobre texto.
