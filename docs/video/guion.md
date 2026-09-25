@@ -1,7 +1,7 @@
-# Mejores Amigos — Guion del reel (v9)
+# Mejores Amigos — Guion del reel (v10)
 
-**Formato:** vertical 1080×1920 · 30 fps · **~69,5 s** (v8: 68,5 s · v7: 76 s · v6: 82 s)
-**Música:** `cancion.mp3` (~134 BPM), recortada: arranca en 2,88 s (4 compases antes de la subida) y termina con un fundido de 2 s a los 69,4 s. No hay cortes en el medio de la canción.
+**Formato:** vertical 1080×1920 · 30 fps · **~64 s** (v9: 69,5 s · v8: 68,5 s · v7: 76 s · v6: 82 s)
+**Música:** `cancion.mp3` (~134 BPM), recortada: arranca en 4,68 s (3 compases antes de la subida) y termina con un fundido de 2 s a los 69,4 s. No hay cortes en el medio de la canción.
 
 | Canción | Tiempo en el reel | Uso |
 |---|---|---|
@@ -16,6 +16,18 @@
 **Estilo:** íconos 3D (Microsoft Fluent Emoji, MIT) que flotan con sombra, grilla "bento" de beneficios, tipografía de peso variable, contador tipo cuentakilómetros, teléfono inclinado en 3D, cinta de texto en movimiento, kinetic type con máscaras, personajes ilustrados (Open Peeps), pantallas reales del panel con **foco** (se oscurece el resto y se enmarca el dato, sin trazos a mano), transiciones de marca, motion blur en los títulos, movimiento orgánico con ruido (@remotion/noise).
 
 ---
+
+## Cambios v10
+- **Sin vibración:** los resortes de entrada ahora quedan exactamente quietos al asentarse (antes oscilaban décimas de píxel y el texto "temblaba"), y no hay acercamientos lentos sobre texto.
+- **Sin números 3D:** ni en el "12" ni en los 01/02/03 ni en las placas.
+- **Movimiento de cámara entre escenas** (recetas de HyperFrames, Apache 2.0): la escena nueva entra empujando o desde cerca de cámara con desenfoque de lente, la anterior retrocede por debajo; del paso 03 la cámara se "zambulle" en el celular. Las tarjetas llegan desde el fondo del espacio y se asientan planas.
+- **Placas de beneficio con la frase grande** y el ejemplo en otra pantalla:
+  1. Conocé a tus clientes. — Sabé quién viene. Sabé quién vuelve.
+  2. Llená los días flojos. — El sistema detecta tu día más flojo y te propone una promo.
+  3. Mensajes automáticos, en el momento justo. — El sistema de IA te sugiere qué enviar.
+  4. Los clientes vuelven más seguido. — Vos decidís. El sistema te sugiere propuestas de mensajes, y vos autorizás el envío.
+- Botón del mensaje de cumpleaños: "Aprobar y enviar mensaje" → "✓ Enviado". Sin "¡Enviado solo!".
+- Canción desde un compás más tarde: gancho de 5,4 s.
 
 ## Cambios v9
 - Gancho: las 12 estrellitas van **debajo** de "a tu restaurante este año." El "12" tiene volumen (tipografía extruida).

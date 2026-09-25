@@ -1,7 +1,6 @@
 import React from "react";
 import { AbsoluteFill, interpolate, random, useCurrentFrame } from "remotion";
 import { LogoReveal } from "../components/Brand";
-import { noise2D } from "@remotion/noise";
 import { Underline } from "../components/Marks";
 import { Img, staticFile } from "remotion";
 import { Emoji3D } from "../components/Emoji";
@@ -108,8 +107,9 @@ const FlyingBubble: React.FC<{ at: number; label: string; icon: React.ReactNode;
   const t = frame - at;
   if (t < 0) return null;
   const p = ease(frame, [at, at + 22], [0, 1], theme.ease.out);
-  const x = interpolate(p, [0, 1], [400, tx]) + noise2D(`bx${tx}`, frame / 50, 0) * 14;
-  const y = interpolate(p, [0, 1], [1320, ty]) + noise2D(`by${ty}`, frame / 50, 0) * 14;
+  // sin flotación continua: el texto de la burbuja queda quieto al llegar
+  const x = interpolate(p, [0, 1], [400, tx]);
+  const y = interpolate(p, [0, 1], [1320, ty]);
   const o = interpolate(t, [0, 6], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   return (
     <div

@@ -1,8 +1,8 @@
 import React from "react";
 import { noise2D } from "@remotion/noise";
-import { Img, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
+import { Img, interpolate, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
 import { T, theme } from "../theme";
-import { ease, useIn } from "./Motion";
+import { ease, settledSpring, useIn } from "./Motion";
 
 // Íconos 3D (Microsoft Fluent Emoji, MIT) en public/emoji.
 export type EmojiName =
@@ -56,7 +56,7 @@ export const Emoji3D: React.FC<{
 export const Odometer: React.FC<{ to: number; delay?: number; size: number; color: string; style?: React.CSSProperties }> = ({ to, delay = 0, size, color, style }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
-  const p = spring({ frame: frame - delay, fps, config: { damping: 28, stiffness: 50, mass: 1 } });
+  const p = settledSpring(frame - delay, fps, { damping: 28, stiffness: 50, mass: 1 });
   const v = p * to;
   const h = size * 0.92;
   const strip = (items: string[], pos: number) => (

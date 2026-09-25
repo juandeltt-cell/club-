@@ -1,16 +1,25 @@
 import React from "react";
-import { interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
+import { interpolate, measureSpring, spring, useCurrentFrame, useVideoConfig } from "remotion";
 import { theme } from "../theme";
 
 type SpringCfg = { damping: number; stiffness: number; mass: number };
 
 const clamp = { extrapolateLeft: "clamp", extrapolateRight: "clamp" } as const;
 
+/**
+ * Resorte que, una vez asentado, vale exactamente 1. Sin esto el resorte oscila
+ * décimas de píxel durante segundos y el texto "vibra" al redibujarse.
+ */
+export const settledSpring = (frame: number, fps: number, config: SpringCfg) => {
+  const rest = measureSpring({ fps, config, threshold: 0.004 });
+  return frame >= rest ? 1 : spring({ frame, fps, config });
+};
+
 /** Progreso 0→1 de un spring que arranca en `delay`. */
 export const useIn = (delay = 0, config: SpringCfg = theme.spring.smooth) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
-  return spring({ frame: frame - delay, fps, config });
+  return settledSpring(frame - delay, fps, config);
 };
 
 /** Progreso 0→1 de una salida con ease-in entre `start` y `start + dur`. */
@@ -77,7 +86,7 @@ export const WordReveal: React.FC<{
   return (
     <div style={{ display: "flex", flexWrap: "wrap", columnGap: `${gap}em`, ...style }}>
       {words.map((w, i) => {
-        const p = spring({ frame: frame - delay - i * per, fps, config: theme.spring.snappy });
+        const p = settledSpring(frame - delay - i * per, fps, theme.spring.snappy);
         return (
           <span
             key={i}

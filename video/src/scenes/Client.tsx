@@ -128,7 +128,7 @@ export const StepScan: React.FC = () => {
     <AbsoluteFill>
       <SceneBg />
       <div style={{ position: "absolute", left: 90, top: 250, right: 40 }}>
-        <StepHeader num="01" label={["El cliente escanea", "el QR en la mesa"]} at={0} exitAt={116} />
+        <StepHeader num="01" label={["El cliente escanea", "el QR en la mesa"]} at={0} />
       </div>
       <TableScene scanAt={22} />
       {/* la estrellita que gana, en 3D real */}
@@ -149,7 +149,7 @@ export const StepScan: React.FC = () => {
 
 const StarInline: React.FC = () => <StarIcon size={30} color={T.star} style={{ display: "inline-block", verticalAlign: "-4px" }} />;
 
-// ---------- PASO 02 · cada visita suma (local 0–121) ----------
+// ---------- PASO 02 · cada visita suma (local 0–108) ----------
 const VISITS = [
   { date: "Vie 7/3", at: 12 },
   { date: "Sáb 15/3", at: 28 },
@@ -164,9 +164,9 @@ export const StepVisits: React.FC = () => {
     <AbsoluteFill>
       <SceneBg />
       <div style={{ position: "absolute", left: 90, top: 250, right: 40 }}>
-        <StepHeader num="02" label={["En cada visita,", "suma una estrellita"]} at={0} exitAt={113} />
+        <StepHeader num="02" label={["En cada visita,", "suma una estrellita"]} at={0} />
       </div>
-      <div style={{ position: "absolute", left: 90, right: 60, top: 500, ...body(40, T.inkSoft, 600), opacity: sub * (1 - ease(frame, [111, 119], [0, 1])) }}>
+      <div style={{ position: "absolute", left: 90, right: 60, top: 500, ...body(40, T.inkSoft, 600), opacity: sub }}>
         Escanea el QR de la mesa cada vez que va.
       </div>
       <div style={{ position: "absolute", left: 70, top: 640 }}>
@@ -221,20 +221,23 @@ const MeterSlot: React.FC<{ filled: boolean; at: number }> = ({ filled, at }) =>
   );
 };
 
-// ---------- PASO 03 · desbloquea su premio (local 0–175) ----------
+// ---------- PASO 03 · desbloquea su premio (local 0–148) ----------
 export const StepRedeem: React.FC = () => {
   const frame = useCurrentFrame();
   const flip = ease(frame, [48, 70], [0, 180], theme.ease.inOut);
   const filled = 3 + (frame >= 12 ? 1 : 0) + (frame >= 24 ? 1 : 0);
-  const push = ease(frame, [72, 104], [1, 1.12], theme.ease.inOut);
+  // el acercamiento ocurre durante el giro de la tarjeta; después, todo queda quieto
+  const push = ease(frame, [48, 70], [1, 1.1], theme.ease.inOut);
+  // el teléfono sube y se asienta (parallax device rise)
+  const rise = ease(frame, [0, 22], [0, 1], theme.ease.out);
   return (
     <AbsoluteFill>
       <SceneBg />
       <div style={{ position: "absolute", left: 90, top: 250, right: 40 }}>
-        <StepHeader num="03" label={["Junta 5 y desbloquea", "su premio"]} at={0} exitAt={167} />
+        <StepHeader num="03" label={["Junta 5 y desbloquea", "su premio"]} at={0} />
       </div>
-      <div style={{ position: "absolute", left: PHONE_X, top: PHONE_Y, transform: `scale(${push})`, transformOrigin: "50% 30%" }}>
-        <Tilt3D range={[0, 90]} from={[18, 6]} to={[-8, 2]}>
+      <div style={{ position: "absolute", left: PHONE_X, top: PHONE_Y, transform: `translateY(${(1 - rise) * 380}px) scale(${push * (0.86 + 0.14 * rise)})`, transformOrigin: "50% 30%", opacity: Math.min(1, rise * 2) }}>
+        <Tilt3D range={[0, 40]} from={[22, 10]} to={[-8, 2]}>
         <PhoneBody width={PHONE_W}>
         <Phone width={PHONE_W} screenBg={T.cream}>
           <AbsoluteFill style={{ background: T.cream, padding: "100px 30px 30px" }}>

@@ -2,15 +2,15 @@ import React from "react";
 import { noise2D } from "@remotion/noise";
 import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
 import { Character } from "../components/Character";
-import { Emoji3D, extrude, Odometer } from "../components/Emoji";
+import { Emoji3D, Odometer } from "../components/Emoji";
 import { SceneBg } from "../components/Layers";
 import { ease, useIn, WordReveal } from "../components/Motion";
 import { display, Lines } from "../components/Type";
 import { T, theme } from "../theme";
 
-export const QUESTION_AT = 112;
+export const QUESTION_AT = 84;
 
-// Escena 1 · Gancho (0–216, intro tranquila de la canción)
+// Escena 1 · Gancho (0–162, intro tranquila de la canción)
 export const Hook: React.FC = () => {
   const frame = useCurrentFrame();
   return <AbsoluteFill>{frame < QUESTION_AT ? <Claim /> : <Question />}</AbsoluteFill>;
@@ -26,8 +26,8 @@ const VisitStars: React.FC<{ at: number }> = ({ at }) => (
 );
 
 const Claim: React.FC = () => {
-  const drop = useIn(8, theme.spring.bouncy);
-  const veces = useIn(12, theme.spring.snappy);
+  const drop = useIn(6, theme.spring.bouncy);
+  const veces = useIn(10, theme.spring.snappy);
   return (
     <AbsoluteFill>
       <SceneBg />
@@ -38,18 +38,18 @@ const Claim: React.FC = () => {
             style={{
               ...display(400, T.mint), lineHeight: 0.9, opacity: Math.min(1, drop * 1.5),
               transform: `translateY(${interpolate(drop, [0, 1], [60, 0])}px) scale(${interpolate(drop, [0, 1], [1.5, 1])})`, transformOrigin: "30% 70%",
-              textShadow: extrude(14, T.mintDeep, T.mintGlow),
+              textShadow: `0 0 60px ${T.mintGlow}`,
             }}
           >
-            <Odometer to={12} delay={8} size={400} color={T.mint} />
+            <Odometer to={12} delay={6} size={400} color={T.mint} />
           </div>
           <div style={{ ...display(150), opacity: veces, transform: `translateX(${(1 - veces) * 40}px)` }}>veces</div>
         </div>
         <div style={{ marginTop: 10 }}>
-          <Lines lines={["a tu restaurante", "este año."]} size={116} delay={22} lineGap={4} />
+          <Lines lines={["a tu restaurante", "este año."]} size={116} delay={16} lineGap={4} />
         </div>
         <div style={{ marginTop: 44, marginLeft: 2 }}>
-          <VisitStars at={30} />
+          <VisitStars at={24} />
         </div>
       </div>
     </AbsoluteFill>
@@ -73,8 +73,8 @@ const Question: React.FC = () => {
   const q = QUESTION_AT;
   const pill = ease(frame, [q + 12, q + 24], [0, 1]);
   const card = useIn(q + 20, theme.spring.bouncy);
-  // la tensión sube hacia la subida de la canción (cuadro 216)
-  const build = ease(frame, [170, 214], [0, 1], theme.ease.in);
+  // la tensión sube hacia la subida de la canción (cuadro 162)
+  const build = ease(frame, [128, 160], [0, 1], theme.ease.in);
   const shake = Math.sin(frame * 1.7) * build * 6;
   return (
     <AbsoluteFill>
