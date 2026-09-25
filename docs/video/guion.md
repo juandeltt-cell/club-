@@ -1,7 +1,7 @@
-# Mejores Amigos — Guion del reel (v8)
+# Mejores Amigos — Guion del reel (v9)
 
-**Formato:** vertical 1080×1920 · 30 fps · **~68,5 s** (v7: 76 s · v6: 82 s)
-**Música:** `cancion.mp3` (~134 BPM), recortada: arranca en 2,88 s (4 compases antes de la subida) y termina con un fundido de 2 s a los 68,5 s. No hay cortes en el medio de la canción.
+**Formato:** vertical 1080×1920 · 30 fps · **~69,5 s** (v8: 68,5 s · v7: 76 s · v6: 82 s)
+**Música:** `cancion.mp3` (~134 BPM), recortada: arranca en 2,88 s (4 compases antes de la subida) y termina con un fundido de 2 s a los 69,4 s. No hay cortes en el medio de la canción.
 
 | Canción | Tiempo en el reel | Uso |
 |---|---|---|
@@ -16,6 +16,18 @@
 **Estilo:** íconos 3D (Microsoft Fluent Emoji, MIT) que flotan con sombra, grilla "bento" de beneficios, tipografía de peso variable, contador tipo cuentakilómetros, teléfono inclinado en 3D, cinta de texto en movimiento, kinetic type con máscaras, personajes ilustrados (Open Peeps), pantallas reales del panel con **foco** (se oscurece el resto y se enmarca el dato, sin trazos a mano), transiciones de marca, motion blur en los títulos, movimiento orgánico con ruido (@remotion/noise).
 
 ---
+
+## Cambios v9
+- Gancho: las 12 estrellitas van **debajo** de "a tu restaurante este año." El "12" tiene volumen (tipografía extruida).
+- "Con [Mejores Amigos], sí.": el logo queda **centrado en la pantalla**.
+- Paso 01: sin chat. Después del escaneo aparece una **estrellita 3D real** (three.js) con "+1 estrellita".
+- Paso 03: el teléfono tiene canto (espesor) y ya no vibra; se corrigió el "03" que quedaba encima de la transición.
+- "¿Y tu comercio qué gana?" dura más (4,9 s).
+- **Nuevo orden de beneficios:** 1 Conocé a tus clientes · 2 Llená los días flojos · 3 Mensajes automáticos · 4 Los clientes vuelven más seguido.
+- Días flojos: más tiempo de lectura (foco en el título y en el mensaje), y un **gráfico de barras 3D** propio donde crece el martes (+55%).
+- Mensajes automáticos: sin "Vos aprobás…" ni la pantalla de envío; el botón pasa a "Enviado a los 4" y aparece "¡Enviado solo!".
+- Vuelven más seguido: "Vos decidís. El sistema te sugiere propuestas de mensajes, y vos autorizás el envío."
+- Cierre sin los íconos alrededor del logo. Íconos más chicos y con borde blanco tipo sticker. Luces cálidas tipo película en la subida y el cierre.
 
 ## 1 · Gancho (0 – 7,2 s)
 - **"Hay un cliente que vino / 12 veces / a tu restaurante / este año."** Debajo del 12 se suman 12 estrellitas, una por visita.
