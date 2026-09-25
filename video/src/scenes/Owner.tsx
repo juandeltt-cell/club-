@@ -2,11 +2,12 @@ import React from "react";
 import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
 import { Character } from "../components/Character";
 import { PanelShot, Tap } from "../components/Device";
-import { HandCircle, HandSparks } from "../components/Doodle";
+import { CameraMotionBlur } from "@remotion/motion-blur";
+import { MaskLines, Spotlight } from "../components/Marks";
 import { CheckIcon, SparkleIcon, StarIcon } from "../components/Icons";
 import { SceneBg } from "../components/Layers";
-import { Counter, ease, useBreathe, useIn, WordReveal } from "../components/Motion";
-import { BenefitHeader, body, display, Lines } from "../components/Type";
+import { Counter, ease, useBreathe, useIn } from "../components/Motion";
+import { body, display, Lines } from "../components/Type";
 import { T, theme } from "../theme";
 
 const WIN_X = 70;
@@ -30,7 +31,7 @@ const Sub: React.FC<{ text: string; from: number; to?: number; top: number; colo
   const p = ease(frame, [from, from + 14], [0, 1]);
   const out = ease(frame, [to - 6, to], [0, 1], theme.ease.in);
   if (frame < from || frame > to) return null;
-  return <div style={{ position: "absolute", left: 90, right: 80, top, ...body(42, color ?? T.inkSoft, 600), opacity: p * (1 - out), transform: `translateY(${(1 - p) * 18}px)` }}>{text}</div>;
+  return <div style={{ position: "absolute", left: 90, right: 80, top, ...body(46, color ?? T.ink, 700), opacity: p * (1 - out), transform: `translateY(${(1 - p) * 18}px)` }}>{text}</div>;
 };
 
 const Sticker: React.FC<{ at: number; x: number; y: number; rotate?: number; bg?: string; color?: string; children: React.ReactNode }> = ({ at, x, y, rotate = -4, bg = T.ink, color = T.cream, children }) => {
@@ -44,19 +45,29 @@ const Sticker: React.FC<{ at: number; x: number; y: number; rotate?: number; bg?
   );
 };
 
-// ---------- ¿Y tu comercio qué gana? (local 0–99, en el corte de la canción) ----------
+// ---------- ¿Y tu comercio qué gana? (local 0–81) ----------
 export const CommerceTitle: React.FC = () => {
   const frame = useCurrentFrame();
-  const push = ease(frame, [0, 99], [1, 1.06], theme.ease.inOut);
-  const shop = useIn(10, theme.spring.smooth);
-  const owner = useIn(24, theme.spring.bouncy);
+  const push = ease(frame, [0, 81], [1, 1.05], theme.ease.inOut);
+  const shop = useIn(8, theme.spring.smooth);
+  const owner = useIn(18, theme.spring.bouncy);
+  const label = ease(frame, [30, 42], [0, 1]);
   return (
     <AbsoluteFill style={{ transform: `scale(${push})` }}>
       <SceneBg variant="ink" />
-      <div style={{ position: "absolute", left: 0, right: 0, top: 290 }}>
-        <Lines lines={["¿Y tu comercio", "qué gana?"]} size={140} delay={2} lineGap={8} per={4} color={T.cream} align="center" accent={["comercio"]} />
+      <div style={{ position: "absolute", left: 0, right: 0, top: 270 }}>
+        <Lines lines={["¿Y tu comercio", "qué gana?"]} size={140} delay={2} lineGap={6} per={3} color={T.cream} align="center" accent={["comercio"]} />
       </div>
-      <Sub text="Para dueños de restós, bares y cafés." from={30} top={660} color="rgba(253,249,242,0.8)" />
+      {/* línea ordenada: 4 beneficios */}
+      <div style={{ position: "absolute", left: 0, right: 0, top: 640, display: "flex", alignItems: "center", justifyContent: "center", gap: 18 }}>
+        {[1, 2, 3, 4].map((n) => {
+          const p = useIn(20 + n * 3, theme.spring.bouncy);
+          return (
+            <div key={n} style={{ width: 76, height: 76, borderRadius: "50%", background: T.mint, display: "grid", placeItems: "center", ...display(42, T.ink), transform: `scale(${p})` }}>{n}</div>
+          );
+        })}
+        <div style={{ ...display(52, T.cream, 700), marginLeft: 10, opacity: label, transform: `translateX(${(1 - label) * 30}px)` }}>beneficios</div>
+      </div>
       {/* fachada ilustrada */}
       <div style={{ position: "absolute", left: 120, top: 860, width: 840, opacity: shop, transform: `translateY(${(1 - shop) * 200}px)` }}>
         <div style={{ height: 150, background: `repeating-linear-gradient(90deg, ${T.mint} 0 105px, ${T.cream} 105px 210px)`, border: `7px solid ${T.cream}`, borderRadius: "30px 30px 0 0", position: "relative" }}>
@@ -72,70 +83,133 @@ export const CommerceTitle: React.FC = () => {
           </div>
         </div>
       </div>
-      <HandSparks x={880} y={1000} size={120} at={40} color={T.star} width={9} />
     </AbsoluteFill>
   );
 };
 
-// ---------- 1 · Sabés quién es cada cliente (local 0–128) ----------
+// ---------- Placa de título de cada beneficio (local 0–53, pantalla propia) ----------
+const TITLES: Record<number, { lines: string[]; sub: string; accent: string[]; size: number }> = {
+  1: { lines: ["Conocé a", "tus clientes."], sub: "Sabé quién viene. Sabé quién vuelve.", accent: ["clientes"], size: 132 },
+  2: { lines: ["Mensajes", "automáticos,", "en el momento", "justo."], sub: "Más interacción con tus clientes, sin trabajo extra.", accent: ["automáticos", "justo"], size: 116 },
+  3: { lines: ["Los clientes", "vuelven más", "seguido."], sub: "Recuperá a los que dejaron de venir.", accent: ["vuelven", "seguido"], size: 124 },
+  4: { lines: ["Llená los", "días flojos."], sub: "Promos automáticas para tu día más tranquilo.", accent: ["flojos"], size: 132 },
+};
+
+const TitleCard: React.FC<{ n: number }> = ({ n }) => {
+  const frame = useCurrentFrame();
+  const t = TITLES[n];
+  const dark = n % 2 === 1;
+  const fg = dark ? T.cream : T.ink;
+  const acc = dark ? T.mint : T.white;
+  const num = useIn(0, theme.spring.snappy);
+  const subIn = ease(frame, [16, 28], [0, 1]);
+  const drift = frame * 0.6;
+  return (
+    <AbsoluteFill>
+      {dark ? <SceneBg variant="ink" /> : <AbsoluteFill style={{ background: T.mint }} />}
+      {/* número gigante calado */}
+      <div
+        style={{
+          position: "absolute", right: -60 + drift, top: 1040, ...display(760, "transparent", 800), lineHeight: 0.8,
+          WebkitTextStroke: `5px ${dark ? "rgba(5,171,135,0.55)" : "rgba(2,49,42,0.28)"}`,
+          transform: `translateX(${(1 - num) * 500}px) rotate(${(1 - num) * 10}deg)`,
+        }}
+      >
+        0{n}
+      </div>
+      {/* línea de avance: beneficio n de 4 */}
+      <div style={{ position: "absolute", left: 90, top: 300, display: "flex", alignItems: "center", gap: 14 }}>
+        <div style={{ ...body(34, fg, 800), letterSpacing: "0.14em", marginRight: 12, opacity: num }}>BENEFICIO {n}/4</div>
+        {[1, 2, 3, 4].map((i) => {
+          const fill = i < n ? 1 : i === n ? ease(frame, [4, 20], [0, 1]) : 0;
+          return (
+            <div key={i} style={{ width: 90, height: 12, borderRadius: 12, background: dark ? "rgba(253,249,242,0.18)" : "rgba(2,49,42,0.18)", overflow: "hidden" }}>
+              <div style={{ width: `${fill * 100}%`, height: "100%", background: dark ? T.mint : T.ink }} />
+            </div>
+          );
+        })}
+      </div>
+      <CameraMotionBlur samples={6} shutterAngle={160}>
+        <div style={{ position: "absolute", left: 86, right: 40, top: 430 }}>
+          <MaskLines lines={t.lines} size={t.size} delay={3} gap={4} color={fg} accent={t.accent} accentColor={acc} />
+        </div>
+      </CameraMotionBlur>
+      <div
+        style={{
+          position: "absolute", left: 90, right: 90, top: 430 + t.lines.length * t.size * 1.06 + 50, ...body(50, fg, 600), lineHeight: 1.25,
+          opacity: subIn * (dark ? 0.9 : 1), transform: `translateY(${(1 - subIn) * 24}px)`,
+        }}
+      >
+        {t.sub}
+      </div>
+    </AbsoluteFill>
+  );
+};
+
+export const B1Title: React.FC = () => <TitleCard n={1} />;
+export const B2Title: React.FC = () => <TitleCard n={2} />;
+export const B3Title: React.FC = () => <TitleCard n={3} />;
+export const B4Title: React.FC = () => <TitleCard n={4} />;
+
+// ---------- 1 · Conocé a tus clientes (local 0–122) ----------
 export const OwnerKnows: React.FC = () => {
   const frame = useCurrentFrame();
-  const seg = ease(frame, [18, 22], [0, 1]) + ease(frame, [30, 34], [0, 1]) + ease(frame, [42, 46], [0, 1]);
+  const seg = ease(frame, [10, 14], [0, 1]) + ease(frame, [20, 24], [0, 1]) + ease(frame, [30, 34], [0, 1]);
+  const k = WIN_W / 1290;
   return (
     <AbsoluteFill>
       <SceneBg />
-      <div style={{ position: "absolute", left: 90, right: 60, top: 250 }}>
-        <BenefitHeader num={1} lines={["Sabés quién es", "cada cliente"]} at={0} />
-      </div>
-      <Sub text="Nuevos, frecuentes y los que dejaron de venir." from={14} top={530} />
-      <Shot from={8} to={128} top={670}>
+      <Sub text="Tu panel separa nuevos, frecuentes y los que dejaron de venir." from={2} to={50} top={250} />
+      <Sub text="Juli vino 12 veces… y cumple en 5 días." from={54} top={250} />
+      <Shot from={4} to={122} top={420}>
         <div style={{ width: WIN_W, background: T.white, borderRadius: 40, padding: "26px 40px", border: `2px solid ${T.line}`, boxShadow: "0 30px 60px -30px rgba(2,49,42,0.35)" }}>
           <PanelShot frames={["panel/seg-all.png", "panel/seg-new.png", "panel/seg-frequent.png", "panel/seg-risk.png"]} index={seg} srcWidth={1044} srcHeight={372} width={WIN_W - 80} radius={0} style={{ boxShadow: "none", border: "none", background: "transparent" }} />
         </div>
       </Shot>
-      <Shot from={52} to={128} top={1062}>
-        <PanelShot frames={["panel/ficha-juli.png"]} srcWidth={1290} srcHeight={860} width={WIN_W} />
-        <HandCircle x={40} y={520} w={600} h={104} at={78} color={T.mint} width={8} />
+      <Shot from={36} to={122} top={830}>
+        <PanelShot frames={["panel/ficha-juli.png"]} srcWidth={1290} srcHeight={860} width={WIN_W}>
+          <Spotlight x={72 * k} y={450 * k} w={356 * k} h={215 * k} at={58} until={84} />
+          <Spotlight x={72 * k} y={737 * k} w={780 * k} h={93 * k} at={88} radius={40} />
+        </PanelShot>
       </Shot>
     </AbsoluteFill>
   );
 };
 
-// ---------- 2 · Mensajes automáticos (local 0–243, vuelve la energía) ----------
+// ---------- 2 · Mensajes automáticos (local 0–243; la energía vuelve en 203) ----------
 export const OwnerMessages: React.FC = () => {
   const frame = useCurrentFrame();
-  const sent = [190, 196, 202, 208, 216].reduce((acc, at) => acc + ease(frame, [at, at + 4], [0, 1]), 0);
-  const cardIn = useIn(76, theme.spring.smooth);
-  const cardOut = ease(frame, [180, 188], [0, 1], theme.ease.in);
-  const mark = ease(frame, [104, 124], [0, 1], theme.ease.inOut);
-  const btn = useIn(128, theme.spring.bouncy);
-  const pressed = frame >= 160 ? ease(frame, [160, 164], [0.94, 1]) : 1;
+  const sent = [204, 209, 214, 219, 225].reduce((acc, at) => acc + ease(frame, [at, at + 4], [0, 1]), 0);
+  const cardIn = useIn(50, theme.spring.smooth);
+  const cardOut = ease(frame, [194, 202], [0, 1], theme.ease.in);
+  const mark = ease(frame, [74, 96], [0, 1], theme.ease.inOut);
+  const btn = useIn(146, theme.spring.bouncy);
+  const pressed = frame >= 182 ? ease(frame, [182, 186], [0.94, 1]) : 1;
+  const k = WIN_W / 1194;
   return (
     <AbsoluteFill>
       <SceneBg />
-      <div style={{ position: "absolute", left: 90, right: 50, top: 250 }}>
-        <BenefitHeader num={2} lines={["Mensajes automáticos,", "en el momento justo"]} at={0} size={70} />
-      </div>
-      <Sub text="Un sistema de IA te sugiere qué enviar. Vos aprobás y sale solo." from={12} to={186} top={520} />
-      <Sub text="Vos decidís qué se envía. El sistema lo hace solo." from={188} top={520} />
+      <Sub text="El sistema de IA detecta el momento y te sugiere qué enviar." from={2} to={196} top={250} />
+      <Sub text="Vos aprobás. Sale solo por WhatsApp." from={200} top={250} />
 
-      {/* a · la sugerencia con cuenta regresiva */}
-      <Shot from={8} to={78} top={690}>
-        <PanelShot frames={["panel/sugg-birthday.png"]} srcWidth={1194} srcHeight={820} width={WIN_W} />
-        <HandCircle x={296} y={114} w={164} h={76} at={24} color={T.mint} width={8} />
+      {/* a · la sugerencia: faltan 5 días para el cumple */}
+      <Shot from={4} to={54} top={420}>
+        <PanelShot frames={["panel/sugg-birthday.png"]} srcWidth={1194} srcHeight={820} width={WIN_W}>
+          <Spotlight x={236 * k} y={150 * k} w={730 * k} h={140 * k} at={14} />
+        </PanelShot>
       </Shot>
 
-      {/* b · el mensaje sugerido, grande y legible */}
-      {frame >= 76 && frame < 190 && (
-        <div style={{ position: "absolute", left: WIN_X, top: 680, width: WIN_W, opacity: cardIn * (1 - cardOut), transform: `translateY(${(1 - cardIn) * 120 - cardOut * 60}px) scale(${interpolate(cardIn, [0, 1], [0.94, 1])})` }}>
+      {/* b · el mensaje sugerido, grande y con tiempo para leerlo */}
+      {frame >= 50 && frame < 204 && (
+        <div style={{ position: "absolute", left: WIN_X, top: 420, width: WIN_W, opacity: cardIn * (1 - cardOut), transform: `translateY(${(1 - cardIn) * 120 - cardOut * 60}px) scale(${interpolate(cardIn, [0, 1], [0.94, 1])})` }}>
           <div style={{ background: T.white, borderRadius: 44, border: `4px solid ${T.ink}`, padding: "34px 40px 40px", boxShadow: "0 30px 60px -30px rgba(2,49,42,0.45)" }}>
             <div style={{ display: "flex", alignItems: "center", gap: 12, ...body(30, T.mintDeep, 800), textTransform: "uppercase", letterSpacing: "0.04em" }}>
-              <SparkleIcon size={34} color={T.mint} /> Mensaje sugerido por el sistema de IA
+              <SparkleIcon size={34} color={T.mint} /> Sugerido por el sistema de IA
             </div>
-            <div style={{ ...body(50, T.ink, 600), lineHeight: 1.32, marginTop: 22 }}>
+            <div style={{ ...body(54, T.ink, 600), lineHeight: 1.3, marginTop: 22 }}>
               ¡Hola, Juli! Se viene tu cumple y en Brasa Restó queremos festejarlo con vos:{" "}
               <span style={{ fontWeight: 800, backgroundImage: `linear-gradient(${T.star}88, ${T.star}88)`, backgroundRepeat: "no-repeat", backgroundPosition: "0 85%", backgroundSize: `${mark * 100}% 42%` }}>
-                el postre va por nuestra cuenta.
+                si venís con 4 amigos, tu plato va por nuestra cuenta.
               </span>{" "}
               ¿Te reservamos mesa?
             </div>
@@ -143,70 +217,80 @@ export const OwnerMessages: React.FC = () => {
               Aprobar y enviar a los 4
             </div>
           </div>
-          <Tap x={300} y={447} at={160} />
+          <Tap x={260} y={BTN_Y} at={182} />
         </div>
       )}
 
       {/* c · se envía solo */}
-      <Shot from={186} to={243} top={720}>
+      <Shot from={200} to={243} top={560}>
         <PanelShot frames={["panel/send-0.png", "panel/send-1.png", "panel/send-2.png", "panel/send-3.png", "panel/send-4.png", "panel/send-done.png"]} index={sent} srcWidth={1146} srcTop={980} srcHeight={560} width={WIN_W} />
       </Shot>
-      <Sticker at={220} x={560} y={1270} rotate={5} bg={T.mint}>
+      <Sticker at={226} x={540} y={1110} rotate={5} bg={T.mint}>
         <CheckIcon size={46} color={T.white} /> ¡Enviado solo!
       </Sticker>
-      <HandSparks x={930} y={1220} size={100} at={226} color={T.star} width={9} />
     </AbsoluteFill>
   );
 };
 
-// ---------- 3 · Vuelve más seguido (local 0–148) ----------
+const BTN_Y = 620; // centro del botón "Aprobar y enviar", relativo a la tarjeta
+
+// ---------- 3 · Vuelven más seguido (local 0–175) ----------
 export const OwnerReturns: React.FC = () => {
   const frame = useCurrentFrame();
-  const scene = useIn(4, theme.spring.smooth);
-  const sceneOut = ease(frame, [68, 76], [0, 1], theme.ease.in);
-  const pill = useIn(96, theme.spring.bouncy);
+  const msgIn = useIn(4, theme.spring.smooth);
+  const msgOut = ease(frame, [92, 100], [0, 1], theme.ease.in);
+  const mark = ease(frame, [30, 50], [0, 1], theme.ease.inOut);
+  const scene = useIn(96, theme.spring.smooth);
+  const pill = useIn(128, theme.spring.bouncy);
   const breathe = useBreathe(0.015, 14);
-  const flame = 1 + Math.sin(frame / 3) * 0.15;
   return (
     <AbsoluteFill>
       <SceneBg />
-      <div style={{ position: "absolute", left: 90, right: 60, top: 250 }}>
-        <BenefitHeader num={3} lines={["Vuelve", "más seguido"]} at={0} />
-      </div>
-      <Sub text="Juli recibió la invitación… y volvió a festejar." from={10} to={74} top={540} />
-      <Sub text="El panel te muestra quién volvió." from={78} top={540} />
-      {frame < 78 && (
-        <AbsoluteFill style={{ opacity: scene * (1 - sceneOut), transform: `translateY(${(1 - scene) * 150}px)` }}>
-          <div style={{ position: "absolute", left: 50, top: 650, width: 980, height: 1000, borderRadius: 64, background: T.mintSoft, border: `6px solid ${T.ink}`, overflow: "hidden" }}>
-            <div style={{ position: "absolute", left: 200, top: 90 }}>
-              <Character body="Explaining" hair="Long" face="EatingHappy" width={580} />
+      <Sub text="Vos decidís qué se envía. El sistema lo hace solo." from={2} to={96} top={250} />
+      <Sub text="Martín volvió a Brasa Restó." from={100} top={250} />
+
+      {/* a · mensaje automático a quien dejó de venir */}
+      {frame < 100 && (
+        <div style={{ position: "absolute", left: WIN_X, top: 420, width: WIN_W, opacity: msgIn * (1 - msgOut), transform: `translateY(${(1 - msgIn) * 120 - msgOut * 60}px)` }}>
+          <div style={{ background: T.chat, borderRadius: 44, border: `4px solid ${T.ink}`, overflow: "hidden", boxShadow: "0 30px 60px -30px rgba(2,49,42,0.45)" }}>
+            <div style={{ background: T.ink, padding: "26px 34px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+              <div style={{ ...body(34, T.cream, 700) }}>Para: Martín</div>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, background: "rgba(5,171,135,0.25)", borderRadius: 40, padding: "8px 18px", ...body(26, T.mint, 800) }}>
+                <SparkleIcon size={28} color={T.mint} /> Automático · 45 días sin venir
+              </div>
             </div>
-            <div style={{ position: "absolute", left: -10, top: 700, width: 1000, height: 90, borderRadius: 24, background: "#E7B98A", border: `7px solid ${T.ink}` }} />
-            <div style={{ position: "absolute", left: 30, top: 783, width: 920, height: 240, background: "#D9A36E", borderLeft: `7px solid ${T.ink}`, borderRight: `7px solid ${T.ink}` }} />
-            {/* porción de torta con vela */}
-            <div style={{ position: "absolute", left: 90, top: 560, width: 250, height: 150 }}>
-              <div style={{ position: "absolute", left: 0, top: 80, width: 250, height: 60, borderRadius: "50%", background: T.white, border: `6px solid ${T.ink}` }} />
-              <div style={{ position: "absolute", left: 50, top: 10, width: 150, height: 100, background: T.peach, border: `6px solid ${T.ink}`, borderRadius: "14px 14px 8px 8px" }} />
-              <div style={{ position: "absolute", left: 50, top: 40, width: 150, height: 18, background: T.star, borderLeft: `6px solid ${T.ink}`, borderRight: `6px solid ${T.ink}` }} />
-              <div style={{ position: "absolute", left: 118, top: -50, width: 14, height: 60, background: T.mint, border: `4px solid ${T.ink}`, borderRadius: 6 }} />
-              <div style={{ position: "absolute", left: 113, top: -92, width: 24, height: 38, borderRadius: "50% 50% 50% 50% / 60% 60% 40% 40%", background: T.star, transform: `scale(${flame})`, transformOrigin: "50% 100%" }} />
+            <div style={{ padding: "34px 30px 40px" }}>
+              <div style={{ background: T.bubbleIn, borderRadius: "34px 34px 34px 8px", padding: "28px 32px", ...body(52, T.ink, 600), lineHeight: 1.3 }}>
+                ¡Hola, Martín! Hace un tiempo que no te vemos por Brasa Restó y te extrañamos. Te esperamos esta semana:{" "}
+                <span style={{ fontWeight: 800, backgroundImage: `linear-gradient(${T.star}88, ${T.star}88)`, backgroundRepeat: "no-repeat", backgroundPosition: "0 85%", backgroundSize: `${mark * 100}% 42%` }}>
+                  el café corre por nuestra cuenta.
+                </span>
+              </div>
             </div>
           </div>
-          <Sticker at={20} x={560} y={700} rotate={6} bg={T.star} color={T.ink}>
+        </div>
+      )}
+
+      {/* b · vuelve */}
+      {frame >= 94 && (
+        <AbsoluteFill style={{ opacity: scene, transform: `translateY(${(1 - scene) * 150}px)` }}>
+          <div style={{ position: "absolute", left: 50, top: 400, width: 980, height: 1000, borderRadius: 64, background: T.mintSoft, border: `6px solid ${T.ink}`, overflow: "hidden" }}>
+            <div style={{ position: "absolute", left: 180, top: 90 }}>
+              <Character body="Coffee" hair="ShortWavy" face="SmileBig" facialHair="Goatee" width={600} />
+            </div>
+            <div style={{ position: "absolute", left: -10, top: 720, width: 1000, height: 90, borderRadius: 24, background: "#E7B98A", border: `7px solid ${T.ink}` }} />
+            <div style={{ position: "absolute", left: 30, top: 803, width: 920, height: 240, background: "#D9A36E", borderLeft: `7px solid ${T.ink}`, borderRight: `7px solid ${T.ink}` }} />
+          </div>
+          <Sticker at={108} x={600} y={470} rotate={6} bg={T.star} color={T.ink}>
             <StarIcon size={46} color={T.ink} /> ¡Volvió!
           </Sticker>
-          <HandSparks x={900} y={600} size={110} at={26} color={T.ink} width={8} />
         </AbsoluteFill>
       )}
-      <Shot from={74} to={148} top={650}>
-        <PanelShot frames={["panel/ficha-returned.png"]} srcWidth={1290} srcHeight={1180} width={WIN_W} />
-        <HandCircle x={430} y={212} w={194} h={76} at={88} color={T.mint} width={8} />
-      </Shot>
-      {frame >= 96 && (
-        <div style={{ position: "absolute", left: 0, right: 0, top: 1545, display: "flex", justifyContent: "center", opacity: pill, transform: `scale(${interpolate(pill, [0, 1], [0.6, 1]) * breathe})` }}>
+      {frame >= 128 && (
+        <div style={{ position: "absolute", left: 0, right: 0, top: 1460, display: "flex", justifyContent: "center", opacity: pill, transform: `scale(${interpolate(pill, [0, 1], [0.6, 1]) * breathe})` }}>
           <div style={{ display: "flex", alignItems: "center", gap: 20, background: T.ink, borderRadius: 100, padding: "22px 44px", boxShadow: "0 24px 50px -20px rgba(2,49,42,0.6)" }}>
-            <span style={{ ...display(76, T.mint) }}>+<Counter to={23} delay={98} /></span>
-            <span style={{ ...display(44, T.cream, 700) }}>clientes recuperados</span>
+            <span style={{ ...display(76, T.mint) }}>+<Counter to={23} delay={130} /></span>
+            <span style={{ ...display(44, T.cream, 700) }}>clientes que volvieron</span>
           </div>
         </div>
       )}
@@ -214,32 +298,39 @@ export const OwnerReturns: React.FC = () => {
   );
 };
 
-// ---------- 4 · Días flojos (local 0–148) ----------
+// ---------- 4 · Días flojos (local 0–135) ----------
 export const OwnerSlowDays: React.FC = () => {
   const frame = useCurrentFrame();
   const kT = 900 / 1194;
-  const grow = ease(frame, [72, 100], [0, 10], theme.ease.out);
+  const grow = ease(frame, [80, 104], [0, 10], theme.ease.out);
+  const promo = useIn(62, theme.spring.bouncy);
   return (
     <AbsoluteFill>
       <SceneBg />
-      <div style={{ position: "absolute", left: 90, right: 60, top: 250 }}>
-        <BenefitHeader num={4} lines={["Llenás los", "días flojos"]} at={0} />
-      </div>
-      <Sub text="El sistema de IA detecta tu día más flojo y te propone qué hacer." from={12} to={62} top={530} />
-      <Sub text="Un toque, y se avisa sola por WhatsApp." from={64} top={540} />
-      <Shot from={6} to={66} top={680} left={90}>
-        <PanelShot frames={["panel/sugg-tuesday.png"]} srcWidth={1194} srcHeight={1296} width={900} />
-        <Tap x={365 * kT} y={1100 * kT} at={56} />
+      <Sub text="El sistema detecta tu día más flojo y te propone una promo." from={2} to={60} top={250} />
+      <Sub text="Así tus clientes eligen el martes para sumar más rápido." from={64} top={250} />
+      <Shot from={4} to={64} top={420} left={90}>
+        <PanelShot frames={["panel/sugg-tuesday.png"]} srcWidth={1194} srcHeight={1250} width={900}>
+          <Spotlight x={96 * kT} y={755 * kT} w={990 * kT} h={180 * kT} at={16} until={44} />
+        </PanelShot>
+        <Tap x={470 * kT} y={1167 * kT} at={52} />
       </Shot>
-      <Shot from={62} to={148} top={760}>
-        <PanelShot frames={Array.from({ length: 11 }, (_, i) => `panel/bars-${String(i).padStart(2, "0")}.png`)} index={grow} srcWidth={1194} srcHeight={864} width={WIN_W} />
-        <HandCircle x={156} y={270} w={150} h={400} at={100} color={T.mint} width={9} />
-      </Shot>
-      {frame >= 104 && (
-        <div style={{ position: "absolute", left: 0, right: 0, top: 1500, display: "flex", justifyContent: "center" }}>
-          <WordReveal text="Doble estrellita los martes" delay={104} style={{ ...display(62, T.ink, 800) }} wordStyle={(i) => (i === 3 ? { color: T.mintDeep } : undefined)} />
+      {frame >= 60 && (
+        <div style={{ position: "absolute", left: WIN_X, top: 420, width: WIN_W, display: "flex", alignItems: "center", gap: 30, background: T.ink, borderRadius: 44, padding: "30px 40px", opacity: promo, transform: `scale(${interpolate(promo, [0, 1], [0.7, 1])})` }}>
+          <div style={{ display: "flex", flex: "none" }}>
+            <StarIcon size={96} color={T.star} />
+            <StarIcon size={96} color={T.star} style={{ marginLeft: -26 }} />
+          </div>
+          <div style={{ ...display(60, T.cream, 800), lineHeight: 1.05 }}>
+            Los martes, cada visita suma <span style={{ color: T.star }}>2 estrellitas</span>
+          </div>
         </div>
       )}
+      <Shot from={70} to={135} top={740}>
+        <PanelShot frames={Array.from({ length: 11 }, (_, i) => `panel/bars-${String(i).padStart(2, "0")}.png`)} index={grow} srcWidth={1194} srcHeight={864} width={WIN_W}>
+          <Spotlight x={156} y={270} w={150} h={400} at={104} radius={30} dim={0.35} />
+        </PanelShot>
+      </Shot>
     </AbsoluteFill>
   );
 };

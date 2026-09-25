@@ -1,8 +1,8 @@
 import React from "react";
-import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
+import { AbsoluteFill, interpolate, Sequence, useCurrentFrame } from "remotion";
 import { LogoReveal, LuzSurBadge } from "../components/Brand";
 import { Character } from "../components/Character";
-import { HandSparks } from "../components/Doodle";
+import { MaskLines } from "../components/Marks";
 import { ArrowIcon } from "../components/Icons";
 import { SceneBg } from "../components/Layers";
 import { useBreathe, useIn, WordReveal } from "../components/Motion";
@@ -34,33 +34,54 @@ const Friend: React.FC<{ at: number; x: number; body: string; hair: string; face
   );
 };
 
-// Escena final (local 0–203)
-export const Closing: React.FC = () => {
+export const PUNCH_DUR = 54;
+
+/** Remate: tres golpes al ritmo. */
+const Punch: React.FC = () => (
+  <AbsoluteFill>
+    <SceneBg variant="ink" />
+    <div style={{ position: "absolute", left: 90, top: 560 }}>
+      <MaskLines lines={["Más frecuencia.", "Más clientes.", "Más ventas."]} size={128} delay={2} gap={9} color={T.cream} accent={["frecuencia", "clientes", "ventas"]} />
+    </div>
+  </AbsoluteFill>
+);
+
+// Escena final (local 0–180): remate (0–54) + marca y contacto
+export const Closing: React.FC = () => (
+  <AbsoluteFill>
+    <Punch />
+    <Sequence from={PUNCH_DUR}>
+      <Brand />
+    </Sequence>
+  </AbsoluteFill>
+);
+
+const Brand: React.FC = () => {
   const frame = useCurrentFrame();
   const breathe = useBreathe(0.012, 20);
-  const btn = useIn(70, theme.spring.bouncy);
-  const contact = useIn(86, theme.spring.smooth);
-  const sign = useIn(104, theme.spring.smooth);
+  const btn = useIn(50, theme.spring.bouncy);
+  const contact = useIn(62, theme.spring.smooth);
+  const sign = useIn(76, theme.spring.smooth);
   const arrow = Math.sin(frame / 6) * 6;
   return (
     <AbsoluteFill>
       <SceneBg />
-      <div style={{ position: "absolute", left: 540 - 420, top: 300, transform: `scale(${frame > 44 ? breathe : 1})` }}>
+      <div style={{ position: "absolute", left: 540 - 420, top: 280, transform: `scale(${frame > 40 ? breathe : 1})` }}>
         <LogoReveal width={840} delay={2} />
       </div>
-      <div style={{ position: "absolute", left: 0, right: 0, top: 610 }}>
-        <Lines lines={["Convertí a tus clientes", "en mejores amigos."]} size={84} delay={26} lineGap={6} align="center" accent={["mejores", "amigos"]} />
+      <div style={{ position: "absolute", left: 0, right: 0, top: 590 }}>
+        <Lines lines={["Convertí a tus clientes", "en mejores amigos."]} size={84} delay={18} lineGap={5} align="center" accent={["mejores", "amigos."]} />
       </div>
-      <div style={{ position: "absolute", left: 0, right: 0, top: 830, display: "flex", justifyContent: "center" }}>
-        <WordReveal text="Sin apps · Sin tarjetas · Solo WhatsApp" delay={50} per={3} style={{ ...body(42, T.inkSoft, 700), justifyContent: "center" }} wordStyle={(_, w) => (w === "·" ? { color: T.mint } : undefined)} />
+      <div style={{ position: "absolute", left: 0, right: 0, top: 810, display: "flex", justifyContent: "center" }}>
+        <WordReveal text="Sin apps · Sin tarjetas · Solo WhatsApp" delay={34} per={2} style={{ ...body(42, T.inkSoft, 700), justifyContent: "center" }} wordStyle={(_, w) => (w === "·" ? { color: T.mint } : undefined)} />
       </div>
-      <div style={{ position: "absolute", left: 0, right: 0, top: 930, display: "flex", justifyContent: "center" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 18, background: T.ink, borderRadius: 100, padding: "28px 56px", opacity: btn, transform: `scale(${interpolate(btn, [0, 1], [0.6, 1])})`, boxShadow: "0 26px 50px -22px rgba(2,49,42,0.7)" }}>
-          <span style={{ ...display(58, T.cream, 700) }}>Pedí tu demo</span>
-          <ArrowIcon size={56} color={T.mint} style={{ transform: `translateX(${arrow}px)` }} />
+      <div style={{ position: "absolute", left: 0, right: 0, top: 910, display: "flex", justifyContent: "center" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 18, background: T.ink, borderRadius: 100, padding: "28px 52px", opacity: btn, transform: `scale(${interpolate(btn, [0, 1], [0.6, 1])})`, boxShadow: "0 26px 50px -22px rgba(2,49,42,0.7)" }}>
+          <span style={{ ...display(52, T.cream, 700) }}>Lo instalamos en tu restó</span>
+          <ArrowIcon size={52} color={T.mint} style={{ transform: `translateX(${arrow}px)` }} />
         </div>
       </div>
-      <div style={{ position: "absolute", left: 0, right: 0, top: 1090, display: "flex", flexDirection: "column", alignItems: "center", gap: 14, opacity: contact, transform: `translateY(${(1 - contact) * 30}px)` }}>
+      <div style={{ position: "absolute", left: 0, right: 0, top: 1070, display: "flex", flexDirection: "column", alignItems: "center", gap: 14, opacity: contact, transform: `translateY(${(1 - contact) * 30}px)` }}>
         <div style={{ display: "flex", alignItems: "center", gap: 16, ...display(56, T.ink, 800) }}>
           <PhoneGlyph size={58} color={T.mint} /> 2254447706
         </div>
@@ -68,17 +89,15 @@ export const Closing: React.FC = () => {
           <CameraGlyph size={58} color={T.mint} /> @luz.sur.arg
         </div>
       </div>
-      <div style={{ position: "absolute", left: 0, right: 0, top: 1300, display: "flex", alignItems: "center", justifyContent: "center", gap: 18, opacity: sign }}>
+      <div style={{ position: "absolute", left: 0, right: 0, top: 1280, display: "flex", alignItems: "center", justifyContent: "center", gap: 18, opacity: sign }}>
         <span style={{ ...body(30, T.inkMuted, 600) }}>un producto de</span>
         <LuzSurBadge width={230} />
       </div>
       {/* amigos festejando */}
-      <Friend at={20} x={-40} body="PointingUp" hair="Bun" face="SmileBig" width={330} />
-      <Friend at={26} x={230} body="Device" hair="Long" face="LoveGrin" width={320} />
-      <Friend at={32} x={500} body="Coffee" hair="ShortVolumed" face="SmileTeeth" facialHair="FullMedium" width={320} flip />
-      <Friend at={38} x={770} body="Explaining" hair="Afro" face="SmileBig" width={330} flip />
-      <HandSparks x={80} y={1380} size={110} at={60} color={T.star} width={9} rotate={-30} />
-      <HandSparks x={900} y={1360} size={110} at={66} color={T.mint} width={9} />
+      <Friend at={14} x={-40} body="PointingUp" hair="Bun" face="SmileBig" width={330} />
+      <Friend at={19} x={230} body="Device" hair="Long" face="LoveGrin" width={320} />
+      <Friend at={24} x={500} body="Coffee" hair="ShortVolumed" face="SmileTeeth" facialHair="FullMedium" width={320} flip />
+      <Friend at={29} x={770} body="Explaining" hair="Afro" face="SmileBig" width={330} flip />
     </AbsoluteFill>
   );
 };

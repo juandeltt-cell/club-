@@ -1,27 +1,44 @@
 import React from "react";
+import { noise2D } from "@remotion/noise";
 import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
 import { Character } from "../components/Character";
-import { HandCircle, HandQuestion, HandSparks } from "../components/Doodle";
+import { StarIcon } from "../components/Icons";
 import { SceneBg } from "../components/Layers";
 import { Counter, ease, useIn, WordReveal } from "../components/Motion";
 import { display, Lines } from "../components/Type";
 import { T, theme } from "../theme";
 
-// Escena 1 · Gancho (0–302, intro tranquila de la canción)
+export const QUESTION_AT = 112;
+
+// Escena 1 · Gancho (0–216, intro tranquila de la canción)
 export const Hook: React.FC = () => {
   const frame = useCurrentFrame();
-  return <AbsoluteFill>{frame < 150 ? <Claim /> : <Question />}</AbsoluteFill>;
+  return <AbsoluteFill>{frame < QUESTION_AT ? <Claim /> : <Question />}</AbsoluteFill>;
+};
+
+/** Una estrellita por visita: se van sumando al ritmo del contador. */
+const VisitStars: React.FC<{ at: number }> = ({ at }) => {
+  const frame = useCurrentFrame();
+  return (
+    <div style={{ display: "flex", gap: 14 }}>
+      {Array.from({ length: 12 }).map((_, i) => {
+        const p = ease(frame, [at + i * 2, at + i * 2 + 8], [0, 1], theme.ease.out);
+        const s = interpolate(p, [0, 0.6, 1], [0, 1.3, 1]);
+        return <StarIcon key={i} size={60} color={T.star} style={{ transform: `scale(${s}) rotate(${(1 - p) * -120}deg)`, opacity: Math.min(1, p * 2) }} />;
+      })}
+    </div>
+  );
 };
 
 const Claim: React.FC = () => {
-  const drop = useIn(12, theme.spring.bouncy);
-  const veces = useIn(18, theme.spring.snappy);
+  const drop = useIn(8, theme.spring.bouncy);
+  const veces = useIn(12, theme.spring.snappy);
   return (
     <AbsoluteFill>
       <SceneBg />
-      <div style={{ position: "absolute", left: 90, top: 470, right: 50 }}>
-        <Lines lines={["Hay un cliente", "que vino"]} size={116} delay={0} lineGap={5} />
-        <div style={{ position: "relative", display: "flex", alignItems: "baseline", gap: 30, marginTop: 6 }}>
+      <div style={{ position: "absolute", left: 90, top: 420, right: 50 }}>
+        <Lines lines={["Hay un cliente", "que vino"]} size={116} delay={0} lineGap={4} />
+        <div style={{ display: "flex", alignItems: "baseline", gap: 30, marginTop: 6 }}>
           <div
             style={{
               ...display(400, T.mint), lineHeight: 0.9, opacity: Math.min(1, drop * 1.5),
@@ -29,32 +46,44 @@ const Claim: React.FC = () => {
               textShadow: `0 0 60px ${T.mintGlow}`,
             }}
           >
-            <Counter to={12} delay={12} />
+            <Counter to={12} delay={8} />
           </div>
           <div style={{ ...display(150), opacity: veces, transform: `translateX(${(1 - veces) * 40}px)` }}>veces</div>
-          <HandCircle x={-30} y={20} w={500} h={330} at={44} dur={16} color={T.ink} width={6} />
-          <HandSparks x={440} y={-10} size={110} at={58} color={T.star} width={9} rotate={-10} />
         </div>
-        <div style={{ marginTop: 10 }}>
-          <Lines lines={["a tu restaurante", "este año."]} size={116} delay={24} lineGap={5} />
+        <div style={{ margin: "18px 0 26px 6px" }}>
+          <VisitStars at={14} />
         </div>
+        <Lines lines={["a tu restaurante", "este año."]} size={116} delay={22} lineGap={4} />
       </div>
     </AbsoluteFill>
   );
 };
 
+/** Signo de pregunta tipográfico que flota con ruido suave. */
+const FloatQ: React.FC<{ at: number; x: number; y: number; size: number; color: string; rotate: number }> = ({ at, x, y, size, color, rotate }) => {
+  const frame = useCurrentFrame();
+  const p = useIn(at, theme.spring.bouncy);
+  if (frame < at) return null;
+  const dx = noise2D(`qx${x}`, frame / 60, 0) * 18;
+  const dy = noise2D(`qy${y}`, frame / 60, 0) * 18;
+  return (
+    <div style={{ position: "absolute", left: x + dx, top: y + dy, ...display(size, color, 800), opacity: Math.min(1, p * 1.5), transform: `scale(${p}) rotate(${rotate}deg)` }}>?</div>
+  );
+};
+
 const Question: React.FC = () => {
   const frame = useCurrentFrame();
-  const pill = ease(frame, [166, 178], [0, 1]);
-  const card = useIn(172, theme.spring.bouncy);
-  // la tensión sube hacia la subida de la canción (cuadro 302)
-  const build = ease(frame, [250, 300], [0, 1], theme.ease.in);
+  const q = QUESTION_AT;
+  const pill = ease(frame, [q + 12, q + 24], [0, 1]);
+  const card = useIn(q + 20, theme.spring.bouncy);
+  // la tensión sube hacia la subida de la canción (cuadro 216)
+  const build = ease(frame, [170, 214], [0, 1], theme.ease.in);
   const shake = Math.sin(frame * 1.7) * build * 6;
   return (
     <AbsoluteFill>
       <SceneBg variant="ink" />
       <div style={{ position: "absolute", left: 0, right: 0, top: 330, display: "flex", flexDirection: "column", alignItems: "center" }}>
-        <WordReveal text="¿Sabés" delay={156} style={{ ...display(190, T.cream) }} />
+        <WordReveal text="¿Sabés" delay={q + 4} style={{ ...display(190, T.cream) }} />
         <div style={{ position: "relative", marginTop: 6 }}>
           <div
             style={{
@@ -62,7 +91,7 @@ const Question: React.FC = () => {
               transform: `scaleX(${pill})`, transformOrigin: "left center",
             }}
           />
-          <WordReveal text="quién es?" delay={160} style={{ ...display(190, T.cream), position: "relative" }} />
+          <WordReveal text="quién es?" delay={q + 8} style={{ ...display(190, T.cream), position: "relative" }} />
         </div>
       </div>
       {/* El cliente misterioso: detrás de un vidrio esmerilado */}
@@ -79,9 +108,9 @@ const Question: React.FC = () => {
         </div>
         <AbsoluteFill style={{ background: "rgba(5,171,135,0.25)" }} />
       </div>
-      <HandQuestion x={150} y={930} size={170} at={188} color={T.star} width={10} rotate={-14} />
-      <HandQuestion x={800} y={1010} size={140} at={196} color={T.cream} width={9} rotate={12} />
-      <HandQuestion x={760} y={1400} size={120} at={204} color={T.mint} width={9} rotate={-6} />
+      <FloatQ at={q + 34} x={130} y={930} size={200} color={T.star} rotate={-14} />
+      <FloatQ at={q + 40} x={830} y={1000} size={150} color={T.cream} rotate={12} />
+      <FloatQ at={q + 46} x={800} y={1390} size={130} color={T.mint} rotate={-6} />
     </AbsoluteFill>
   );
 };

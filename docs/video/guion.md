@@ -1,57 +1,46 @@
-# Mejores Amigos — Guion del reel (v6)
+# Mejores Amigos — Guion del reel (v7)
 
-**Formato:** vertical 1080×1920 · 30 fps · **~82 s**
-**Música:** `cancion.mp3` (~134 BPM). El video está editado sobre su estructura:
+**Formato:** vertical 1080×1920 · 30 fps · **~76 s** (antes 82 s)
+**Música:** `cancion.mp3` (~134 BPM), recortada: arranca en 2,88 s (4 compases antes de la subida) y termina con un fundido de 2 s. No hay cortes en el medio de la canción.
 
-| Canción | Tiempo | Uso en el reel |
+| Canción | Tiempo en el reel | Uso |
 |---|---|---|
-| Intro tranquila | 0 – 10,06 s | Gancho: poco texto, se lee tranquilo |
-| **Subida** | **10,06 s** | Revelación del logo de Mejores Amigos |
-| Sección A | 10 – 49,7 s | Qué es + cómo lo vive el cliente (3 pasos) |
-| Corte (sin bajo) | 49,7 – 57,26 s | "¿Y tu comercio qué gana?" + beneficio 1, en calma |
-| Vuelta de la energía | 57,26 s | Beneficio central: mensajes automáticos |
-| Sección B | 57,3 – 79,6 s | Beneficios 2 a 4 + cierre |
-| Final | 79,6 – 82 s | Cierre con contacto, fundido |
+| Intro tranquila | 0 – 7,2 s | Gancho |
+| **Subida** | **7,2 s** | "Con Mejores Amigos, sí." + logo |
+| Sección A | 7,2 – 46,8 s | Qué es + los 3 pasos del cliente + "¿Y tu comercio qué gana?" |
+| Corte (sin bajo) | 46,8 – 54,4 s | Beneficio 2: se lee el mensaje de cumpleaños con calma |
+| Vuelta de la energía | 54,4 s | El mensaje se envía solo |
+| Sección B | 54,4 – 76 s | Beneficios 3 y 4, remate y cierre |
 
-**Ejemplo (ficticio):** restaurante **Brasa Restó** · clienta **Juli** · premio: postre de regalo a las 5 estrellitas.
-**Estilo:** kinetic type + **personajes ilustrados** (Open Peeps, uso libre) + **trazos dibujados a mano** (rough.js) + pantallas reales del panel + **transiciones de marca** (círculo, franjas, estrella y sonrisa) + **fondos de color** que cambian por escena. Una sola idea por pantalla.
+**Ejemplo (ficticio):** restaurante **Brasa Restó** · clientes **Juli** y **Martín** · el premio se descubre al desbloquearlo.
+**Estilo:** kinetic type con máscaras, personajes ilustrados (Open Peeps), pantallas reales del panel con **foco** (se oscurece el resto y se enmarca el dato, sin trazos a mano), transiciones de marca, motion blur en los títulos, movimiento orgánico con ruido (@remotion/noise).
 
 ---
 
-## 1 · Gancho (0 – 10 s)
-- **"Hay un cliente que vino / 12 veces / a tu restaurante / este año."** Se mantiene como estaba; un trazo a mano encierra el 12.
-- Transición en círculo a fondo verde oscuro: **"¿Sabés quién es?"** Aparece la silueta de un personaje con signos de pregunta dibujados alrededor.
+## 1 · Gancho (0 – 7,2 s)
+- **"Hay un cliente que vino / 12 veces / a tu restaurante / este año."** Debajo del 12 se suman 12 estrellitas, una por visita.
+- **"¿Sabés quién es?"** Personaje detrás de un vidrio esmerilado; signos de pregunta flotando.
 
-## 2 · Qué es (10 – 24,5 s) — tres pantallas separadas
-1. **En la subida:** destello, estallido de estrellitas y revelación del logo. Debajo, centrado: **"Un nuevo sistema de fidelización de clientes para restaurantes."**
-2. **Pantalla propia**, con tres líneas y un ícono cada una:
-   - Tus clientes suman estrellitas en cada visita.
-   - Las canjean por premios que vos elegís.
-   - Vos sabés quién es cada uno.
-3. **Pantalla propia:** **"Un sistema de IA te sugiere qué enviarles…"** → **"…y los mensajes salen solos por WhatsApp."**, con burbujas que salen volando.
+## 2 · Qué es (7,2 – 16,2 s)
+1. En la subida: **"Con [logo Mejores Amigos], sí."** → **"Un nuevo sistema de fidelización de clientes para restaurantes."**
+2. **"Un sistema de IA te sugiere qué enviarles… y los mensajes salen solos por WhatsApp."** Las burbujas ("¡Feliz cumple!", "Tu premio te espera", "¡Te extrañamos!") quedan en pantalla hasta el corte.
 
-## 3 · Cómo lo vive el cliente (24,5 – 49,7 s)
-**01 · El cliente escanea el QR en la mesa** (9 s)
-- Ilustración: Juli sentada a la mesa de Brasa Restó, apuntando el celular al QR del exhibidor.
-- Zoom al celular. **Se registra:** "Sumate al club de Brasa Restó" · Nombre: *Juli* · Cumpleaños: *14/03* (se escribe) → **"Registrarme con WhatsApp"**.
-- Llega la bienvenida automática: *"¡Bienvenida al club de Brasa Restó, Juli! Sumaste tu 1.ª estrellita."*
+## 3 · El cliente (16,2 – 36,8 s)
+- **01 · El cliente escanea el QR en la mesa.** Se registra con nombre y cumpleaños. WhatsApp: **"¡Bienvenida a Mejores Amigos, Juli! Sumaste tu 1.ª estrellita. Con 5, desbloqueás tu primer premio."**
+- **02 · En cada visita, suma una estrellita.** "¿Cuántas estrellitas tengo?" → **"¡Tenés 3, Juli! Te faltan 2 para desbloquear tu primer premio."**
+- **03 · Junta 5 y desbloquea su premio.** "¡Premio desbloqueado!" → la tarjeta se da vuelta: **"¡Primer premio! Con tu próximo plato, el postre va sin cargo."**
 
-**02 · En cada visita, escanea el QR y suma una estrellita** (9 s)
-- Tres visitas en fila (con fecha), cada una con su escaneo y su estrellita, hasta llegar a ★★★☆☆.
-- Juli pregunta por WhatsApp: *"¿Cuántas estrellitas tengo?"* → respuesta automática: *"¡Tenés 3! Te faltan 2 para tu postre de regalo."*
+## 4 · ¿Y tu comercio qué gana? — 4 beneficios (36,8 – 69,5 s)
+Cada beneficio tiene **su pantalla de título** (grande, sola, con "Beneficio n/4") y después **su ejemplo**.
 
-**03 · Junta 5 y canjea su premio** (7 s)
-- La tarjeta se completa, cae una lluvia de estrellitas, la tarjeta se da vuelta y aparece el cupón "Postre de regalo".
-- Un mozo ilustrado confirma: *"Canje confirmado ✓"*.
+| # | Título | Bajada | Ejemplo |
+|---|---|---|---|
+| 1 | **Conocé a tus clientes.** | Sabé quién viene. Sabé quién vuelve. | Segmentos del panel → ficha de Juli: foco en "12 visitas" y "Faltan 5 días para su cumpleaños". |
+| 2 | **Mensajes automáticos, en el momento justo.** | Más interacción con tus clientes, sin trabajo extra. | Sugerencia de cumpleaños → mensaje: *"¡Hola, Juli! Se viene tu cumple y en Brasa Restó queremos festejarlo con vos: **si venís con 4 amigos, tu plato va por nuestra cuenta.** ¿Te reservamos mesa?"* (≈4,5 s de lectura) → "Aprobar y enviar" → "¡Enviado solo!" |
+| 3 | **Los clientes vuelven más seguido.** | Recuperá a los que dejaron de venir. | "Vos decidís qué se envía. El sistema lo hace solo." Mensaje automático a Martín (45 días sin venir): *"…te extrañamos. Te esperamos esta semana: **el café corre por nuestra cuenta.**"* → Martín vuelve → "+23 clientes que volvieron". |
+| 4 | **Llená los días flojos.** | Promos automáticas para tu día más tranquilo. | El sistema detecta que los martes vienen la mitad de clientes → "Activar martes de doble estrellita" → **"Los martes, cada visita suma 2 estrellitas"** → la barra del martes crece. |
 
-## 4 · ¿Y tu comercio qué gana? (49,7 – 57,3 s, en el corte de la canción)
-- Fondo oscuro, el dueño del restó ilustrado con un café frente a la fachada de Brasa Restó: **"¿Y tu comercio qué gana?"**
-- **1 · Sabés quién es cada cliente:** segmentos y ficha de Juli (panel real), con "Faltan 5 días para su cumpleaños" marcado a mano.
-
-## 5 · Beneficios con energía (57,3 – 79,6 s)
-- **2 · Mensajes automáticos, en el momento justo** (7 s): la sugerencia del sistema de IA ("Faltan 5 días para que Juli cumpla años") → **el mensaje sugerido, grande y legible**, con "el postre va por nuestra cuenta" subrayado a mano → "Aprobar y enviar a los 4" → envío automático.
-- **3 · Vuelve más seguido** (5,4 s): Juli recibe la invitación → ilustración de Juli comiendo su postre → la ficha marca "Volvió ✓" y "+23 clientes recuperados".
-- **4 · Llenás los días flojos** (5,4 s): sugerencia "doble estrellita los martes" y la barra del martes que crece, señalada con una flecha a mano.
-
-## 6 · Cierre (75,3 – 82 s)
-Logo, **"Convertí a tus clientes en mejores amigos."**, *Sin apps · Sin tarjetas · Solo WhatsApp*, **Pedí tu demo** con **WhatsApp 2254447706 · Instagram @luz.sur.arg**, "un producto de Luz Sur" y un grupo de personajes festejando.
+## 5 · Cierre (69,5 – 76 s)
+- Remate en tres golpes: **"Más frecuencia. Más clientes. Más ventas."**
+- Logo · **"Convertí a tus clientes en mejores amigos."** · "Sin apps · Sin tarjetas · Solo WhatsApp"
+- **"Lo instalamos en tu restó →"** · WhatsApp 2254447706 · @luz.sur.arg · "un producto de Luz Sur"
