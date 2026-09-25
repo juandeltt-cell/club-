@@ -218,7 +218,7 @@
           <div class="progress"><div class="progress__fill" style="--p:${(starsNow / goal) * 100}%"></div></div>
         </div>
         <div>
-          <h3 class="profile__section-title">Historia en Brasa</h3>
+          <h3 class="profile__section-title">Historia en Brasa Restó</h3>
           <ol class="timeline">
             ${history.map((h, i) => `
               <li class="timeline__item ${i === 0 && returned ? "rise" : ""}">

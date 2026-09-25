@@ -4,5 +4,7 @@ import { Reel } from "./Reel";
 import { FPS, TOTAL_FRAMES } from "./timeline";
 
 export const RemotionRoot: React.FC = () => (
-  <Composition id="MejoresAmigosReel" component={Reel} durationInFrames={TOTAL_FRAMES} fps={FPS} width={1080} height={1920} />
+  <>
+    <Composition id="MejoresAmigosReel" component={Reel} durationInFrames={TOTAL_FRAMES} fps={FPS} width={1080} height={1920} />
+  </>
 );

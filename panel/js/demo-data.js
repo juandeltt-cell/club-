@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Datos de ejemplo del panel (restaurante ficticio "Brasa").
+   Datos de ejemplo del panel (restaurante ficticio "Brasa Restó").
    Este objeto tiene la misma forma que devolverá la API real, así que
    reemplazarlo por un fetch() no requiere tocar el render.
    ========================================================================== */
@@ -7,7 +7,7 @@
 window.MA_DEMO = {
   today: "Lunes 9 de marzo",
 
-  venue: { name: "Brasa", initial: "B", plan: "Plan Estándar", rewardGoal: 5 },
+  venue: { name: "Brasa Restó", initial: "B", plan: "Plan Estándar", rewardGoal: 5 },
 
   user: { name: "Mariano", initials: "MA" },
 
@@ -83,7 +83,7 @@ window.MA_DEMO = {
       title: "Faltan 5 días para que Juli cumpla años",
       why: "Esta semana también cumplen Martín, Caro y Lucas. Invitarlos unos días antes les da tiempo a organizarse y reservar.",
       countdown: ["juli", "martin", "caro", "lucas"],
-      message: "¡Hola, {nombre}! Faltan pocos días para tu cumple y en Brasa queremos festejarlo con vos. Vení cuando quieras esta semana: el postre corre por nuestra cuenta. ¿Te reservamos una mesa?",
+      message: "¡Hola, {nombre}! Se viene tu cumple y en Brasa Restó queremos festejarlo con vos: el postre va por nuestra cuenta. ¿Te reservamos mesa?",
       previewFor: "Juli",
       audience: ["juli", "martin", "caro", "lucas"],
       audienceLabel: "4 clientes",
@@ -95,7 +95,7 @@ window.MA_DEMO = {
       icon: "clock",
       title: "37 clientes frecuentes no vienen hace más de 3 semanas",
       why: "Venían al menos dos veces por mes. Una invitación con un beneficio concreto es la mejor forma de traerlos de vuelta.",
-      message: "¡Hola, {nombre}! Hace un tiempo que no te vemos por Brasa y te extrañamos. Este jueves tenés 2×1 en postres. ¿Te guardamos una mesa?",
+      message: "¡Hola, {nombre}! Hace un tiempo que no te vemos por Brasa Restó y te extrañamos. Este jueves tenés 2×1 en postres. ¿Te guardamos una mesa?",
       previewFor: "Tomás",
       audience: ["tomas", "agus", "fede", "lu"],
       audienceLabel: "37 clientes en riesgo",
@@ -107,7 +107,7 @@ window.MA_DEMO = {
       icon: "trend",
       title: "Los martes tenés la mitad de visitas que el resto de la semana",
       why: "Una promo fija para ese día, avisada a tus frecuentes, ayuda a mover el día más flojo sin descontar los demás.",
-      message: "¡Novedad en Brasa! Desde esta semana, los martes sumás doble estrellita. ¿Nos vemos el martes, {nombre}?",
+      message: "¡Novedad en Brasa Restó! Desde esta semana, los martes sumás doble estrellita. ¿Nos vemos el martes, {nombre}?",
       previewFor: "Nicolás",
       audience: ["nico", "mora", "ramiro", "santi"],
       audienceLabel: "148 clientes frecuentes",
@@ -120,7 +120,7 @@ window.MA_DEMO = {
       icon: "star",
       title: "12 clientes están a 1 estrellita de su premio",
       why: "Recordarles que les falta poco es el empujón más simple para que vuelvan esta semana.",
-      message: "¡{nombre}, te falta 1 sola estrellita para tu postre de regalo! Te esperamos en Brasa.",
+      message: "¡{nombre}, te falta 1 sola estrellita para tu postre de regalo! Te esperamos en Brasa Restó.",
       previewFor: "Martín",
       audience: ["martin", "lucas", "joaco"],
       audienceLabel: "12 clientes",
@@ -134,14 +134,14 @@ window.MA_DEMO = {
       id: "welcome", icon: "user", on: true,
       title: "Bienvenida",
       trigger: "Cuando alguien se suma al club por primera vez.",
-      message: "¡Hola, {nombre}! Ya sos parte del club de Brasa. Sumaste tu primera estrellita: con 5 tenés un postre de regalo.",
+      message: "¡Hola, {nombre}! Ya sos parte del club de Brasa Restó. Sumaste tu primera estrellita: con 5 tenés un postre de regalo.",
       sent: 63, rate: "98% leídos",
     },
     {
       id: "birthday", icon: "cake", on: true,
       title: "Invitación de cumpleaños",
       trigger: "5 días antes del cumpleaños, con una invitación y un regalo.",
-      message: "¡Hola, {nombre}! Faltan pocos días para tu cumple y en Brasa queremos festejarlo con vos. Vení cuando quieras esta semana: el postre corre por nuestra cuenta. ¿Te reservamos una mesa?",
+      message: "¡Hola, {nombre}! Se viene tu cumple y en Brasa Restó queremos festejarlo con vos: el postre va por nuestra cuenta. ¿Te reservamos mesa?",
       sent: 18, rate: "11 vinieron",
     },
     {
@@ -155,7 +155,7 @@ window.MA_DEMO = {
       id: "missyou", icon: "heart", on: true,
       title: "Te extrañamos",
       trigger: "Cuando un cliente frecuente no viene hace 21 días.",
-      message: "¡Hola, {nombre}! Hace un tiempo que no te vemos por Brasa. Te dejamos una estrellita extra para tu próxima visita.",
+      message: "¡Hola, {nombre}! Hace un tiempo que no te vemos por Brasa Restó. Te dejamos una estrellita extra para tu próxima visita.",
       sent: 29, rate: "23 volvieron",
     },
   ],

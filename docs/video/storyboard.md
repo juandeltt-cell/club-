@@ -1,5 +1,7 @@
 # Mejores Amigos — Storyboard del reel
 
+> **Nota:** este storyboard corresponde a la versión de 55 s. La versión actual (82 s, sobre `cancion.mp3`) está descripta en `guion.md` (v6) y sus tiempos exactos en `video/src/timeline.ts`.
+
 **Base:** guion v5 (`docs/video/guion.md`) · **1080×1920** · 30 fps · **1.650 cuadros = 55 s**
 **Música:** beat sintetizado a **120 BPM → 1 pulso = 15 cuadros**. Todos los cortes caen en múltiplos de 15.
 **Zona segura:** el texto crítico va entre y≈240 y y≈1680 (el 75 % central). Arriba y abajo lo tapa la interfaz de Instagram y TikTok.

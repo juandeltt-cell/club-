@@ -2,3 +2,5 @@ node_modules/
 out/
 # se regenera con: npm run sfx
 public/audio/
+# se regenera con: npm run music (a partir de ../cancion.mp3)
+public/music/
