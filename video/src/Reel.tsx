@@ -6,7 +6,7 @@ import { StepRedeem, StepScan, StepVisits } from "./scenes/Client";
 import { Closing, PUNCH_DUR } from "./scenes/Closing";
 import { Hook, QUESTION_AT } from "./scenes/Hook";
 import { AiLine, LogoDrop } from "./scenes/Intro";
-import { B1Title, B2Title, B3Title, B4Title, CommerceTitle, OwnerKnows, OwnerMessages, OwnerReturns, OwnerSlowDays } from "./scenes/Owner";
+import { B1Title, B2Title, B3Title, B4Title, CommerceTitle, OwnerMessages, OwnerReturns, OwnerSlowDays } from "./scenes/Owner";
 import { SCENES } from "./timeline";
 import { T, theme } from "./theme";
 
@@ -42,29 +42,25 @@ const SFX: [number, string, number][] = [
   // sistema de IA
   [S.ai.from - 6, "whoosh", 0.3], [at(S.ai, 36), "swish", 0.22], [at(S.ai, 42), "pop1", 0.28], [at(S.ai, 48), "pop2", 0.28], [at(S.ai, 54), "pop3", 0.28],
   // paso 01
-  [S.p1.from - 6, "whoosh", 0.3], [at(S.p1, 22), "tick", 0.22], [at(S.p1, 30), "tick", 0.22], [at(S.p1, 38), "tick", 0.22], [at(S.p1, 66), "pop6", 0.35], [at(S.p1, 72), "whoosh", 0.28],
-  ...[92, 94, 96, 98, 101, 103, 105, 107, 109].map((f): [number, string, number] => [at(S.p1, f), "tick", 0.16]),
-  [at(S.p1, 106), "pop4", 0.3], [at(S.p1, 118), "tap", 0.45], [at(S.p1, 129), "swish", 0.25], [at(S.p1, 136), "ding", 0.35],
+  [S.p1.from - 6, "whoosh", 0.3], [at(S.p1, 22), "tick", 0.22], [at(S.p1, 30), "tick", 0.22], [at(S.p1, 38), "tick", 0.22], [at(S.p1, 66), "pop6", 0.35], [at(S.p1, 70), "whoosh", 0.28],
+  [at(S.p1, 92), "swish", 0.25], [at(S.p1, 102), "ding", 0.35], [at(S.p1, 108), "pop5", 0.28], [at(S.p1, 112), "shimmer", 0.2],
   // paso 02
   [S.p2.from - 6, "whoosh", 0.3], [at(S.p2, 12), "pop1", 0.25], [at(S.p2, 28), "pop4", 0.3], [at(S.p2, 28), "pop2", 0.22], [at(S.p2, 44), "pop5", 0.3], [at(S.p2, 44), "pop3", 0.22], [at(S.p2, 60), "pop6", 0.3],
-  [at(S.p2, 90), "swish", 0.3], [at(S.p2, 96), "swish", 0.25], [at(S.p2, 116), "ding", 0.35],
   // paso 03
-  [S.p3.from - 6, "whoosh", 0.3], [at(S.p3, 12), "pop5", 0.35], [at(S.p3, 24), "pop6", 0.35], [at(S.p3, 26), "shimmer", 0.35], [at(S.p3, 48), "whoosh", 0.28], [at(S.p3, 70), "ding", 0.35],
-  // ¿y tu comercio qué gana? (corte de la canción)
-  [S.title.from + 2, "shimmer", 0.25], [at(S.title, 23), "tick", 0.22], [at(S.title, 26), "tick", 0.22], [at(S.title, 29), "tick", 0.22], [at(S.title, 32), "tick", 0.22],
+  [S.p3.from - 6, "whoosh", 0.3], [at(S.p3, 12), "pop5", 0.35], [at(S.p3, 24), "pop6", 0.35], [at(S.p3, 26), "shimmer", 0.35], [at(S.p3, 48), "whoosh", 0.28], [at(S.p3, 70), "ding", 0.35], [at(S.p3, 78), "pop4", 0.25],
+  // ¿y tu comercio qué gana? + grilla
+  [S.title.from + 2, "shimmer", 0.25], [at(S.title, 22), "pop1", 0.28], [at(S.title, 29), "pop2", 0.28], [at(S.title, 36), "pop3", 0.28], [at(S.title, 43), "pop4", 0.28],
   // beneficios: título propio + ejemplo
-  ...[S.b1t, S.b2t, S.b3t, S.b4t].flatMap((sc): [number, string, number][] => [[sc.from - 5, "whoosh", 0.3], [sc.from + 3, "swish", 0.25]]),
-  ...[S.b1, S.b2, S.b3, S.b4].map((sc): [number, string, number] => [sc.from - 5, "whoosh", 0.25]),
-  [at(S.b1, 10), "tick", 0.22], [at(S.b1, 20), "tick", 0.22], [at(S.b1, 30), "tick", 0.22], [at(S.b1, 58), "pop4", 0.28], [at(S.b1, 88), "pop5", 0.28],
-  [at(S.b2, 14), "pop4", 0.28], [at(S.b2, 50), "whoosh", 0.25], [at(S.b2, 74), "swish", 0.22], [at(S.b2, 146), "pop6", 0.3], [at(S.b2, 182), "tap", 0.45],
-  [at(S.b2, 204), "pop1", 0.3], [at(S.b2, 209), "pop2", 0.3], [at(S.b2, 214), "pop3", 0.3], [at(S.b2, 219), "pop4", 0.3], [at(S.b2, 225), "ding", 0.35], [at(S.b2, 228), "pop6", 0.35],
-  [at(S.b3, 30), "swish", 0.22], [at(S.b3, 94), "whoosh", 0.28], [at(S.b3, 108), "pop6", 0.35], [at(S.b3, 128), "pop5", 0.3],
-  ...[132, 136, 140, 144].map((f): [number, string, number] => [at(S.b3, f), "tick", 0.18]),
+  ...[S.b1t, S.b2t, S.b3t, S.b4t].flatMap((sc): [number, string, number][] => [[sc.from - 5, "whoosh", 0.3], [sc.from + 3, "swish", 0.25], [sc.from + 9, "pop6", 0.22]]),
+  ...[S.b2, S.b3, S.b4].map((sc): [number, string, number] => [sc.from - 5, "whoosh", 0.25]),
+  [at(S.b2, 14), "pop4", 0.26], [at(S.b2, 34), "swish", 0.22], [at(S.b2, 112), "pop6", 0.3], [at(S.b2, 146), "tap", 0.45],
+  [at(S.b2, 168), "pop1", 0.3], [at(S.b2, 173), "pop2", 0.3], [at(S.b2, 178), "pop3", 0.3], [at(S.b2, 183), "pop4", 0.3], [at(S.b2, 189), "ding", 0.35], [at(S.b2, 192), "pop6", 0.35],
+  [at(S.b3, 20), "pop4", 0.26], [at(S.b3, 30), "swish", 0.22], [at(S.b3, 109), "ding", 0.35],
   [at(S.b4, 16), "pop4", 0.26], [at(S.b4, 52), "tap", 0.45], [at(S.b4, 62), "pop5", 0.35], [at(S.b4, 70), "whoosh", 0.25], [at(S.b4, 104), "shimmer", 0.3],
   // remate + cierre
-  [S.closing.from - 6, "whoosh", 0.3], [S.closing.from, "hit", 0.4], [at(S.closing, 11), "hit", 0.3], [at(S.closing, 20), "hit", 0.3],
+  [S.closing.from - 6, "whoosh", 0.3], [S.closing.from, "hit", 0.4], [at(S.closing, 11), "hit", 0.3], [at(S.closing, 20), "hit", 0.3], [at(S.closing, 24), "pop6", 0.28],
   [at(S.closing, PUNCH_DUR - 6), "whoosh", 0.3], [at(S.closing, PUNCH_DUR + 1), "shimmer", 0.3],
-  ...[14, 19, 24, 29].map((f, i): [number, string, number] => [at(S.closing, PUNCH_DUR + f), `pop${i + 1}`, 0.24]), [at(S.closing, PUNCH_DUR + 50), "pop6", 0.35],
+  ...[14, 19, 24, 29].map((f, i): [number, string, number] => [at(S.closing, PUNCH_DUR + f), `pop${i + 1}`, 0.24]), [at(S.closing, PUNCH_DUR + 30), "swish", 0.25], [at(S.closing, PUNCH_DUR + 50), "pop6", 0.35],
 ];
 
 const Scene: React.FC<{ s: { from: number; dur: number }; children: React.ReactNode }> = ({ s, children }) => (
@@ -83,7 +79,6 @@ export const Reel: React.FC = () => {
       <Scene s={SCENES.p3}><StepRedeem /></Scene>
       <Scene s={SCENES.title}><CommerceTitle /></Scene>
       <Scene s={SCENES.b1t}><B1Title /></Scene>
-      <Scene s={SCENES.b1}><OwnerKnows /></Scene>
       <Scene s={SCENES.b2t}><B2Title /></Scene>
       <Scene s={SCENES.b2}><OwnerMessages /></Scene>
       <Scene s={SCENES.b3t}><B3Title /></Scene>
@@ -101,7 +96,6 @@ export const Reel: React.FC = () => {
       <BarsWipe at={SCENES.p3.from} colors={[T.mint, T.star, T.ink]} />
       <DipToInk at={SCENES.title.from} dur={16} />
       <BarsWipe at={SCENES.b1t.from} dur={7} colors={[T.mint, T.star, T.cream]} />
-      <CircleWipe at={SCENES.b1.from} color={T.cream} cy={1400} dur={7} />
       <CircleWipe at={SCENES.b2t.from} color={T.mint} dur={7} />
       <SlashWipe at={SCENES.b2.from} color={T.cream} dur={7} />
       <BarsWipe at={SCENES.b3t.from} dur={7} colors={[T.star, T.mint, T.ink]} />

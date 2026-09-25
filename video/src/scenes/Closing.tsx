@@ -2,6 +2,7 @@ import React from "react";
 import { AbsoluteFill, interpolate, Sequence, useCurrentFrame } from "remotion";
 import { LogoReveal, LuzSurBadge } from "../components/Brand";
 import { Character } from "../components/Character";
+import { Emoji3D, Marquee } from "../components/Emoji";
 import { MaskLines } from "../components/Marks";
 import { ArrowIcon } from "../components/Icons";
 import { SceneBg } from "../components/Layers";
@@ -43,6 +44,8 @@ const Punch: React.FC = () => (
     <div style={{ position: "absolute", left: 90, top: 560 }}>
       <MaskLines lines={["Más frecuencia.", "Más clientes.", "Más ventas."]} size={128} delay={2} gap={9} color={T.cream} accent={["frecuencia", "clientes", "ventas"]} />
     </div>
+    <Emoji3D name="chart_increasing" size={300} at={24} x={620} y={1080} rotate={-6} depth={1.4} />
+    <Emoji3D name="money_bag" size={190} at={30} x={420} y={1250} rotate={10} depth={1.2} />
   </AbsoluteFill>
 );
 
@@ -72,16 +75,13 @@ const Brand: React.FC = () => {
       <div style={{ position: "absolute", left: 0, right: 0, top: 590 }}>
         <Lines lines={["Convertí a tus clientes", "en mejores amigos."]} size={84} delay={18} lineGap={5} align="center" accent={["mejores", "amigos."]} />
       </div>
-      <div style={{ position: "absolute", left: 0, right: 0, top: 810, display: "flex", justifyContent: "center" }}>
-        <WordReveal text="Sin apps · Sin tarjetas · Solo WhatsApp" delay={34} per={2} style={{ ...body(42, T.inkSoft, 700), justifyContent: "center" }} wordStyle={(_, w) => (w === "·" ? { color: T.mint } : undefined)} />
-      </div>
-      <div style={{ position: "absolute", left: 0, right: 0, top: 910, display: "flex", justifyContent: "center" }}>
+      <div style={{ position: "absolute", left: 0, right: 0, top: 830, display: "flex", justifyContent: "center" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 18, background: T.ink, borderRadius: 100, padding: "28px 52px", opacity: btn, transform: `scale(${interpolate(btn, [0, 1], [0.6, 1])})`, boxShadow: "0 26px 50px -22px rgba(2,49,42,0.7)" }}>
           <span style={{ ...display(52, T.cream, 700) }}>Lo instalamos en tu restó</span>
           <ArrowIcon size={52} color={T.mint} style={{ transform: `translateX(${arrow}px)` }} />
         </div>
       </div>
-      <div style={{ position: "absolute", left: 0, right: 0, top: 1070, display: "flex", flexDirection: "column", alignItems: "center", gap: 14, opacity: contact, transform: `translateY(${(1 - contact) * 30}px)` }}>
+      <div style={{ position: "absolute", left: 0, right: 0, top: 990, display: "flex", flexDirection: "column", alignItems: "center", gap: 14, opacity: contact, transform: `translateY(${(1 - contact) * 30}px)` }}>
         <div style={{ display: "flex", alignItems: "center", gap: 16, ...display(56, T.ink, 800) }}>
           <PhoneGlyph size={58} color={T.mint} /> 2254447706
         </div>
@@ -89,10 +89,17 @@ const Brand: React.FC = () => {
           <CameraGlyph size={58} color={T.mint} /> @luz.sur.arg
         </div>
       </div>
-      <div style={{ position: "absolute", left: 0, right: 0, top: 1280, display: "flex", alignItems: "center", justifyContent: "center", gap: 18, opacity: sign }}>
+      <div style={{ position: "absolute", left: 0, right: 0, top: 1195, display: "flex", alignItems: "center", justifyContent: "center", gap: 18, opacity: sign }}>
         <span style={{ ...body(30, T.inkMuted, 600) }}>un producto de</span>
         <LuzSurBadge width={230} />
       </div>
+      {/* objetos 3D alrededor del logo */}
+      <Emoji3D name="star" size={130} at={10} x={40} y={200} rotate={-14} />
+      <Emoji3D name="red_heart" size={110} at={14} x={900} y={210} rotate={12} />
+      <Emoji3D name="wrapped_gift" size={130} at={18} x={880} y={1010} rotate={8} />
+      <Emoji3D name="hot_beverage" size={130} at={22} x={70} y={1020} rotate={-8} />
+      {/* cinta: sin apps, sin tarjetas, solo WhatsApp */}
+      <Marquee text="SIN APPS  ✦  SIN TARJETAS  ✦  SOLO WHATSAPP" y={1370} rotate={-5} bg={T.mint} color={T.ink} speed={5} size={50} at={30} />
       {/* amigos festejando */}
       <Friend at={14} x={-40} body="PointingUp" hair="Bun" face="SmileBig" width={330} />
       <Friend at={19} x={230} body="Device" hair="Long" face="LoveGrin" width={320} />

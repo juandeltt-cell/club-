@@ -2,9 +2,9 @@ import React from "react";
 import { noise2D } from "@remotion/noise";
 import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
 import { Character } from "../components/Character";
-import { StarIcon } from "../components/Icons";
+import { Emoji3D, Odometer } from "../components/Emoji";
 import { SceneBg } from "../components/Layers";
-import { Counter, ease, useIn, WordReveal } from "../components/Motion";
+import { ease, useIn, WordReveal } from "../components/Motion";
 import { display, Lines } from "../components/Type";
 import { T, theme } from "../theme";
 
@@ -16,19 +16,14 @@ export const Hook: React.FC = () => {
   return <AbsoluteFill>{frame < QUESTION_AT ? <Claim /> : <Question />}</AbsoluteFill>;
 };
 
-/** Una estrellita por visita: se van sumando al ritmo del contador. */
-const VisitStars: React.FC<{ at: number }> = ({ at }) => {
-  const frame = useCurrentFrame();
-  return (
-    <div style={{ display: "flex", gap: 14 }}>
-      {Array.from({ length: 12 }).map((_, i) => {
-        const p = ease(frame, [at + i * 2, at + i * 2 + 8], [0, 1], theme.ease.out);
-        const s = interpolate(p, [0, 0.6, 1], [0, 1.3, 1]);
-        return <StarIcon key={i} size={60} color={T.star} style={{ transform: `scale(${s}) rotate(${(1 - p) * -120}deg)`, opacity: Math.min(1, p * 2) }} />;
-      })}
-    </div>
-  );
-};
+/** Una estrellita 3D por visita: se van sumando al ritmo del contador. */
+const VisitStars: React.FC<{ at: number }> = ({ at }) => (
+  <div style={{ display: "flex", gap: 6 }}>
+    {Array.from({ length: 12 }).map((_, i) => (
+      <Emoji3D key={i} name="star" size={70} at={at + i * 2} float={0.3} depth={0.6} />
+    ))}
+  </div>
+);
 
 const Claim: React.FC = () => {
   const drop = useIn(8, theme.spring.bouncy);
@@ -46,7 +41,7 @@ const Claim: React.FC = () => {
               textShadow: `0 0 60px ${T.mintGlow}`,
             }}
           >
-            <Counter to={12} delay={8} />
+            <Odometer to={12} delay={8} size={400} color={T.mint} />
           </div>
           <div style={{ ...display(150), opacity: veces, transform: `translateX(${(1 - veces) * 40}px)` }}>veces</div>
         </div>

@@ -49,11 +49,13 @@ export const MaskLines: React.FC<{
     <div style={{ display: "flex", flexDirection: "column", alignItems: align === "center" ? "center" : "flex-start" }}>
       {lines.map((line, i) => {
         const p = ease(frame, [delay + i * gap, delay + i * gap + 14], [0, 1], theme.ease.out);
+        // peso variable: la línea entra fina y se "infla" hasta 800
+        const wght = ease(frame, [delay + i * gap + 4, delay + i * gap + 20], [260, 800], theme.ease.out);
         return (
           <div key={i} style={{ overflow: "hidden", paddingBottom: size * 0.12, marginBottom: -size * 0.08 }}>
             <div
               style={{
-                fontFamily: theme.fonts.display, fontWeight: 800, fontSize: size, lineHeight, letterSpacing: "-0.035em", color, whiteSpace: "nowrap",
+                fontFamily: theme.fonts.display, fontWeight: wght, fontSize: size, lineHeight, letterSpacing: "-0.035em", color, whiteSpace: "nowrap",
                 transform: `translateY(${(1 - p) * 110}%) rotate(${(1 - p) * 4}deg)`, transformOrigin: "0% 100%",
               }}
             >

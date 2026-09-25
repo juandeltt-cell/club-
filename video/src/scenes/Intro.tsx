@@ -3,7 +3,8 @@ import { AbsoluteFill, interpolate, random, useCurrentFrame } from "remotion";
 import { LogoReveal } from "../components/Brand";
 import { noise2D } from "@remotion/noise";
 import { Underline } from "../components/Marks";
-import { ChatIcon, GiftIcon, SparkleIcon, StarIcon } from "../components/Icons";
+import { Img, staticFile } from "remotion";
+import { Emoji3D } from "../components/Emoji";
 import { SceneBg } from "../components/Layers";
 import { ease, useBreathe, useIn, WordReveal } from "../components/Motion";
 import { body, display, Lines } from "../components/Type";
@@ -35,12 +36,12 @@ const Burst: React.FC<{ at: number; cx: number; cy: number; count?: number }> = 
         const a = random(`ba${i}`) * Math.PI * 2;
         const v = 22 + random(`bv${i}`) * 30;
         const d = v * t * (1 - t / 90);
-        const size = 30 + random(`bs${i}`) * 60;
+        const size = 50 + random(`bs${i}`) * 70;
         const o = interpolate(t, [0, 3, 30, 45], [0, 1, 1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
-        const colors = [T.star, T.mint, T.ink];
+        const names = ["star", "star", "sparkles", "red_heart", "glowing_star"];
         return (
           <div key={i} style={{ position: "absolute", left: cx + Math.cos(a) * d - size / 2, top: cy + Math.sin(a) * d - size / 2, opacity: o, transform: `rotate(${t * (6 + i)}deg)` }}>
-            <StarIcon size={size} color={colors[i % 3]} />
+            <Img src={staticFile(`emoji/${names[i % names.length]}.png`)} style={{ width: size, height: size, filter: "drop-shadow(0 8px 10px rgba(2,49,42,0.25))" }} />
           </div>
         );
       })}
@@ -68,7 +69,7 @@ export const LogoDrop: React.FC = () => {
       <div style={{ position: "absolute", left: 540 - 450, top: 540, transform: `scale(${logoBreathe})` }}>
         <LogoReveal width={900} delay={0} />
       </div>
-      <Burst at={2} cx={540} cy={660} />
+      <Burst at={2} cx={540} cy={660} count={22} />
       <div
         style={{
           position: "absolute", left: 0, right: 0, top: 800, display: "flex", justifyContent: "center", ...display(190, T.mint),
@@ -114,7 +115,7 @@ const FlyingBubble: React.FC<{ at: number; label: string; icon: React.ReactNode;
     <div
       style={{
         position: "absolute", left: x, top: y, display: "flex", alignItems: "center", gap: 14, background: T.white, borderRadius: "34px 34px 34px 8px",
-        padding: "20px 30px", whiteSpace: "nowrap", ...body(40, T.ink, 700), opacity: o, transform: `scale(${interpolate(p, [0, 1], [0.4, 1])}) rotate(${tilt}deg)`,
+        padding: "14px 30px 14px 18px", whiteSpace: "nowrap", ...body(40, T.ink, 700), opacity: o, transform: `scale(${interpolate(p, [0, 1], [0.4, 1])}) rotate(${tilt}deg)`,
         boxShadow: "0 16px 30px -12px rgba(0,0,0,0.5)",
       }}
     >
@@ -130,8 +131,8 @@ export const AiLine: React.FC = () => {
   return (
     <AbsoluteFill>
       <SceneBg variant="ink" />
-      <div style={{ position: "absolute", left: 540 - 80, top: 280, transform: `scale(${spark}) rotate(${frame * 1.5}deg)` }}>
-        <SparkleIcon size={160} color={T.mint} />
+      <div style={{ position: "absolute", left: 540 - 110, top: 250, transform: `scale(${spark})` }}>
+        <Emoji3D name="sparkles" size={220} at={0} float={1.4} />
       </div>
       <div style={{ position: "absolute", left: 0, right: 0, top: 500 }}>
         <Lines lines={["Un sistema de IA", "te sugiere", "qué enviarles…"]} size={104} delay={4} lineGap={5} color={T.cream} align="center" />
@@ -142,9 +143,9 @@ export const AiLine: React.FC = () => {
       <div style={{ position: "absolute", left: 250, top: 1062 }}>
         <Underline w={580} at={36} />
       </div>
-      <FlyingBubble at={42} tx={70} ty={1240} tilt={-5} label="¡Feliz cumple!" icon={<StarIcon size={42} color={T.star} />} />
-      <FlyingBubble at={48} tx={470} ty={1390} tilt={4} label="Tu premio te espera" icon={<GiftIcon size={42} color={T.ink} stroke={2} />} />
-      <FlyingBubble at={54} tx={140} ty={1550} tilt={-3} label="¡Te extrañamos!" icon={<ChatIcon size={42} color={T.mint} stroke={2} />} />
+      <FlyingBubble at={42} tx={70} ty={1240} tilt={-5} label="¡Feliz cumple!" icon={<Emoji3D name="birthday_cake" size={64} float={0} depth={0.4} />} />
+      <FlyingBubble at={48} tx={470} ty={1390} tilt={4} label="Tu premio te espera" icon={<Emoji3D name="wrapped_gift" size={64} float={0} depth={0.4} />} />
+      <FlyingBubble at={54} tx={140} ty={1550} tilt={-3} label="¡Te extrañamos!" icon={<Emoji3D name="red_heart" size={64} float={0} depth={0.4} />} />
     </AbsoluteFill>
   );
 };
