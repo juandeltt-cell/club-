@@ -203,12 +203,12 @@ El QR fijo en la mesa sirve solo para **conocer el programa o recuperar la tarje
 | Twilio | Tarifa de Meta + margen por mensaje (entrante y saliente) | SDK y consola | ❌ Suma costo por mensaje y un proveedor en el medio sin resolver nada difícil |
 | 360dialog / YCloud y otros BSP | Cuota mensual por número o margen | **Alta embebida (Embedded Signup) con coexistencia** ya lista | ⚠️ Solo como atajo si un restaurante exige usar el número que ya tiene antes de que Luz Sur sea Tech Provider (ver abajo) |
 
-**Coexistencia** permite conectar a la API el **mismo número** que el restaurante ya usa en la app WhatsApp Business: sigue chateando desde la app y el sistema manda por API. Es la experiencia ideal, pero se habilita mediante *Embedded Signup*, y para eso Luz Sur tiene que registrarse como **Tech Provider** de Meta (gratis, con verificación de negocio y revisión de la app, de semanas) — **no es algo que un negocio pueda activar por su cuenta sin un partner certificado**. Incluso una vez habilitada, tiene una condición operativa propia **de este modo, que el MVP con número dedicado no tiene**: **si nadie abre la app de WhatsApp Business en ese celular durante 7 días seguidos, la conexión con la API se corta** y hay que volver a vincularla. En un restaurante donde la app la usan a diario para pedidos y reservas no es un problema; si el número solo se usa esporádicamente, sí puede serlo. Es un argumento más a favor de arrancar con número dedicado en el MVP (§3.7): no depende de que nadie abra nada.
+**Coexistencia** permite conectar a la API el **mismo número** que el restaurante ya usa en la app WhatsApp Business: sigue chateando desde la app y el sistema manda por API. Es la experiencia ideal, pero se habilita mediante *Embedded Signup*, y para eso Luz Sur tiene que registrarse como **Tech Provider** de Meta (gratis, con verificación de negocio y revisión de la app, de semanas) — **no es algo que un negocio pueda activar por su cuenta sin un partner certificado**. Incluso una vez habilitada, tiene una condición operativa propia **de este modo, que el MVP con número dedicado no tiene**: **si nadie abre la app de WhatsApp Business en ese celular durante 7 días seguidos, la conexión con la API se corta** y hay que volver a vincularla. En un restaurante donde la app la usan a diario para pedidos y reservas no es un problema; si el número solo se usa esporádicamente, sí puede serlo. Es un argumento más a favor de arrancar con número dedicado en el MVP (§3.9): no depende de que nadie abra nada.
 
 - **MVP:** número nuevo dedicado por restaurante (una línea prepaga barata), con la WABA creada en el portfolio del restaurante. Alta manual: el restaurante agrega a Luz Sur como socio y se genera un token de *system user*. Así, cero proveedores.
 - **v2:** Luz Sur registrada como Tech Provider. Alta embebida en 5 minutos desde el panel y coexistencia con el número de siempre.
 
-### 3.8 Qué pasa si un cliente le escribe algo que no es un comando (una reserva, una pregunta) — indispensable en el MVP
+### 3.6 Qué pasa si un cliente le escribe algo que no es un comando (una reserva, una pregunta) — indispensable en el MVP
 
 Como nadie mira ese número en tiempo real, hay un riesgo real: un cliente le escribe "¿tienen mesa para 4 esta noche?" al número del club y, si el bot no hace nada con eso, el mensaje se pierde y el restaurante pierde una reserva sin saberlo. Esto no se resuelve explicándoselo al cliente — se resuelve en el software, y va en el MVP, no en v2.
 
@@ -220,24 +220,43 @@ Como nadie mira ese número en tiempo real, hay un riesgo real: un cliente le es
 - Es un mensaje de servicio (dentro de la ventana que abrió el propio cliente), así que no tiene costo de plantilla.
 - El cliente nunca queda esperando una respuesta que no va a llegar: la tiene al instante, aunque sea para redirigirlo.
 
-**Nada se pierde, aunque nadie lo vea en el momento:**
-
-```sql
-unmatched_messages   id, tenant_id, customer_phone_masked, body, wa_message_id,
-                     status ENUM('new','seen'), created_at, seen_by, seen_at
-```
-
-El panel muestra un aviso ("3 mensajes sin responder") con el texto completo, para que el dueño o el encargado lo vea al entrar y, si hace falta, llame al cliente por su cuenta. No es atención en tiempo real, pero tampoco es una pérdida silenciosa — es exactamente el mismo estándar que ya tiene la competencia (Lealtix, GastroStamps): ninguna atiende reservas por el número del programa de puntos, todas redirigen.
+Este mecanismo se apoya en el mismo registro de mensajes entrantes que resuelve el punto siguiente (§3.7): nada de esto necesita una tabla aparte.
 
 **Se lo explicita en la venta:** el número del club **no reemplaza** el WhatsApp de atención del restaurante — es un asistente automático acotado a sumar y canjear puntos. Las reservas y consultas siguen entrando exactamente por donde siempre entraron.
 
-### 3.6 Límites operativos de Meta que afectan al producto
+### 3.7 Visibilidad y control desde el panel: el restaurante ve el chat, aunque no tenga WhatsApp abierto
+
+Esta es la pregunta correcta después de sacar el WhatsApp de encima: si nadie mira el número, **¿cómo confía el dueño en que el sistema efectivamente manda los mensajes y en que no se le escapa nada de lo que contestan los clientes?** No se resuelve con confianza — se resuelve mostrándoselo, dentro del propio panel, sin depender de la app de WhatsApp para nada.
+
+**Idea central:** el panel reconstruye la conversación completa de cada cliente a partir de lo que el propio sistema ya guarda — no hace falta "espiar" WhatsApp, hace falta **no tirar nada de lo que ya pasa por el webhook**.
+
+```sql
+inbound_messages    id, tenant_id, customer_id NULL,           -- NULL si el número que escribe todavía no se identificó
+                    wa_message_id UNIQUE, body, media_type NULL,
+                    matched_as ENUM('visit_code','tarjeta','baja','canje','free_text'),
+                    status ENUM('new','seen'), seen_by NULL, seen_at NULL,
+                    created_at
+```
+
+Con esto más la tabla `outbound_messages` que ya existía (§4.2, con su `status` de entrega actualizado por los webhooks de Meta: `sent → delivered → read` o `failed`), el panel arma dos pantallas:
+
+1. **"Conversaciones"**: lista de clientes con el último mensaje (entrante o saliente) y un contador de `free_text` sin ver — el mismo aviso de §3.6, ahora integrado en una bandeja real en vez de solo una alerta suelta. Clic en un cliente → **el hilo completo, en burbujas, como un chat**: lo que mandó el sistema (con su tick de entregado/leído, sacado del webhook de estado) y lo que contestó el cliente, en orden cronológico. Es exactamente la vista que el dueño espera de "ver el chat con sus clientes", solo que vive en tu panel y no en la app de WhatsApp.
+2. **Responder desde el panel, dentro de la ventana de 24 hs:** si el último mensaje del cliente fue hace menos de 24 hs, aparece un campo de texto libre. Al enviarlo, el panel llama a la misma API y lo registra como `outbound_messages(category='service')` — es la ventana que abrió el propio cliente, sin costo de plantilla. Así, si alguien quiere responder algo puntual sin descolgar el teléfono, puede — sin que eso reemplace el WhatsApp de atención real para todo lo demás.
+
+**Cómo sabe el restaurante que los mensajes efectivamente se mandan** (la segunda mitad de la pregunta): cada fila de `outbound_messages` tiene un estado real, actualizado por los webhooks de estado de Meta (enviado, entregado, leído, fallido) — no es "creemos que salió", es el estado que Meta confirma. El panel muestra esto en tres lugares:
+- **En el hilo de cada cliente**, el tick de estado en cada mensaje (como en cualquier WhatsApp).
+- **En el dashboard**, un widget simple: mensajes enviados hoy/esta semana, tasa de entrega y cuántos fallaron, para detectar de un vistazo si algo se rompió (número desconectado, plantilla rechazada) sin tener que abrir cada conversación.
+- El **monitoreo externo** de §6.e ya cubre la parte técnica (¿el cron corrió? ¿la cola se está vaciando?); esto cubre la parte que le importa al dueño: ¿mis clientes están recibiendo lo que les mando?
+
+Esto va en el **MVP**, no en v2: sin esta visibilidad mínima, el sistema es una caja negra y ningún dueño de restaurante va a confiar en pagar por algo que no puede ver funcionar.
+
+### 3.8 Límites operativos de Meta que afectan al producto
 - **Límite de mensajes iniciados por el negocio:** un portfolio *no verificado* solo puede escribir a unos **250 destinatarios únicos cada 24 hs**. Una campaña a 1.200 personas tarda 5 días, y el aviso de baja a 2.000 clientes, 8 días (entra en los 30, pero justo). → La **verificación del negocio del restaurante en Meta** va en el checklist de alta, y el outbox reparte los envíos respetando el límite.
 - **Plantillas:** todo lo que se manda fuera de la ventana necesita una plantilla aprobada. Al dar de alta un restaurante, el sistema **crea por API las plantillas estándar** (aviso de baja, reactivación, cumpleaños, confirmación manual) en su WABA.
 - **Opt-out desde la interfaz de WhatsApp:** el usuario puede frenar el marketing desde la propia app. El webhook y los errores de envío correspondientes se tratan igual que un BAJA de marketing.
 - **Arrancar ya** con la verificación de negocio de Luz Sur en Meta. Sin eso no hay onboarding ágil para la temporada.
 
-### 3.7 El alta en la práctica: qué pide Meta, cuánto tarda, y si hace falta ir con el celular del restaurante
+### 3.9 El alta en la práctica: qué pide Meta, cuánto tarda, y si hace falta ir con el celular del restaurante
 
 **No hace falta ir al local con su celular.** El único momento en que se necesita el teléfono es para recibir **un código por SMS o llamada de 6 dígitos**, una sola vez. Se puede hacer 100% remoto: por videollamada o llamada normal, el dueño te lee el código que le llega, y listo. Tampoco hace falta que instale nada ni que abra la app de WhatsApp Business en ese número — de hecho, en el MVP **no debe tenerlo asociado a esa app** (ver más abajo).
 
@@ -310,6 +329,9 @@ campaigns          id, tenant_id, kind ENUM('manual','birthday','reactivation','
 outbound_messages  id, tenant_id, customer_id, campaign_id NULL, category ENUM('service','utility','marketing'),
                    template_name NULL, body_rendered, status ENUM('queued','sent','delivered','read','failed','suppressed'),
                    wa_message_id, attempts, next_attempt_at, error_code, cost_est_usd, created_at
+inbound_messages   id, tenant_id, customer_id NULL, wa_message_id UNIQUE, body, media_type NULL,
+                   matched_as ENUM('visit_code','tarjeta','baja','canje','free_text'),
+                   status ENUM('new','seen'), seen_by NULL, seen_at NULL, created_at   -- alimenta el mini-inbox de §3.7
 webhook_events     id, tenant_id, wa_message_id UNIQUE, payload JSON, processed_at   -- idempotencia; retención 90 días
 
 legal_documents    id, tenant_id NULL, kind ENUM('consent_msg','tyc_short','tyc_full','points_definition',
@@ -471,7 +493,8 @@ Hoy es 25/09/2026. Con una persona part-time y Claude Code, **un MVP de 8–10 s
 
 **WhatsApp**
 - Cloud API directa, WABA en el portfolio del restaurante, creación automática de plantillas y outbox con límite de ritmo.
-- **Respuesta automática a mensajes no reconocidos** con redirección al teléfono de atención real del restaurante (§3.8) + aviso en el panel. Nunca silencio ante un mensaje que no es un comando.
+- **Respuesta automática a mensajes no reconocidos** con redirección al teléfono de atención real del restaurante (§3.6) + aviso en el panel. Nunca silencio ante un mensaje que no es un comando.
+- **Mini-inbox en el panel** (§3.7): hilo de conversación reconstruido por cliente, con estado de entrega real y respuesta manual dentro de la ventana de 24 hs. Sin esto el sistema es una caja negra.
 
 **Legal (innegociable)**
 - `legal_documents` versionado + editor, `consent_events`, BAJA, **máquina de estados de baja completa** (aviso, recordatorios, cierre, archivo cifrado, purga a los 90 días), `audit_log`.
