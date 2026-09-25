@@ -143,7 +143,7 @@ export const OwnerMessages: React.FC = () => {
               Aprobar y enviar a los 4
             </div>
           </div>
-          <Tap x={260} y={620} at={160} />
+          <Tap x={300} y={447} at={160} />
         </div>
       )}
 
