@@ -28,7 +28,7 @@ const Claim: React.FC = () => {
           <div
             style={{
               ...display(400, T.mint), lineHeight: 0.9, opacity: Math.min(1, drop * 1.5),
-              transform: `translateY(${interpolate(drop, [0, 1], [-260, 0])}px) scale(${interpolate(drop, [0, 1], [1.25, 1])})`,
+              transform: `translateY(${interpolate(drop, [0, 1], [60, 0])}px) scale(${interpolate(drop, [0, 1], [1.5, 1])})`, transformOrigin: "30% 70%",
               textShadow: `0 0 60px ${T.mintGlow}`,
             }}
           >

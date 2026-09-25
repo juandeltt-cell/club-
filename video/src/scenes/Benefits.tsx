@@ -68,9 +68,8 @@ export const Benefit1: React.FC = () => {
         <BenefitHeader num={1} lines={["Sabés quién es", "cada cliente"]} at={0} />
       </div>
       <Sub text="Nuevos, frecuentes y los que dejaron de venir." from={16} top={540} />
-      <Shot from={8} to={120} top={660}>
-        <div style={{ width: WIN_W, background: T.white, borderRadius: 40, padding: "34px 40px", border: `2px solid ${T.line}`, boxShadow: "0 30px 60px -30px rgba(2,49,42,0.35)" }}>
-          <div style={{ ...body(26, T.inkMuted, 700), letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: 18 }}>Tus clientes</div>
+      <Shot from={8} to={120} top={630}>
+        <div style={{ width: WIN_W, background: T.white, borderRadius: 40, padding: "26px 40px", border: `2px solid ${T.line}`, boxShadow: "0 30px 60px -30px rgba(2,49,42,0.35)" }}>
           <PanelShot
             frames={["panel/seg-all.png", "panel/seg-new.png", "panel/seg-frequent.png", "panel/seg-risk.png"]}
             index={seg} srcWidth={1044} srcHeight={372} width={WIN_W - 80} radius={0}
@@ -78,9 +77,9 @@ export const Benefit1: React.FC = () => {
           />
         </div>
       </Shot>
-      <Shot from={50} to={120} top={1050}>
-        <PanelShot frames={["panel/ficha-juli.png"]} srcWidth={1290} srcHeight={820} width={WIN_W} />
-        <HighlightRing x={40} y={414} w={262} h={122} at={78} radius={24} />
+      <Shot from={50} to={120} top={1040}>
+        <PanelShot frames={["panel/ficha-juli.png"]} srcWidth={1290} srcHeight={860} width={WIN_W} />
+        <HighlightRing x={48} y={533} w={572} h={76} at={76} radius={38} />
       </Shot>
     </AbsoluteFill>
   );
@@ -108,7 +107,7 @@ export const Benefit2: React.FC = () => {
 
       <Shot from={10} to={100} top={690}>
         <PanelShot frames={["panel/sugg-birthday.png"]} srcWidth={1194} srcTop={pan} srcHeight={870} width={WIN_W} />
-        <HighlightRing x={188} y={150 * k} w={(1150 - 240) * k} h={140 * k} at={26} radius={20} />
+        <HighlightRing x={188} y={146 * k} w={(1150 - 240) * k} h={150 * k} at={26} until={58} radius={20} />
         <Tap x={380 * k} y={(1465 - 830) * k} at={92} />
       </Shot>
 
@@ -152,7 +151,7 @@ export const Benefit3: React.FC = () => {
 
       <Shot from={58} to={120} top={660}>
         <PanelShot frames={["panel/ficha-returned.png"]} srcWidth={1290} srcHeight={1180} width={WIN_W} />
-        <HighlightRing x={345} y={172} w={140} h={48} at={72} radius={24} />
+        <HighlightRing x={436} y={220} w={178} h={58} at={72} radius={30} />
       </Shot>
       {frame >= 78 && (
         <div

@@ -189,7 +189,7 @@ const ChatScreen: React.FC = () => {
             <div style={{ ...body(30, T.ink, 700) }}>¡Sumaste tu 3.ª estrellita, Juli!</div>
             <div style={{ display: "flex", gap: 6, margin: "12px 0" }}>
               {[0, 1, 2].map((i) => (
-                <StarIcon key={i} size={44} color={T.star} style={{ opacity: frame >= 200 + i * 5 ? 0.25 : 1 }} />
+                <StarIcon key={i} size={44} color={T.star} style={{ opacity: frame >= 200 + i * 5 && frame < 222 + i * 5 ? 0.25 : 1 }} />
               ))}
               {[3, 4].map((i) => <StarIcon key={i} size={44} color={T.line} />)}
             </div>
@@ -281,7 +281,7 @@ const CardScreen: React.FC = () => {
               {[0, 1, 2, 3, 4].map((i) => <Slot key={i} i={i} filled={i < filled} fillAt={i === 3 ? 300 : i === 4 ? 315 : -99} />)}
             </div>
             <div style={{ ...display(40, T.cream, 700), marginTop: 40, letterSpacing: "-0.02em" }}>
-              {done ? "¡Ganaste tu postre!" : `Te faltan ${5 - filled} para tu postre`}
+              {done ? "¡Ganaste tu postre!" : `Te ${5 - filled === 1 ? "falta" : "faltan"} ${5 - filled} para tu postre`}
             </div>
             <div style={{ height: 14, borderRadius: 14, background: "rgba(253,249,242,0.15)", marginTop: 22, overflow: "hidden" }}>
               <div style={{ height: "100%", width: `${(filled / 5) * 100}%`, background: T.star, borderRadius: 14 }} />

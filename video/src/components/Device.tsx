@@ -129,12 +129,14 @@ export const PanelShot: React.FC<{
 };
 
 /** Anillo menta que se dibuja alrededor de un elemento para resaltarlo. */
-export const HighlightRing: React.FC<{ x: number; y: number; w: number; h: number; at: number; radius?: number }> = ({ x, y, w, h, at, radius = 28 }) => {
+export const HighlightRing: React.FC<{ x: number; y: number; w: number; h: number; at: number; until?: number; radius?: number }> = ({ x, y, w, h, at, until = 1e9, radius = 28 }) => {
   const frame = useCurrentFrame();
   const p = ease(frame, [at, at + 14], [0, 1]);
+  const gone = ease(frame, [until, until + 6], [0, 1], theme.ease.in);
+  if (frame > until + 6) return null;
   const per = 2 * (w + h);
   return (
-    <svg style={{ position: "absolute", left: x - 10, top: y - 10, overflow: "visible", pointerEvents: "none" }} width={w + 20} height={h + 20}>
+    <svg style={{ position: "absolute", left: x - 10, top: y - 10, overflow: "visible", pointerEvents: "none", opacity: 1 - gone }} width={w + 20} height={h + 20}>
       <rect x={4} y={4} width={w + 12} height={h + 12} rx={radius} fill="none" stroke={T.mint} strokeWidth={7}
         strokeDasharray={per + 60} strokeDashoffset={(per + 60) * (1 - p)} strokeLinecap="round"
         style={{ filter: `drop-shadow(0 0 14px ${T.mintGlow})` }} />

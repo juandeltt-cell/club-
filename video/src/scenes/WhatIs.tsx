@@ -37,7 +37,7 @@ export const WhatIs: React.FC = () => {
             delay={44}
             per={4}
             exitAt={75}
-            style={{ ...display(96), justifyContent: "center" }}
+            style={{ ...display(84), justifyContent: "center" }}
             wordStyle={(i) => (i === 3 ? { color: T.mint } : undefined)}
           />
         </div>
@@ -47,13 +47,13 @@ export const WhatIs: React.FC = () => {
       {frame >= 80 && (
         <div
           style={{
-            position: "absolute", left: 90, top: interpolate(defShrink, [0, 1], [640, 500]),
-            transform: `scale(${interpolate(defShrink, [0, 1], [1, 0.62])})`, transformOrigin: "0% 0%",
+            position: "absolute", left: 90, width: 980, whiteSpace: "nowrap", top: interpolate(defShrink, [0, 1], [640, 470]),
+            transform: `scale(${interpolate(defShrink, [0, 1], [1, 0.56])})`, transformOrigin: "0% 0%",
           }}
         >
           <Lines
             lines={["Un nuevo sistema", "de fidelización", "de clientes", "para restaurantes."]}
-            size={122}
+            size={112}
             delay={85}
             lineGap={6}
             accent={["fidelización", "clientes"]}
@@ -64,7 +64,7 @@ export const WhatIs: React.FC = () => {
 
       {/* 2c · Qué hace, en cuatro líneas */}
       {frame >= 175 && (
-        <div style={{ position: "absolute", left: 90, right: 70, top: 880, display: "flex", flexDirection: "column", gap: 26 }}>
+        <div style={{ position: "absolute", left: 90, right: 70, top: 800, display: "flex", flexDirection: "column", gap: 26 }}>
           <Row at={180} icon={<RowStar />} text="Tus clientes suman estrellitas en cada visita." />
           <Row at={205} icon={<RowGift />} text="Las canjean por premios que vos elegís." />
           <Row at={230} icon={<PersonIcon size={62} color={T.ink} stroke={2} />} text="Vos sabés quién es cada uno." />
