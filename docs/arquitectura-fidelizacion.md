@@ -448,6 +448,92 @@ Hoy es 25/09/2026. Con una persona part-time y Claude Code, **un MVP de 8–10 s
 
 ---
 
+## 9. Precio, formato comercial y unit economics
+
+*Añadido en una segunda pasada, a pedido explícito. Las cifras de costo real de infraestructura y de mensajería son datos duros; las de tiempo de soporte y de desarrollo son estimaciones con una tarifa/hora que se puede ajustar — el método importa más que el número exacto.*
+Referencia de tipo de cambio usada: dólar oficial ≈ **ARS 1.500/USD** (25/09/2026). Actualizar antes de fijar precios en pesos.
+
+### 9.1 Costo real para Luz Sur, no lo que "parece caro"
+
+**Fijos, compartidos entre todos los restaurantes (no crecen por cliente nuevo):**
+
+| Ítem | Costo |
+|---|---|
+| Plan Hostinger dedicado (§0.2) | ≈ US$10–15/mes |
+| Backup cifrado offsite (decenas de GB) | < US$1/mes |
+| Dominio del producto | ≈ US$1,5/mes prorrateado |
+| Monitoreo externo | US$0 (nivel gratuito alcanza a este volumen) |
+| **Total fijo** | **≈ US$15/mes**, repartido entre todos los tenants activos |
+
+**Variables, por restaurante:**
+
+| Ítem | Costo | Nota |
+|---|---|---|
+| Resumen semanal con IA (§5) | ≈ US$0,20–0,50/mes | Un modelo chico con un prompt corto; irrelevante en el costo total |
+| WhatsApp (mensajes) | **US$0 para Luz Sur** | Decisión clave de §3.3: la WABA vive en el portfolio de Meta *del restaurante*, así que Meta le cobra a él directamente con su propia tarjeta. Luz Sur no paga un solo mensaje ni asume el riesgo de una campaña cara |
+| **Soporte y operación** (el costo real) | ≈ **US$15–25/mes en temporada alta**, casi US$0 en temporada baja | Alta (3–5 hs una vez: branding, verificación de WhatsApp, talonarios, capacitación) + acompañamiento mensual (media hora a una hora: dudas, ajustes de premios, alguna campaña armada a pedido). Calculado a ≈ US$15–25/hora, una tarifa de referencia para trabajo freelance calificado en Argentina — ajustable |
+
+**Conclusión que cambia cómo pensar el precio:** la infraestructura y la IA son casi gratis a esta escala, y el mensaje de WhatsApp no lo pagás vos. **El costo real es tu tiempo de onboarding y soporte**, no el servidor. El precio tiene que cubrir *eso*, no "el hosting".
+
+### 9.2 Costo de desarrollo (inversión única, no mensual)
+MVP de 8–10 semanas part-time (≈120–200 horas totales) a una tarifa de construcción de producto (más alta que la de soporte porque es un activo, no una tarea repetida), digamos US$25–35/hora → **inversión total ≈ US$3.000–7.000**. Es un costo de una sola vez que se recupera con la base de clientes de las primeras temporadas, no algo que haya que cobrarle a cada restaurante por separado.
+
+### 9.3 Qué cobran los competidores, como referencia de mercado
+- **Kivly** (fidelización con tarjeta digital, ecosistema Shopify): arranca en **US$29/mes**.
+- **Lealtix** (México, CRM + fidelización más completo): **$1.500–3.500+ MXN/mes ≈ US$75–175/mes**.
+- **Software de gestión para restaurantes** en general (reservas, ERP): planes básicos desde **€29–50/mes**, los completos **€100–150+/mes**.
+
+Tu producto es más angosto que Lealtix o Wave IA (no es un CRM ni un bot conversacional completo: es fidelización + WhatsApp + IA liviana), pero resuelve algo puntual muy bien y sin fricción de instalar nada. Eso lo ubica **por debajo de un CRM completo y por encima de un simple sello de cartulina digitalizado**.
+
+### 9.4 Formato comercial: por qué suscripción y no otra cosa
+
+| Formato | Por qué sí o por qué no |
+|---|---|
+| **Suscripción mensual** ✅ | Ingreso predecible, es el estándar que cualquier dueño de restaurante ya entiende (lo mismo que paga por el sistema de reservas o el POS), y alinea el cobro con el soporte continuo que en realidad estás dando |
+| Pago único / licencia | ❌ No cubre el soporte, los cambios de temporada ni el mantenimiento de un desarrollador part-time. Sin ingreso recurrente, cada restaurante nuevo es una carga fija sin financiamiento |
+| Comisión por punto canjeado | ❌ Genera fricción rara ("me cobrás por usar mi propio programa"), es difícil de explicar y de facturar, y castiga al restaurante que más éxito tiene con el programa |
+| Freemium | ❌ A esta escala, un plan gratis igual genera soporte y no genera caja. Puede tener sentido como *gancho para el primer piloto*, no como modelo general |
+
+**Recomendación: suscripción mensual por restaurante, con precio de referencia en USD (por la inflación argentina) y cobro en ARS al tipo de cambio del mes.** Es lo que ya hacen Kivly y Lealtix, y es lo que cualquier PyME de la costa ya paga por otras herramientas.
+
+### 9.5 Estructura de precios propuesta
+
+**Fee de alta (una vez por restaurante): US$100 (≈ ARS 150.000).**
+Cubre el trabajo real de onboarding: ayuda con la verificación del negocio en Meta, carga de marca y premios, generación de los talonarios impresos y la capacitación del personal. Sirve además como filtro: un restaurante que no lo paga no está realmente comprometido con arrancar la temporada.
+→ Para los primeros 2–3 restaurantes piloto (Barbados y algún otro conocido), **bonificalo o reducilo a cambio de testimonio y caso de éxito documentado** — es marketing, no pérdida.
+
+**Planes mensuales, por volumen de clientes activos** (el volumen es lo que más correlaciona con el valor que reciben y con cuánto soporte te demandan):
+
+| Plan | Clientes activos | Precio de referencia | En ARS (≈1.500) |
+|---|---|---|---|
+| **Base** | hasta 300 | US$29/mes | ≈ $43.500 |
+| **Estándar** (el esperable para la mayoría en temporada) | 300–1.500 | US$49/mes | ≈ $73.500 |
+| **Pro** | +1.500 o varias sucursales, soporte prioritario | US$79/mes | ≈ $118.500 |
+
+El plan se recalcula automáticamente según `customers.status='active'` contado por tenant; si un restaurante cruza el umbral dos meses seguidos, el sistema lo sugiere en el panel (no lo sube solo).
+
+**Modo invierno (crítico dado el riesgo de estacionalidad de §7):** en vez de perder al cliente entre abril y noviembre, ofrecer una **pausa a mitad de precio** (o directamente sin cargo si el contrato es anual) que mantiene los datos, el número de WhatsApp y la landing activos pero sin campañas. Reactivar en diciembre no vuelve a cobrar el fee de alta. Esto es lo que más protege el negocio de Luz Sur frente al problema #1 detectado en §7: es mucho más barato retener a mitad de precio que volver a vender el fee de alta cada temporada.
+
+**Descuento por pago de temporada completa:** 6 meses (diciembre–mayo) por adelantado con **15–20 % de descuento**. Mejora el flujo de caja de Luz Sur y baja la fricción de cobro mensual repetido con una sola persona operando.
+
+### 9.6 Unit economics (plan Estándar, temporada alta, por restaurante)
+
+| | Monto |
+|---|---|
+| Ingreso mensual | US$49 |
+| Costo real (soporte + infra prorrateada + IA) | ≈ US$20 |
+| **Margen bruto** | **≈ US$29/mes (≈59 %)** |
+| Margen en temporada baja (modo invierno, a mitad de precio) | Similar o mejor en términos relativos: el ingreso baja a la mitad pero el soporte casi desaparece |
+
+**Recuperar la inversión del MVP** (≈US$3.000–7.000, §9.2): con 15 restaurantes activos en plan Estándar durante una temporada de 6 meses, el margen acumulado es de ≈US$2.600. Es decir, **la primera temporada no termina de pagar el desarrollo si el punto de partida son ~15 clientes**; con 25–30 restaurantes (alcanzable en la segunda temporada si el piloto funciona) se cubre en un semestre. No es un problema: es el ritmo normal de un producto que arranca — lo importante es que **cada restaurante, desde el primer mes, deja margen positivo** y no subsidia al siguiente.
+
+### 9.7 Qué vender aparte (no meter en el plan base)
+- Diseño de material impreso extra (cartelería de mesa, stickers) más allá del talonario estándar: cargo único chico.
+- Alta de una sucursal adicional del mismo restaurante: fracción del plan, no el plan completo de nuevo (comparten marca y reglas, no comparten local).
+- Coexistencia con el número de WhatsApp que el restaurante ya usa (v2, §3.5): valor agregado real, puede justificar el salto del plan Base al Estándar por sí solo.
+
+---
+
 ## Resumen de recomendaciones
 
 | Tema | Recomendación |
@@ -459,6 +545,12 @@ Hoy es 25/09/2026. Con una persona part-time y Claude Code, **un MVP de 8–10 s
 | Datos | Base compartida con `tenant_id` + global scope, ledger solo de inserción, reglas versionadas y segmentos como filtros. |
 | IA | Resumen semanal: métricas agregadas por SQL → LLM → sugerencias + borrador de campaña aprobable con un toque. |
 | Legal | Todo como datos versionados (`legal_documents`, `consent_events`) y una máquina de estados de baja con jobs; ningún texto legal en el código. |
+| Precio | Suscripción mensual por nivel de clientes activos (US$29/49/79), fee de alta único (~US$100), y modo invierno a mitad de precio para no perder al cliente en la temporada baja. |
+
+## Fuentes (§9, precios)
+- [Kivly — Fidelización | Shopify App Store](https://apps.shopify.com/kivly-fidelizacion)
+- [Lealtix — Suite de Inteligencia y Administración](https://github.com/syborx-git/lealtix-main/issues/138)
+- [Cotización del dólar oficial, 25/09/2026 — qpasó](https://qpaso.ar/finanzas/dolar/2026/septiembre)
 
 ## Fuentes
 - [Pricing on the WhatsApp Business Platform | Meta for Developers](https://developers.facebook.com/documentation/business-messaging/whatsapp/pricing)
