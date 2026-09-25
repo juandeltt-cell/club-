@@ -152,7 +152,7 @@ export const StepScan: React.FC = () => {
               <AbsoluteFill style={{ background: T.cream }}>
                 <div style={{ background: T.ink, padding: "96px 34px 36px" }}>
                   <div style={{ ...display(54, T.cream) }}>{VENUE}</div>
-                  <div style={{ ...body(28, "rgba(253,249,242,0.85)", 600), marginTop: 6 }}>Sumate al club y ganá premios</div>
+                  <div style={{ ...body(28, "rgba(253,249,242,0.85)", 600), marginTop: 6 }}>Sumate a Mejores Amigos y ganá premios</div>
                 </div>
                 <div style={{ padding: "34px 30px", display: "flex", flexDirection: "column", gap: 26 }}>
                   <Field label="Tu nombre" value={<Typed text="Juli" from={92} perChar={2} />} />
