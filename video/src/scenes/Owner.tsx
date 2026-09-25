@@ -118,7 +118,7 @@ const TitleCard: React.FC<{ n: number }> = ({ n }) => {
         0{n}
       </div>
       {/* línea de avance: beneficio n de 4 */}
-      <div style={{ position: "absolute", left: 90, top: 300, display: "flex", alignItems: "center", gap: 14 }}>
+      <div style={{ position: "absolute", left: 90, top: 420, display: "flex", alignItems: "center", gap: 14 }}>
         <div style={{ ...body(34, fg, 800), letterSpacing: "0.14em", marginRight: 12, opacity: num }}>BENEFICIO {n}/4</div>
         {[1, 2, 3, 4].map((i) => {
           const fill = i < n ? 1 : i === n ? ease(frame, [4, 20], [0, 1]) : 0;
@@ -130,13 +130,13 @@ const TitleCard: React.FC<{ n: number }> = ({ n }) => {
         })}
       </div>
       <CameraMotionBlur samples={6} shutterAngle={160}>
-        <div style={{ position: "absolute", left: 86, right: 40, top: 430 }}>
+        <div style={{ position: "absolute", left: 86, right: 40, top: 540 }}>
           <MaskLines lines={t.lines} size={t.size} delay={3} gap={4} color={fg} accent={t.accent} accentColor={acc} />
         </div>
       </CameraMotionBlur>
       <div
         style={{
-          position: "absolute", left: 90, right: 90, top: 430 + t.lines.length * t.size * 1.06 + 50, ...body(50, fg, 600), lineHeight: 1.25,
+          position: "absolute", left: 90, right: 90, top: 540 + t.lines.length * t.size * 1.06 + 50, ...body(50, fg, 600), lineHeight: 1.25,
           opacity: subIn * (dark ? 0.9 : 1), transform: `translateY(${(1 - subIn) * 24}px)`,
         }}
       >
@@ -167,7 +167,7 @@ export const OwnerKnows: React.FC = () => {
         </div>
       </Shot>
       <Shot from={36} to={122} top={830}>
-        <PanelShot frames={["panel/ficha-juli.png"]} srcWidth={1290} srcHeight={860} width={WIN_W}>
+        <PanelShot frames={["panel/ficha-juli.png"]} srcWidth={1290} srcHeight={880} width={WIN_W}>
           <Spotlight x={72 * k} y={450 * k} w={356 * k} h={215 * k} at={58} until={84} />
           <Spotlight x={72 * k} y={737 * k} w={780 * k} h={93 * k} at={88} radius={40} />
         </PanelShot>
