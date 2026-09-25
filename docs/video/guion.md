@@ -1,109 +1,87 @@
-# Mejores Amigos — Guion del video institucional (v2)
+# Mejores Amigos — Guion del reel (v3)
 
-**Formato:** 1920×1080 (16:9) · 30 fps · **~90 segundos**
-**Enfoque:** explicar el producto **paso a paso**: qué es, para qué le sirve al restaurante y cómo funciona de punta a punta, mostrando las pantallas reales (lo que ve el cliente, los mensajes y el panel del dueño). Lo de "sin app" queda como una línea al final, no como eje.
-**Ejemplos (ficticios):** restaurante *La Farola* · clienta *Sofi* · premio *postre de regalo a las 5 estrellitas*.
-
-## Recurso visual que recorre todo el video
-- **Contador de pasos** fijo en la esquina superior izquierda (`PASO 1 · 7`) con una barra de progreso que avanza. Ordena la explicación y le deja claro al espectador en qué parte está.
-- **Pantalla partida** en los pasos que la necesitan: a la izquierda, el **teléfono del cliente**; a la derecha, un **texto grande** que explica el paso en 4–6 palabras con un subtítulo corto.
-- La **sonrisa del logo** funciona como elemento de transición: se dibuja o se "guiña" al pasar de un paso a otro.
+**Formato:** vertical **1080×1920 (9:16)** · 30 fps · **~45 segundos**
+**Destino:** Instagram, TikTok y estados de WhatsApp. Tiene que frenar el scroll en el primer segundo, explicar el producto y vender.
+**Estilo:** tipografía gigante y cinética (palabras que golpean, escalan y se apilan), cortes con ritmo de música, pantallas del producto en movimiento constante y la sonrisa del logo como hilo visual. Todo en la paleta de Mejores Amigos: verde oscuro, verde menta y crema.
+**Zona segura:** lo importante va en el 75 % central vertical. Arriba y abajo lo tapan la interfaz de Instagram y TikTok.
+**Ejemplo (ficticio):** restaurante *Brasa & Médano* · clienta *Sofi* · premio *postre de regalo a las 5 estrellitas*.
+**Sin textos legales:** es una pieza promocional.
 
 ---
 
-## 0 · Firma (0:00 – 0:03)
-Fondo oscuro. Logo de Luz Sur chico; "sur" se enciende en cian. → *Luz Sur presenta*
+## 1 · Gancho (0:00 – 0:04)
+Arranca con movimiento desde el primer cuadro. Las palabras entran de a una, golpeando al ritmo del beat:
+> **Tu mejor cliente**
+> **vino 12 veces**
+> **este verano.**
 
-## 1 · Qué es (0:03 – 0:11)
-Fondo crema. Se dibuja la sonrisa, caen los dos puntitos y se arma el logo de **Mejores Amigos**.
-**EN PANTALLA:** *El programa de clientes frecuentes de tu restaurante.*
-Subtítulo: *Premia a los que vuelven. Y hace que vuelvan más.*
+Corte seco, fondo verde oscuro:
+> **¿Sabés cómo se llama?**
 
-## 2 · Para qué te sirve (0:11 – 0:19)
-Tres tarjetas entran escalonadas, cada una con un ícono dibujado en código:
-1. **Que vuelvan más seguido.** Cada visita suma estrellitas y cada premio es una excusa para volver.
-2. **Saber quién es quién.** Quiénes son nuevos, quiénes son fieles y quiénes dejaron de venir.
-3. **Hablarles en el momento justo,** por el canal que ya usan: WhatsApp.
+*(Un signo de pregunta gigante gira y se convierte en la sonrisa del logo, que empalma con la escena siguiente.)*
 
-Cierre del bloque: *Así funciona →* y arranca el contador de pasos.
-
----
-
-## PASO 1 · El cliente escanea el QR (0:19 – 0:27)
-**VISUAL:** primer plano de una mesa con un portacartel "Sumá estrellitas en La Farola" y su código QR. Entra un teléfono, aparece el recuadro de escaneo, un destello, y se abre la **página de La Farola**:
-- logo del restaurante y color de marca;
-- *"Sumá estrellitas en cada visita"*;
-- la lista de premios: ⭐×5 postre de regalo · ⭐×10 plato principal · ⭐×15 cena para dos;
-- botón verde **"Sumar mis estrellitas"**.
-
-**TEXTO:** *Escanea el QR de la mesa.* / *Ve los premios del lugar.*
-
-## PASO 2 · Se suma con su WhatsApp (0:27 – 0:35)
-**VISUAL:** un dedo toca el botón y el teléfono pasa al **chat de WhatsApp con La Farola**. El mensaje ya está escrito (*"Quiero sumar mis estrellitas 🌟 #LF-8K2P"*), sale y le aparece la doble tilde. En un segundo llega la respuesta:
-> *¡Hola Sofi! Bienvenida al club de La Farola 🎉*
-> *Sumaste tu **1.ª estrellita** ⭐*
-> *Tu tarjeta: lafarola.mejoresamigos.ar/t/…*
-> *Usamos tu número solo para este programa. Para darte de baja escribí BAJA.*
-
-**TEXTO:** *Se suma con un WhatsApp.* / *Queda registrado al instante.*
-
-## PASO 3 · Su tarjeta personal (0:35 – 0:44)
-**VISUAL:** toca el link y se abre la **tarjeta digital**: *"Hola, Sofi"*, cinco lugares de estrellita y el historial de visitas. Corte rítmico: "visita 2", "visita 3"… y en cada una una estrellita salta y se llena con un pop. La barra muestra *"Te falta 1 para tu postre de regalo"*.
-
-**TEXTO:** *Su tarjeta, siempre a mano.* / *Ve su progreso sin loguearse.*
-
-## PASO 4 · Canjea su premio (0:44 – 0:51)
-**VISUAL:** se llena la quinta estrellita, estalla un confeti chico hecho con estrellitas y aparece la tarjeta **"🍰 ¡Postre de regalo!"** con un código de canje de 6 dígitos. Al lado, una tablet del mostrador: el mozo ingresa el código y aparece **"Canje confirmado ✓"**.
-
-**TEXTO:** *Canjea en el local.* / *El mozo lo confirma en un toque.*
+## 2 · Qué es (0:04 – 0:08)
+La sonrisa se asienta, caen los dos puntitos y aparece el logo de **Mejores Amigos**.
+> **El club de clientes de tu restaurante.**
+> *Funciona por WhatsApp.*
 
 ---
 
-## PASO 5 · El restaurante lo ve todo (0:51 – 1:02)
-**VISUAL:** transición al **panel de La Farola** (la página HTML real, grabada navegándola), dentro de un marco de notebook.
-1. **Resumen:** 412 clientes · 1.286 visitas este mes · 94 premios canjeados, con los números contando hacia arriba.
-2. **Segmentos:** tres chips que se iluminan de a uno, **Nuevos 63 · Frecuentes 148 · En riesgo 37**.
-3. Clic en **Sofi** → su ficha: 5 visitas, última hace 4 días, premio canjeado.
+## 3 · Cómo funciona, en 3 pasos (0:08 – 0:22)
+Un teléfono al centro que rota y se acerca entre paso y paso. Arriba, un número grande indica el paso (**01 · 02 · 03**).
 
-**TEXTO:** *Conocé a cada cliente.* / *Nuevos, frecuentes y los que dejaron de venir.*
+**01 — Escanea el QR** (0:08 – 0:12)
+Un QR se arma cuadradito por cuadradito sobre un cartelito de mesa de Brasa & Médano. Pasa una línea de escaneo, un destello, y el teléfono muestra los premios del lugar (⭐5 postre · ⭐10 plato · ⭐15 cena para dos).
 
-## PASO 6 · La IA te sugiere qué hacer (1:02 – 1:14)
-**VISUAL:** en el panel, la sección **"Sugerencias de la semana"**. Entran tres tarjetas escalonadas, con la primera destacada:
-- 💡 *"37 clientes frecuentes no vienen hace más de 3 semanas. Mandales un 2×1 en postres para este jueves."* → **[Preparar campaña]**
-- 🎂 *"4 clientes cumplen años esta semana. Un saludo con regalo suele traerlos."*
-- 📉 *"Los martes son tu día más flojo. Probá doble estrellita los martes."*
+**02 — Suma estrellitas por WhatsApp** (0:12 – 0:17)
+Se abre el chat y llega la burbuja:
+> *¡Sumaste tu 3.ª estrellita, Sofi! ⭐⭐⭐*
+> *Te faltan 2 para tu postre de regalo 🍰*
 
-Clic en **Preparar campaña** → vista previa del mensaje de WhatsApp, destinatarios (*37 clientes en riesgo*) → botón **Enviar**.
+Tres estrellitas saltan desde la burbuja hacia la pantalla, cada una con su *pop*.
 
-**TEXTO:** *La IA te dice a quién escribirle.* / *Vos aprobás y se envía.*
-
-## PASO 7 · El mensaje llega, el cliente vuelve (1:14 – 1:22)
-**VISUAL:** vuelve el teléfono de Sofi. Llega la notificación de La Farola:
-> *Sofi, ¡te extrañamos! 🧡 Este jueves tenés 2×1 en postres. Te esperamos.*
-
-Corte al panel: en la ficha de Sofi aparece la etiqueta **"Volvió ✓"** y el contador de *"clientes recuperados"* sube.
-
-**TEXTO:** *Llega por WhatsApp.* / *Y vuelve.*
+**03 — Sigue su tarjeta y canjea** (0:17 – 0:22)
+Su tarjeta personal: las estrellitas se llenan 3 → 4 → 5, estalla un confeti de estrellitas y aparece el cupón **"🍰 Postre de regalo"**.
 
 ---
 
-## 8 · Cierre (1:22 – 1:30)
-Fondo crema. Logo grande de **Mejores Amigos**, con la sonrisa latiendo suave.
-**EN PANTALLA:** *Clientes que vuelven.*
-Debajo, en una línea chica: *Sin apps ni tarjetas: todo por WhatsApp.*
-Abajo, discreto: *un producto de* + logo de **Luz Sur** (+ contacto, si me lo pasás).
+## 4 · Lo que gana tu restaurante (0:22 – 0:40)
+Título de bloque, que entra en golpe: **¿Y vos qué ganás?**
+Cuatro beneficios en orden, cada uno con su número grande, una frase corta y **una pantalla del panel real** del restaurante en movimiento (grabada navegándolo):
+
+**1 · Sabés quién es cada cliente** (0:24 – 0:28)
+El panel desliza con la lista de clientes. Se iluminan los segmentos **Nuevos 63 · Frecuentes 148 · En riesgo 37**, y clic en *Sofi*: 12 visitas, cumple el 14/3, postre favorito.
+
+**2 · Le hablás en el momento justo** (0:28 – 0:32)
+Entra una **sugerencia de la IA**:
+> 💡 *Sofi cumple años el jueves. Mandale un saludo con postre de regalo.*
+
+Un toque en **Enviar** y el mensaje vuela al teléfono:
+> *¡Feliz cumple, Sofi! 🎂 Esta semana el postre va por nuestra cuenta.*
+
+**3 · Vuelve más seguido** (0:32 – 0:36)
+La ficha de Sofi suma una visita y aparece la etiqueta **"Volvió ✓"**. Un contador grande sube: **clientes recuperados +23**.
+
+**4 · Llenás los días flojos** (0:36 – 0:40)
+El gráfico de la semana muestra el martes como la barra más baja. Entra la sugerencia *"Doble estrellita los martes"* y la barra del martes crece hasta emparejar a las demás.
+
+*(Los números del panel son datos de ejemplo de la demo, no promesas de resultado.)*
 
 ---
 
-## Qué se construye y cómo
-| Pieza | Cómo se hace |
-|---|---|
-| Página del QR, chat de WhatsApp, tarjeta personal, tablet del mostrador | Componentes de código dentro de Remotion (React + SVG), animados cuadro por cuadro |
-| Panel del restaurante (pasos 5–7) | **Página HTML/CSS real y reutilizable**, grabada con Chromium headless (scroll, hover, clic) y usada como B-roll |
-| Íconos, QR, estrellitas, confeti, sonrisa | SVG en código |
-| Música y efectos | Sintetizados por código (pop por estrellita, whoosh en las transiciones, base suave) |
+## 5 · Cierre (0:40 – 0:46)
+Fondo crema, logo grande de **Mejores Amigos** con la sonrisa latiendo.
+> **Convertí a tus clientes en mejores amigos.**
 
-## Pendiente de confirmar (de la versión anterior)
-1. **Contacto del cierre** (web, WhatsApp o Instagram de Luz Sur), o cierre solo con los logos.
-2. **¿Locución?** El video está pensado para funcionar solo con texto en pantalla.
-3. **¿16:9 alcanza,** o querés también una versión vertical 9:16?
+Tres palabras que entran rápido, en una línea: **Sin apps · Sin tarjetas · Solo WhatsApp**
+Botón animado: **Pedí tu demo →** *(+ contacto)*
+Abajo, discreto: *un producto de* **Luz Sur**
+
+---
+
+## Audio
+Un beat sintetizado de ~118 BPM, con los golpes de texto alineados al pulso, un *pop* por estrellita, un *whoosh* entre pasos y un *ding* suave en cada mensaje que llega. Todo generado por código. El reel se entiende completo sin sonido (subtitulado por diseño), porque en redes la mayoría lo mira en silencio.
+
+## Pendiente
+1. **Contacto para el "Pedí tu demo"**: un WhatsApp, un Instagram o una web. Sin ese dato, queda solo el botón con "un producto de Luz Sur".
+2. **Nombre del restaurante:** *Brasa & Médano* es inventado. Si preferís otro, se cambia en un solo lugar.
