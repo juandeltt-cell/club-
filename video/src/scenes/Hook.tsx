@@ -1,6 +1,8 @@
 import React from "react";
 import { noise2D } from "@remotion/noise";
-import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
+import { AbsoluteFill, interpolate, Sequence, useCurrentFrame } from "remotion";
+import { DROP } from "../timeline";
+import { Restaurant } from "./Restaurant";
 import { Character } from "../components/Character";
 import { Emoji3D, Odometer } from "../components/Emoji";
 import { SceneBg } from "../components/Layers";
@@ -8,12 +10,24 @@ import { ease, useIn, WordReveal } from "../components/Motion";
 import { display, Lines } from "../components/Type";
 import { T, theme } from "../theme";
 
-export const QUESTION_AT = 84;
+export const CLAIM_AT = 90;
+export const QUESTION_AT = 215;
 
-// Escena 1 · Gancho (0–162, intro tranquila de la canción)
+// Escena 1 · Gancho (0–302, intro tranquila de la canción):
+// restó "¿Tenés un comercio gastronómico?" → "12 veces" → "¿Sabés quién es?"
 export const Hook: React.FC = () => {
   const frame = useCurrentFrame();
-  return <AbsoluteFill>{frame < QUESTION_AT ? <Claim /> : <Question />}</AbsoluteFill>;
+  return (
+    <AbsoluteFill>
+      {frame < CLAIM_AT && <Restaurant />}
+      {frame >= CLAIM_AT && frame < QUESTION_AT && (
+        <Sequence from={CLAIM_AT} layout="none">
+          <Claim />
+        </Sequence>
+      )}
+      {frame >= QUESTION_AT && <Question />}
+    </AbsoluteFill>
+  );
 };
 
 /** Una estrellita 3D por visita: se van sumando al ritmo del contador. */
@@ -73,7 +87,7 @@ const FloatQ: React.FC<{ at: number; x: number; y: number; size: number; color: 
  */
 const DollyRings: React.FC<{ from: number }> = ({ from }) => {
   const frame = useCurrentFrame();
-  const t = ease(frame, [from, 162], [0, 1], theme.ease.inOut);
+  const t = ease(frame, [from, DROP], [0, 1], theme.ease.inOut);
   const o = ease(frame, [from, from + 12], [0, 1]);
   return (
     <svg width={1080} height={1920} style={{ position: "absolute", inset: 0, opacity: o }}>
@@ -90,8 +104,8 @@ const Question: React.FC = () => {
   const q = QUESTION_AT;
   const pill = ease(frame, [q + 12, q + 24], [0, 1]);
   const card = useIn(q + 20, theme.spring.bouncy);
-  // la tensión sube hacia la subida de la canción (cuadro 162)
-  const build = ease(frame, [128, 160], [0, 1], theme.ease.in);
+  // la tensión sube hacia la subida de la canción
+  const build = ease(frame, [QUESTION_AT + 44, DROP - 2], [0, 1], theme.ease.in);
   const shake = Math.sin(frame * 1.7) * build * 6;
   return (
     <AbsoluteFill>

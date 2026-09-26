@@ -1,6 +1,7 @@
 import React from "react";
 import { AbsoluteFill, useCurrentFrame } from "remotion";
 import { T } from "../theme";
+import { useBass } from "./AudioReactive";
 
 /** Capa 1 — fondo con malla de color en movimiento lento (nunca un plano liso). */
 export const SceneBg: React.FC<{ variant?: "cream" | "ink" }> = ({ variant = "cream" }) => {
@@ -8,19 +9,21 @@ export const SceneBg: React.FC<{ variant?: "cream" | "ink" }> = ({ variant = "cr
   const d1 = Math.sin(frame / 55) * 60;
   const d2 = Math.cos(frame / 70) * 50;
   const dark = variant === "ink";
+  // los graves de la canción avivan apenas las manchas de color del fondo
+  const glow = 0.8 + useBass() * 0.45;
   return (
     <AbsoluteFill style={{ background: dark ? T.ink : T.cream, overflow: "hidden" }}>
       <div
         style={{
           position: "absolute", width: 1400, height: 1400, borderRadius: "50%",
-          top: -620, left: -420 + d1, filter: "blur(60px)",
+          top: -620, left: -420 + d1, filter: "blur(60px)", opacity: glow,
           background: `radial-gradient(circle, ${dark ? "rgba(5,171,135,0.30)" : "rgba(5,171,135,0.16)"}, transparent 62%)`,
         }}
       />
       <div
         style={{
           position: "absolute", width: 1200, height: 1200, borderRadius: "50%",
-          bottom: -560, right: -420 - d2, filter: "blur(70px)",
+          bottom: -560, right: -420 - d2, filter: "blur(70px)", opacity: glow,
           background: `radial-gradient(circle, ${dark ? "rgba(245,184,61,0.14)" : "rgba(245,184,61,0.16)"}, transparent 64%)`,
         }}
       />

@@ -35,7 +35,7 @@ const Friend: React.FC<{ at: number; x: number; body: string; hair: string; face
   );
 };
 
-export const PUNCH_DUR = 54;
+export const PUNCH_DUR = 66;
 
 /** Remate: tres golpes al ritmo. */
 const Punch: React.FC = () => (
@@ -49,7 +49,7 @@ const Punch: React.FC = () => (
   </AbsoluteFill>
 );
 
-// Escena final (local 0–180): remate (0–54) + marca y contacto
+// Escena final (local 0–175): remate (0–66) + marca y contacto
 export const Closing: React.FC = () => (
   <AbsoluteFill>
     <Punch />

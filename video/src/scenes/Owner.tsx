@@ -139,20 +139,20 @@ export const B2Title: React.FC = () => <TitleCard n={2} />;
 export const B3Title: React.FC = () => <TitleCard n={3} />;
 export const B4Title: React.FC = () => <TitleCard n={4} />;
 
-// ---------- 3 · Mensajes automáticos (local 0–216): se aprueba → le llega a Juli ----------
+// ---------- 3 · Mensajes automáticos (local 0–242): se aprueba → le llega a Juli ----------
 export const OwnerMessages: React.FC = () => {
   const frame = useCurrentFrame();
   const mark = ease(frame, [30, 52], [0, 1], theme.ease.inOut);
-  const btn = useIn(88, theme.spring.bouncy);
-  const pressed = frame >= 118 ? ease(frame, [118, 122], [0.94, 1]) : 1;
-  const done = frame >= 124;
+  const btn = useIn(110, theme.spring.bouncy);
+  const pressed = frame >= 150 ? ease(frame, [150, 154], [0.94, 1]) : 1;
+  const done = frame >= 156;
   // la tarjeta se va hacia el fondo y aparece el celular de Juli
-  const away = ease(frame, [136, 148], [0, 1], theme.ease.in);
-  const rise = ease(frame, [140, 164], [0, 1], theme.ease.out);
+  const away = ease(frame, [164, 176], [0, 1], theme.ease.in);
+  const rise = ease(frame, [168, 192], [0, 1], theme.ease.out);
   return (
     <AbsoluteFill>
       <SceneBg />
-      {frame < 150 && (
+      {frame < 178 && (
         <div style={{ position: "absolute", inset: 0, opacity: 1 - away, transform: `scale(${1 - away * 0.25})`, filter: `blur(${away * 12}px)` }}>
           <DepthIn at={2} from={{ rx: 18, ry: -14, z: -500 }} style={{ position: "absolute", left: WIN_X, top: 380, width: WIN_W }}>
             <div style={{ position: "relative" }}>
@@ -172,19 +172,19 @@ export const OwnerMessages: React.FC = () => {
                 </div>
               </div>
               <Emoji3D name="birthday_cake" size={130} at={16} x={830} y={-80} rotate={12} depth={1.2} float={0.5} />
-              <Tap x={300} y={BTN_Y} at={118} />
+              <Tap x={300} y={BTN_Y} at={150} />
             </div>
           </DepthIn>
         </div>
       )}
       {/* …y le llega a Juli: notificación de vidrio sobre su pantalla bloqueada */}
-      {frame >= 138 && (
+      {frame >= 166 && (
         <div style={{ position: "absolute", left: 540 - 300, top: 360, opacity: Math.min(1, rise * 2), transform: `translateY(${(1 - rise) * 420}px) scale(${0.86 + 0.14 * rise})`, transformOrigin: "50% 30%" }}>
-          <Tilt3D range={[140, 170]} from={[-20, 12]} to={[6, 2]}>
+          <Tilt3D range={[168, 196]} from={[-20, 12]} to={[6, 2]}>
             <PhoneBody width={600}>
               <Phone width={600} screenBg="#0A3D34">
                 <LockScreen>
-                  <GlassNotification at={166} title="Brasa Restó" text="¡Hola, Juli! Se viene tu cumple y en Brasa Restó queremos festejarlo con vos…" />
+                  <GlassNotification at={194} title="Brasa Restó" text="¡Hola, Juli! Se viene tu cumple y en Brasa Restó queremos festejarlo con vos…" />
                 </LockScreen>
               </Phone>
             </PhoneBody>
@@ -229,45 +229,45 @@ export const OwnerReturns: React.FC = () => {
   );
 };
 
-// ---------- 2 · Días flojos (local 0–256) ----------
+// ---------- 2 · Días flojos (local 0–229) ----------
 export const OwnerSlowDays: React.FC = () => {
   const frame = useCurrentFrame();
   const kT = 900 / 1194;
-  const out = ease(frame, [138, 148], [0, 1], theme.ease.in);
-  const lift = useIn(208, theme.spring.bouncy);
+  const out = ease(frame, [120, 130], [0, 1], theme.ease.in);
+  const lift = useIn(188, theme.spring.bouncy);
   return (
     <AbsoluteFill>
       <SceneBg />
       {/* a · la sugerencia del sistema, con tiempo para leerla */}
-      {frame < 148 && (
+      {frame < 130 && (
         <div style={{ opacity: 1 - out, transform: `translateY(${-out * 60}px) scale(${1 - out * 0.05})` }}>
           <DepthIn at={2} from={{ rx: 16, ry: -16, z: -500 }} style={{ position: "absolute", left: 90, top: 340 }}>
             <div style={{ position: "relative" }}>
               <PanelShot frames={["panel/sugg-tuesday.png"]} srcWidth={1194} srcHeight={1250} width={900}>
-                <Spotlight x={236 * kT} y={150 * kT} w={860 * kT} h={210 * kT} at={20} until={62} />
-                <Spotlight x={96 * kT} y={755 * kT} w={990 * kT} h={180 * kT} at={70} until={118} />
+                <Spotlight x={236 * kT} y={150 * kT} w={860 * kT} h={210 * kT} at={18} until={58} />
+                <Spotlight x={96 * kT} y={755 * kT} w={990 * kT} h={180 * kT} at={64} until={104} />
               </PanelShot>
-              <Tap x={470 * kT} y={1167 * kT} at={128} />
+              <Tap x={470 * kT} y={1167 * kT} at={112} />
             </div>
           </DepthIn>
         </div>
       )}
       {/* b · la promo y el martes que crece */}
-      <DepthIn at={144} from={{ rx: -14, ry: 10, z: -400, y: -40 }} style={{ position: "absolute", left: WIN_X, top: 330, width: WIN_W }}>
+      <DepthIn at={126} from={{ rx: -14, ry: 10, z: -400, y: -40 }} style={{ position: "absolute", left: WIN_X, top: 330, width: WIN_W }}>
         <div style={{ display: "flex", alignItems: "center", gap: 20, background: T.ink, borderRadius: 44, padding: "18px 40px 18px 20px" }}>
           <div style={{ display: "flex", flex: "none", width: 190, height: 150, position: "relative" }}>
-            <Star3D size={150} at={148} x={-6} y={0} />
-            <Star3D size={150} at={154} x={62} y={0} />
+            <Star3D size={150} at={130} x={-6} y={0} />
+            <Star3D size={150} at={136} x={62} y={0} />
           </div>
           <div style={{ ...display(58, T.cream, 800), lineHeight: 1.05 }}>
             Los martes, cada visita suma <span style={{ color: T.star }}>2 estrellitas</span>
           </div>
         </div>
       </DepthIn>
-      <DepthIn at={156} from={{ rx: 20, ry: -10, z: -500 }} style={{ position: "absolute", left: WIN_X, top: 620 }}>
-        <Bars3D at={156} grow={[180, 206]} boostTo={232} width={WIN_W} />
+      <DepthIn at={138} from={{ rx: 20, ry: -10, z: -500 }} style={{ position: "absolute", left: WIN_X, top: 620 }}>
+        <Bars3D at={138} grow={[160, 186]} boostTo={232} width={WIN_W} />
       </DepthIn>
-      {frame >= 208 && (
+      {frame >= 188 && (
         <div style={{ position: "absolute", left: 400, top: 790, background: T.mint, borderRadius: 40, padding: "10px 24px", ...display(44, T.white, 800), transform: `scale(${lift}) rotate(-5deg)`, boxShadow: "0 14px 26px -12px rgba(0,0,0,0.4)" }}>
           +55% los martes
         </div>

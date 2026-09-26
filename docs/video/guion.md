@@ -1,6 +1,6 @@
-# Mejores Amigos — Guion del reel (v11)
+# Mejores Amigos — Guion del reel (v12)
 
-**Formato:** vertical 1080×1920 · 30 fps · **~71 s** (v10: 64 s · v9: 69,5 s · v8: 68,5 s · v7: 76 s · v6: 82 s)
+**Formato:** vertical 1080×1920 · 30 fps · **~83 s** (v11: 71,5 s · v10: 64 s · v9: 69,5 s · v8: 68,5 s · v7: 76 s · v6: 82 s)
 **Música:** `cancion.mp3` (~134 BPM), recortada: arranca en 4,68 s (3 compases antes de la subida) y termina con un fundido de 2 s a los 69,4 s. No hay cortes en el medio de la canción.
 
 | Canción | Tiempo en el reel | Uso |
@@ -16,6 +16,13 @@
 **Estilo:** íconos 3D (Microsoft Fluent Emoji, MIT) que flotan con sombra, grilla "bento" de beneficios, tipografía de peso variable, contador tipo cuentakilómetros, teléfono inclinado en 3D, cinta de texto en movimiento, kinetic type con máscaras, personajes ilustrados (Open Peeps), pantallas reales del panel con **foco** (se oscurece el resto y se enmarca el dato, sin trazos a mano), transiciones de marca, motion blur en los títulos, movimiento orgánico con ruido (@remotion/noise).
 
 ---
+
+## Cambios v12 (aplicando latent-spaces/brag)
+- **Gancho nuevo (0–3 s):** "¿Tenés un comercio gastronómico?" sobre un restó ilustrado con cámara en parallax: pared cálida, ventanas al atardecer sobre el mar con haces de luz, cartel de neón "Brasa Restó" que se enciende, lámparas colgantes que se balancean, comensales en dos mesas con platos humeantes y un mozo que cruza con la bandeja. Suenan pasos, platos y copas. Después siguen "12 veces" y "¿Sabés quién es?". La canción arranca desde el principio (la subida cae en el logo, a los 10 s).
+- **Regla de lectura de brag** (~0,3 s por palabra desde que la frase termina de entrar): más tiempo en la definición, la línea de IA, el premio, las placas de beneficio y el mensaje de cumpleaños.
+- **Efectos de sonido reales** de Kenney (CC0, incluidos en brag), mezclados suaves bajo la música: tarjetas, clicks, campanas, golpes suaves, fichas para las estrellitas.
+- **Reacción a la música:** los graves de la canción avivan el brillo de las lámparas y el neón del restó, las auroras de las placas y los fondos (nunca el texto).
+- **Entregables extra:** `texto-para-publicar.txt` (copy para Instagram) y una portada (`portada.jpg`) con el cuadro más fuerte para elegir como cover.
 
 ## Cambios v11
 - **Más tiempo de lectura:** la sugerencia de los martes (foco en el título y después en el mensaje, 4,6 s), "Los martes, cada visita suma 2 estrellitas" con el gráfico (3,7 s), y la placa "Los clientes vuelven más seguido" con su frase (4,5 s).

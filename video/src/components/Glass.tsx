@@ -1,6 +1,7 @@
 import React from "react";
 import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
 import { theme } from "../theme";
+import { useBass } from "./AudioReactive";
 import { ease, useIn } from "./Motion";
 import { body, display } from "./Type";
 
@@ -10,13 +11,14 @@ import { body, display } from "./Type";
 /** Fondo "aurora": manchas de color grandes y desenfocadas que derivan lento (solo fondo, nunca texto). */
 export const Aurora: React.FC<{ base: string; colors: [string, string, string]; strength?: number }> = ({ base, colors, strength = 1 }) => {
   const f = useCurrentFrame();
+  const bass = useBass();
   const blob = (i: number, x: number, y: number, w: number, c: string) => {
     const dx = Math.sin(f / (70 + i * 13) + i * 2) * 140;
     const dy = Math.cos(f / (90 + i * 11) + i) * 120;
     return (
       <div key={i} style={{
         position: "absolute", left: x + dx - w / 2, top: y + dy - w / 2, width: w, height: w, borderRadius: "50%",
-        background: `radial-gradient(circle, ${c} 0%, transparent 62%)`, filter: "blur(90px)", opacity: 0.85 * strength, mixBlendMode: "screen",
+        background: `radial-gradient(circle, ${c} 0%, transparent 62%)`, filter: "blur(90px)", opacity: 0.85 * strength * (0.8 + 0.35 * bass), mixBlendMode: "screen",
       }} />
     );
   };
