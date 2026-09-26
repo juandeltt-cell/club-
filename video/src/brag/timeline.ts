@@ -9,7 +9,7 @@ const b = (n: number) => Math.round(DROP + n * BEAT);
 const span = (from: number, to: number) => ({ from, to, dur: to - from });
 
 // Pulsos por pantalla (después de la subida). Ajustados con el control de legibilidad (Tesseract).
-export const BEATS = { logo: 10, scan: 7, stars: 5, prize: 9, commerce: 4, know: 6, profile: 9, slowQ: 10, slowPanel: 18, slowChart: 5, aiQ: 5, wall: 12, aiMsg: 10, lock: 5, ret: 4, punch: 6 } as const;
+export const BEATS = { logo: 11, scan: 7, stars: 5, prize: 9, commerce: 4, know: 8, profile: 13, slowQ: 13, slowPanel: 16, slowChart: 4, aiQ: 5, wall: 12, aiMsg: 10, lock: 5, ret: 3, punch: 5 } as const;
 
 const after = (() => {
   let n = 0;

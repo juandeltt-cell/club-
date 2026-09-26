@@ -257,7 +257,7 @@ const kT = 900 / 1194;
 /** La sugerencia real del panel: foco en el diagnóstico y después en el mensaje sugerido. */
 export const SlowPanel: React.FC = () => {
   const f = useCurrentFrame();
-  const toast = useIn(172, theme.spring.bouncy);
+  const toast = useIn(164, theme.spring.bouncy);
   return (
     <Field c="cream">
       <Mono c="cream" text="SUGERENCIA DEL SISTEMA DE IA" at={0} style={{ position: "absolute", left: 90, top: 240 }} />
@@ -265,12 +265,12 @@ export const SlowPanel: React.FC = () => {
         <div style={{ position: "relative" }}>
           <PanelShot frames={["panel/sugg-tuesday.png"]} srcWidth={1194} srcHeight={1250} width={900}>
             <Spotlight x={236 * kT} y={150 * kT} w={860 * kT} h={210 * kT} at={12} until={88} />
-            <Spotlight x={96 * kT} y={755 * kT} w={990 * kT} h={180 * kT} at={92} until={158} />
+            <Spotlight x={96 * kT} y={755 * kT} w={990 * kT} h={180 * kT} at={92} until={152} />
           </PanelShot>
-          <Tap x={470 * kT} y={1167 * kT} at={166} />
+          <Tap x={470 * kT} y={1167 * kT} at={158} />
         </div>
       </DepthIn>
-      {f >= 172 && (
+      {f >= 164 && (
         <div style={{ position: "absolute", left: 70, right: 70, top: 1320, display: "flex", alignItems: "center", gap: 22, background: T.ink, borderRadius: 40, padding: "26px 34px", opacity: Math.min(1, toast * 2), transform: `translateY(${(1 - toast) * 120}px)`, boxShadow: "0 30px 60px -24px rgba(2,49,42,0.6)" }}>
           <div style={{ width: 72, height: 72, borderRadius: "50%", background: T.mint, display: "grid", placeItems: "center", flex: "none" }}><CheckIcon size={44} color={T.ink} /></div>
           <div>

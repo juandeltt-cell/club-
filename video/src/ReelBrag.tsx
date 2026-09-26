@@ -53,7 +53,7 @@ const SFX: Fx[] = [
   ...[14, 20, 26].map((f): Fx => [S.know.from + f, "pop", 0.26]),
   [S.profile.from + 8, "sel", 0.22], [S.profile.from + 36, "ding", 0.2], ...[38, 50, 62, 74, 86].map((f): Fx => [S.profile.from + f, "pop", 0.24]),
   // panel de los martes: focos, toque y promo activada
-  [S.slowPanel.from + 12, "sel", 0.2], [S.slowPanel.from + 92, "sel", 0.2], [S.slowPanel.from + 166, "tap", 0.45], [S.slowPanel.from + 172, "ding", 0.3],
+  [S.slowPanel.from + 12, "sel", 0.2], [S.slowPanel.from + 92, "sel", 0.2], [S.slowPanel.from + 158, "tap", 0.45], [S.slowPanel.from + 164, "ding", 0.3],
   [S.slowChart.from + 14, "cut2", 0.18], [S.slowChart.from + 40, "pop", 0.24],
   // sugerencias que se apilan; la de Juli se ilumina
   ...Array.from({ length: 7 }, (_, i): Fx => [S.wall.from + 4 + i * 17, "card", 0.24]), [S.wall.from + S.wall.dur - 34, "shimmer", 0.3], [S.wall.from + S.wall.dur - 16, "cut", 0.28],
