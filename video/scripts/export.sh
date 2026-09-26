@@ -2,13 +2,15 @@
 # Exportación final del reel.
 # Remotion renderiza cuadros PNG (idénticos cuadro a cuadro cuando nada se mueve) y ffmpeg
 # los comprime. El codificador interno de Remotion hacía "temblar" el texto quieto
-# (cuadros alternados con distinta calidad); así queda firme. Además se quitan todos los
+# (cuadros alternados con distinta calidad); así queda firme. Se renderiza con UNA sola
+# pestaña del navegador: con varias en paralelo, cada una suaviza los bordes de las letras
+# un poco distinto y los cuadros alternados hacían "vibrar" el texto y trabar la cinta. Además se quitan todos los
 # metadatos del archivo (sin marcas de herramientas ni de IA).
 set -euo pipefail
 cd "$(dirname "$0")/.."
 BROWSER=${BROWSER:-/opt/pw-browsers/chromium_headless_shell-1194/chrome-linux/headless_shell}
 rm -rf out/frames
-npx remotion render src/index.ts MejoresAmigosReel out/frames --sequence --image-format=png --concurrency=4 --gl=angle --browser-executable="$BROWSER" --log=error
+npx remotion render src/index.ts MejoresAmigosReel out/frames --sequence --image-format=png --concurrency=1 --gl=angle --browser-executable="$BROWSER" --log=error
 # solo el audio (música + efectos), con cuadros mínimos
 npx remotion render src/index.ts MejoresAmigosReel out/audio.wav --codec wav --browser-executable="$BROWSER" --log=error
 ffmpeg -v error -y -framerate 30 -i out/frames/element-%04d.png -i out/audio.wav \
