@@ -16,7 +16,7 @@ npx remotion render src/index.ts MejoresAmigosReel out/audio.wav --codec wav --b
 ffmpeg -v error -y -framerate 30 -i out/frames/element-%04d.png -i out/audio.wav \
   -map 0:v -map 1:a -map_metadata -1 -map_chapters -1 -fflags +bitexact -flags:v +bitexact -flags:a +bitexact \
   -metadata:s:v handler_name="" -metadata:s:a handler_name="" \
-  -c:v libx264 -crf 17 -preset slow -tune animation -pix_fmt yuv420p -x264-params no-info=1 \
+  -c:v libx264 -crf 16 -preset slow -tune film -pix_fmt yuv420p -x264-params no-info=1:bframes=2:b-adapt=0 \
   -af "loudnorm=I=-14:TP=-1.5:LRA=9" -ar 48000 -c:a aac -b:a 192k -movflags +faststart -shortest \
   out/mejores-amigos-reel.mp4
 rm -rf out/frames out/audio.wav
