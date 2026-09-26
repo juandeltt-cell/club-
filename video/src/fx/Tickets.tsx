@@ -69,21 +69,28 @@ export const Tickets: React.FC<{ count?: number; seed?: string }> = ({ count = 1
   );
 };
 
-/** Comandas chicas que se apilan una por visita (para "12 veces"). */
-export const VisitStack: React.FC<{ count: number; x: number; y: number }> = ({ count, x, y }) => {
-  const DATES = ["03/01", "11/01", "19/01", "02/02", "14/02", "28/02", "07/03", "15/03", "23/03", "04/04", "12/04", "20/04"];
+/** Comandas de visita que van cayendo por toda la pantalla, una por visita (para "12 veces"). */
+const SPOTS: [number, number, number][] = [
+  [640, 250, 8], [60, 1120, -7], [700, 1380, 5], [360, 1560, -4], [40, 110, -10], [740, 1120, -6],
+  [30, 1600, 6], [400, 1240, 9], [720, 1660, -3], [60, 1360, 4], [340, 60, 5], [760, 20, -8],
+]
+const DATES = ["03/01", "11/01", "19/01", "02/02", "14/02", "28/02", "07/03", "15/03", "23/03", "04/04", "12/04", "20/04"];
+
+export const VisitStack: React.FC<{ count: number; from: number }> = ({ count, from }) => {
+  const f = useCurrentFrame();
   return (
     <>
-      {Array.from({ length: 12 }).map((_, i) => {
+      {SPOTS.map(([x, y, rot], i) => {
         if (i >= count) return null;
-        const rot = (random(`vs${i}`) - 0.5) * 12;
-        const w = 340;
+        // cada comanda cae desde arriba y se asienta
+        const t = Math.min(1, Math.max(0, (f - from - i * 2) / 8));
+        const e = 1 - Math.pow(1 - t, 3);
         return (
-          <div key={i} style={{ position: "absolute", left: x + i * 30, top: y + i * 40, transform: `rotate(${rot}deg)`, filter: "drop-shadow(0 18px 22px rgba(2,49,42,0.25))" }}>
-            <div style={{ width: w, background: "#FFFDF7", padding: "16px 18px 26px", fontFamily: MONO, color: "#1F2A27", clipPath: `polygon(0 0, 100% 0, 100% calc(100% - 10px), ${Array.from({ length: 10 }, (_, k) => `${100 - (k + 0.5) * 10}% ${k % 2 ? "calc(100% - 10px)" : "100%"}`).join(", ")}, 0 calc(100% - 10px))` }}>
-              <div style={{ fontSize: 26, fontWeight: 700, letterSpacing: "0.1em" }}>VISITA {i + 1}</div>
-              <div style={{ fontSize: 36, fontWeight: 700, marginTop: 4 }}>JULI</div>
-              <div style={{ display: "flex", justifyContent: "space-between", fontSize: 24, marginTop: 8 }}>
+          <div key={i} style={{ position: "absolute", left: x, top: y - (1 - e) * 120, transform: `rotate(${rot + (1 - e) * 12}deg) scale(${1.25 - 0.25 * e})`, opacity: Math.min(1, e * 1.5), filter: "drop-shadow(0 18px 22px rgba(2,49,42,0.25))" }}>
+            <div style={{ width: 300, background: "#FFFDF7", padding: "16px 18px 26px", fontFamily: MONO, color: "#1F2A27", clipPath: `polygon(0 0, 100% 0, 100% calc(100% - 10px), ${Array.from({ length: 10 }, (_, k) => `${100 - (k + 0.5) * 10}% ${k % 2 ? "calc(100% - 10px)" : "100%"}`).join(", ")}, 0 calc(100% - 10px))` }}>
+              <div style={{ fontSize: 24, fontWeight: 700, letterSpacing: "0.1em" }}>VISITA {i + 1}</div>
+              <div style={{ fontSize: 34, fontWeight: 700, marginTop: 4 }}>JULI</div>
+              <div style={{ display: "flex", justifyContent: "space-between", fontSize: 22, marginTop: 8 }}>
                 <span>{DATES[i]}</span><span style={{ color: T.mintDeep, fontWeight: 700 }}>★ +1</span>
               </div>
             </div>

@@ -40,22 +40,15 @@ export const HookClaim: React.FC = () => {
   const f = useCurrentFrame();
   const n = Math.round(interpolate(f, [8, 34], [0, 12], { ...clamp, easing: expoOut }));
   const pop = useIn(8, theme.spring.bouncy);
-  const v = interpolate(f, [12, 22], [0, 1], { ...clamp, easing: expoOut });
-  const paint = interpolate(f, [16, 26], [0, 1], { ...clamp, easing: expoOut });
   return (
     <Field c="mint">
-      <VisitStack count={n} x={300} y={1020} />
-      <div style={{ position: "absolute", left: L, top: 330 }}>
+      <VisitStack count={n} from={8} />
+      {/* velo menta detrás del texto para que se lea sobre las comandas */}
+      <AbsoluteFill style={{ background: "radial-gradient(ellipse 60% 34% at 32% 42%, rgba(5,171,135,0.96) 55%, rgba(5,171,135,0) 100%)" }} />
+      <div style={{ position: "absolute", left: L, top: 440 }}>
         <Words c="mint" size={112} at={0} lines={[["Un", "cliente", "vino"]]} />
-        {/* número y "veces" comparten la línea de base */}
-        <div style={{ display: "flex", alignItems: "baseline", gap: 46, marginTop: -10 }}>
-          <span style={{ ...display(400, T.ink, 800), letterSpacing: "-0.06em", lineHeight: 1, fontVariantNumeric: "tabular-nums", display: "inline-block", transform: `scale(${interpolate(pop, [0, 1], [0.6, 1])})`, transformOrigin: "20% 80%", opacity: Math.min(1, pop * 2) }}>{n}</span>
-          <span style={{ position: "relative", display: "inline-block", ...display(150, paint > 0.5 ? T.cream : T.ink, 800), letterSpacing: "-0.045em", opacity: Math.min(1, v * 1.6), transform: `translateY(${(1 - v) * 60}px)` }}>
-            <span style={{ position: "absolute", left: -26, right: -26, top: 22, bottom: -6, background: T.ink, borderRadius: 18, transform: `scaleX(${paint})`, transformOrigin: "left center" }} />
-            <span style={{ position: "relative" }}>veces</span>
-          </span>
-        </div>
-        <Words c="mint" size={112} at={20} lines={[["este", "año."]]} style={{ marginTop: -6 }} />
+        <div style={{ ...display(400, T.ink, 800), letterSpacing: "-0.06em", lineHeight: 0.9, fontVariantNumeric: "tabular-nums", transform: `scale(${interpolate(pop, [0, 1], [0.6, 1])})`, transformOrigin: "10% 80%", opacity: Math.min(1, pop * 2), marginTop: 4 }}>{n}</div>
+        <Words c="mint" size={112} at={14} lines={[[{ t: "veces", hl: true }, "este", "año."]]} style={{ marginTop: 10 }} />
       </div>
     </Field>
   );
@@ -214,8 +207,8 @@ const ProfileRow: React.FC<{ at: number; y: number; big?: boolean; children: Rea
 export const Profile: React.FC = () => {
   const f = useCurrentFrame();
   const card = useIn(0, theme.spring.smooth);
-  const scan = interpolate(f, [8, 36], [0, 1], { ...clamp, easing: Easing.inOut(Easing.cubic) });
-  const spine = interpolate(f, [34, 80], [0, 1], clamp);
+  const scan = interpolate(f, [6, 28], [0, 1], { ...clamp, easing: Easing.inOut(Easing.cubic) });
+  const spine = interpolate(f, [26, 64], [0, 1], clamp);
   const corner = interpolate(f, [4, 14], [0, 1], { ...clamp, easing: expoOut });
   return (
     <Field c="ink">
@@ -224,7 +217,7 @@ export const Profile: React.FC = () => {
       {/* retrato con marco de reconocimiento */}
       <div style={{ position: "absolute", left: 540 - 250, top: 330, width: 500, height: 520, borderRadius: 48, overflow: "hidden", background: T.mintSoft, opacity: card, transform: `scale(${interpolate(card, [0, 1], [0.85, 1])})` }}>
         <div style={{ position: "absolute", left: 50, top: 70 }}><Character body="Coffee" hair="ShortVolumed" face="Smile" facialHair="FullMedium" width={400} /></div>
-        {f >= 8 && f < 40 && <div style={{ position: "absolute", left: 0, right: 0, top: scan * 520 - 6, height: 12, background: T.mint, boxShadow: `0 0 40px 14px ${T.mintGlow}` }} />}
+        {f >= 6 && f < 30 && <div style={{ position: "absolute", left: 0, right: 0, top: scan * 520 - 6, height: 12, background: T.mint, boxShadow: `0 0 40px 14px ${T.mintGlow}` }} />}
         <AbsoluteFill style={{ background: `linear-gradient(180deg, transparent ${scan * 100}%, rgba(5,171,135,0.18) ${scan * 100}%)` }} />
       </div>
       {[[0, 0], [1, 0], [0, 1], [1, 1]].map(([cx, cy], i) => (
@@ -235,12 +228,11 @@ export const Profile: React.FC = () => {
         }} />
       ))}
       {/* datos */}
-      <div style={{ position: "absolute", left: 128, top: 940, width: 5, height: 560 * spine, background: T.mint, borderRadius: 4 }} />
-      <ProfileRow at={38} y={930} big>Pedro</ProfileRow>
-      <ProfileRow at={50} y={1080}>Viene 1 vez por semana</ProfileRow>
-      <ProfileRow at={62} y={1200}>Cumple el 7 de enero</ProfileRow>
-      <ProfileRow at={74} y={1320}>Pide café con leche</ProfileRow>
-      <ProfileRow at={86} y={1440}><span style={{ color: T.mint }}>● Frecuente</span></ProfileRow>
+      <div style={{ position: "absolute", left: 128, top: 940, width: 5, height: 440 * spine, background: T.mint, borderRadius: 4 }} />
+      <ProfileRow at={30} y={930} big>Pedro</ProfileRow>
+      <ProfileRow at={40} y={1080}>Viene 1 vez por semana</ProfileRow>
+      <ProfileRow at={50} y={1200}>Cumple el 7 de enero</ProfileRow>
+      <ProfileRow at={60} y={1320}><span style={{ color: T.mint }}>● Frecuente</span></ProfileRow>
     </Field>
   );
 };
@@ -255,6 +247,23 @@ export const BenefitSlowQ: React.FC = () => (
 const kT = 900 / 1194;
 
 /** La sugerencia real del panel: foco en el diagnóstico y después en el mensaje sugerido. */
+/**
+ * Cámara que sigue los focos del panel: se acerca al diagnóstico, viaja al mensaje y se
+ * aleja para el botón. Los viajes son cortos; mientras se lee, queda quieta.
+ */
+const panelCam = (f: number) => {
+  const k = (a: number, b: number) => interpolate(f, [a, b], [0, 1], { ...clamp, easing: Easing.bezier(0.65, 0, 0.35, 1) });
+  // [escala, x, y] de cada plano
+  const wide: [number, number, number] = [1, 0, 0];
+  const title: [number, number, number] = [1.16, -60, 30];
+  const msg: [number, number, number] = [1.16, -60, -560];
+  const mix = (a: [number, number, number], b: [number, number, number], t: number) => a.map((v, i) => v + (b[i] - v) * t) as [number, number, number];
+  let c = mix(wide, title, k(10, 22));
+  c = mix(c, msg, k(88, 100));
+  c = mix(c, wide, k(150, 162));
+  return `translate(${c[1]}px, ${c[2]}px) scale(${c[0]})`;
+};
+
 export const SlowPanel: React.FC = () => {
   const f = useCurrentFrame();
   const toast = useIn(164, theme.spring.bouncy);
@@ -262,7 +271,7 @@ export const SlowPanel: React.FC = () => {
     <Field c="cream">
       <Mono c="cream" text="SUGERENCIA DEL SISTEMA DE IA" at={0} style={{ position: "absolute", left: 90, top: 240 }} />
       <DepthIn at={2} from={{ rx: 16, ry: -16, z: -500 }} style={{ position: "absolute", left: 90, top: 330 }}>
-        <div style={{ position: "relative" }}>
+        <div style={{ position: "relative", transform: panelCam(f), transformOrigin: "0 0" }}>
           <PanelShot frames={["panel/sugg-tuesday.png"]} srcWidth={1194} srcHeight={1250} width={900}>
             <Spotlight x={236 * kT} y={150 * kT} w={860 * kT} h={210 * kT} at={12} until={88} />
             <Spotlight x={96 * kT} y={755 * kT} w={990 * kT} h={180 * kT} at={92} until={152} />
@@ -308,51 +317,46 @@ const SUGGESTIONS: { icon: EmojiName; text: string; action: string }[] = [
   { icon: "clinking_glasses", text: "Sofi cumple 1 año como clienta.", action: "Saludala" },
   { icon: "birthday_cake", text: "Juli cumple en 5 días.", action: "Invitala a festejar" },
 ];
-const EVERY = 17;
-const PEEK = 104; // lo que asoma de cada tarjeta de atrás (la frase principal queda visible)
+const EVERY = 15;
+// dónde cae cada sugerencia (x, y, giro); la última (Juli) cae al centro, arriba de todas
+const DROPS: [number, number, number][] = [
+  [30, 290, -6], [410, 470, 5], [20, 740, 4], [400, 1010, -5], [30, 1290, -3], [420, 1500, 6], [200, 880, -2],
+]
 
-/**
- * Mazo de sugerencias: cada nueva cae adelante y empuja a las anteriores hacia atrás
- * (más chicas y oscuras), dejando ver su frase. La última es la de Juli.
- */
+/** Las sugerencias caen una tras otra por toda la pantalla, desordenadas; la de Juli queda arriba de todo. */
 export const AiWall: React.FC<{ dur: number }> = ({ dur }) => {
   const f = useCurrentFrame();
-  const arrived = SUGGESTIONS.reduce((acc, _, j) => acc + interpolate(f, [4 + j * EVERY, 4 + j * EVERY + 14], [0, 1], { ...clamp, easing: expoOut }), 0);
   const last = SUGGESTIONS.length - 1;
   const lit = interpolate(f, [dur - 34, dur - 24], [0, 1], clamp);
   const dive = interpolate(f, [dur - 16, dur], [0, 1], { ...clamp, easing: Easing.in(Easing.cubic) });
-  const FRONT = 1290;
+  const [jx, jy] = DROPS[last];
   return (
     <Field c="ink">
       <Aurora base={T.ink} colors={["rgba(5,171,135,0.32)", "rgba(245,184,61,0.12)", "rgba(5,171,135,0.22)"]} />
-      <Sparkles count={24} seed="wl" area={{ x: 0, y: 0, w: 1080, h: 1920 }} opacity={0.45} />
-      <div style={{ position: "absolute", inset: 0, transform: `scale(${1 + dive * 1.8})`, transformOrigin: `540px ${FRONT + 120}px`, filter: dive > 0 ? `blur(${dive * 8}px)` : undefined }}>
-        <Mono c="ink" text="SUGERENCIAS DE HOY" at={0} style={{ position: "absolute", left: 90, top: 300 }} />
+      <div style={{ position: "absolute", inset: 0, transform: `scale(${1 + dive * 1.8})`, transformOrigin: `${jx + 310}px ${jy + 120}px`, filter: dive > 0 ? `blur(${dive * 8}px)` : undefined }}>
+        <Mono c="ink" text="SUGERENCIAS DE HOY" at={0} style={{ position: "absolute", left: 60, top: 220 }} />
         {SUGGESTIONS.map((sg, k) => {
-          const at = 4 + k * EVERY;
+          const at = 4 + k * EVERY + (k === last ? 8 : 0);
           if (f < at) return null;
-          const inP = interpolate(f, [at, at + 14], [0, 1], { ...clamp, easing: expoOut });
-          const d = Math.max(0, arrived - 1 - k); // 0 = adelante
+          const t = interpolate(f, [at, at + 12], [0, 1], { ...clamp, easing: expoOut });
+          const [x, y, rot] = DROPS[k];
           const juli = k === last;
-          const y = FRONT - d * PEEK + (1 - inP) * 520;
-          const sc = 1 - d * 0.035;
-          const shade = Math.min(0.55, d * 0.09);
-          const tilt = (1 - inP) * (k % 2 ? 9 : -9) + (k % 2 ? 0.6 : -0.6) * Math.min(1, d);
+          const covered = Math.max(0, Math.min(1, (f - at - 14) / 30)) * (juli ? 0 : 0.25) + (juli ? 0 : lit * 0.45);
           return (
             <div key={k} style={{
-              position: "absolute", left: 90, top: y, width: 900, height: 240, borderRadius: 36, background: T.cream, overflow: "hidden",
-              transform: `scale(${sc}) rotate(${tilt}deg)`, transformOrigin: "50% 0%", zIndex: k, opacity: Math.min(1, inP * 1.8),
-              boxShadow: `0 -14px 40px -16px rgba(0,0,0,0.55), 0 30px 60px -30px rgba(0,0,0,0.7), 0 0 0 ${juli ? lit * 8 : 0}px ${T.mint}, 0 0 ${juli ? lit * 70 : 0}px ${juli ? lit * 18 : 0}px rgba(5,171,135,0.55)`,
+              position: "absolute", left: x, top: y, width: 640, borderRadius: 34, background: T.cream, overflow: "hidden", zIndex: k,
+              transform: `translateY(${(1 - t) * -140}px) scale(${1.35 - 0.35 * t}) rotate(${rot + (1 - t) * (k % 2 ? 14 : -14)}deg)`, opacity: Math.min(1, t * 1.8),
+              boxShadow: `0 ${10 + 30 * t}px ${20 + 50 * t}px -20px rgba(0,0,0,0.7), 0 0 0 ${juli ? lit * 8 : 0}px ${T.mint}, 0 0 ${juli ? lit * 70 : 0}px ${juli ? lit * 18 : 0}px rgba(5,171,135,0.55)`,
             }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 22, padding: "22px 30px 0" }}>
-                <E3D name={sg.icon} size={64} at={at} float={0} depth={0.4} />
-                <div style={{ ...body(38, T.ink, 800), lineHeight: 1.15, whiteSpace: "nowrap" }}>{sg.text}</div>
+              <div style={{ display: "flex", alignItems: "center", gap: 18, padding: "22px 26px 0" }}>
+                <E3D name={sg.icon} size={60} at={at} float={0} depth={0.4} />
+                <span style={{ fontFamily: "JetBrains Mono", fontWeight: 700, fontSize: 20, letterSpacing: "0.12em", color: T.mintDeep }}>SUGERENCIA IA</span>
               </div>
-              <div style={{ padding: "22px 30px 0 116px" }}>
-                <div style={{ display: "inline-block", background: T.mint, borderRadius: 30, padding: "10px 20px", ...body(30, T.ink, 800) }}>→ {sg.action}</div>
+              <div style={{ ...body(38, T.ink, 800), lineHeight: 1.15, padding: "12px 26px 0" }}>{sg.text}</div>
+              <div style={{ padding: "14px 26px 24px" }}>
+                <div style={{ display: "inline-block", background: T.mint, borderRadius: 30, padding: "9px 18px", ...body(28, T.ink, 800) }}>→ {sg.action}</div>
               </div>
-              <div style={{ position: "absolute", right: 28, top: 26, fontFamily: "JetBrains Mono", fontWeight: 700, fontSize: 20, letterSpacing: "0.12em", color: T.mintDeep }}>IA</div>
-              <AbsoluteFill style={{ background: `rgba(2,49,42,${shade})`, pointerEvents: "none" }} />
+              <AbsoluteFill style={{ background: `rgba(2,49,42,${covered})`, pointerEvents: "none" }} />
             </div>
           );
         })}

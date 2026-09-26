@@ -32,7 +32,7 @@ const SCREENS = [
   ["premio", ...at.prize, "Desbloquea premios. Primer premio. Con tu próximo plato, el postre va sin cargo."],
   ["comercio", ...at.commerce, "¿Y tu comercio qué gana?"],
   ["conocés", ...at.know, "Conocés a tus clientes. Nuevos Frecuentes En riesgo"],
-  ["perfil", ...at.profile, "Pedro Viene 1 vez por semana Cumple el 7 de enero Pide café con leche"],
+  ["perfil", ...at.profile, "Pedro Viene 1 vez por semana Cumple el 7 de enero Frecuente"],
   ["flojos", ...at.slowQ, "Llená los días más flojos. El sistema detecta tu día más flojo y te propone una promo."],
   ["panel", ...at.slowPanel, "Los martes vienen la mitad de clientes que el resto de la semana"],
   ["gráfico", ...at.slowChart, "Los martes de visitas"],

@@ -1,12 +1,12 @@
-# Mejores Amigos — Guion del reel (v16)
+# Mejores Amigos — Guion del reel (v17)
 
-**Formato:** vertical 1080×1920 · 30 fps · **~68 s**
+**Formato:** vertical 1080×1920 · 30 fps · **~66 s**
 **Control de legibilidad:** `node scripts/check-legibility.mjs out/mejores-amigos-reel.mp4` (Tesseract).
 
 | Pantalla | Qué se ve |
 |---|---|
 | ¿Tenés un comercio gastronómico? | comandas de restaurante flotando en profundidad |
-| Un cliente vino 12 veces este año. | "veces" sobre la línea de base del 12; se apilan 12 comandas "VISITA n · JULI" |
+| Un cliente vino 12 veces este año. | "veces este año." debajo del 12; 12 comandas "VISITA n · JULI" van cayendo por toda la pantalla |
 | ¿Sabés quién es? | anillos, persona borrosa en el círculo iluminado, signos de pregunta, rayos detrás |
 | Con Mejores Amigos, sí. → definición | subida de la canción |
 | El cliente escanea el QR en la mesa. | la señora escaneando + estrellita 3D |
@@ -14,16 +14,20 @@
 | Desbloquea premios. | el celular que da vuelta la tarjeta: ¡Primer premio! |
 | ¿Y tu comercio qué gana? | |
 | Conocés a tus clientes. | Nuevos 63 · Frecuentes 148 · En riesgo 37, en columna, con sonido |
-| Perfil del cliente | Pedro escaneado: Viene 1 vez por semana · Cumple el 7 de enero · Pide café con leche · Frecuente |
+| Perfil del cliente | Pedro escaneado: Viene 1 vez por semana · Cumple el 7 de enero · Frecuente |
 | Llená los días más flojos. | + "El sistema detecta tu día más flojo y te propone una promo." |
-| Sugerencia del sistema de IA | captura del panel: foco en "Los martes vienen la mitad de clientes…", foco en el mensaje, toque en el botón → "Promo automática activada · Martes de doble estrellita" |
+| Sugerencia del sistema de IA | captura del panel; la cámara se acerca y viaja entre los focos: foco en "Los martes vienen la mitad de clientes…", foco en el mensaje, toque en el botón → "Promo automática activada · Martes de doble estrellita" |
 | Los martes +55% de visitas. | barras 3D |
 | La IA te sugiere el mensaje para cada cliente. | |
-| Sugerencias de hoy | mazo: cada sugerencia cae adelante y empuja a las demás hacia atrás; la última es "Juli cumple en 5 días", se ilumina y la cámara entra |
+| Sugerencias de hoy | las sugerencias caen una tras otra, desordenadas, hasta llenar la pantalla; la última es "Juli cumple en 5 días", cae al centro, se ilumina y la cámara entra |
 | (mensaje) → Enviado → Le llega por WhatsApp. | celular 20:41 con notificación |
 | Tus clientes vuelven. | |
 | + frecuencia. + clientes. + ventas. | cada "+" gira y entra, la palabra se revela y se subraya |
 | Cierre | logo, contacto, cinta horizontal SIN APPS ✦ SIN TARJETAS ✦ SOLO WHATSAPP |
+
+### Cambios v17
+- Sin vibración ni saltos: el grano de película ahora es fijo (al cambiar cuadro a cuadro, el compresor de video repartía mal la calidad y el texto fino temblaba y la cinta final se trababa) y la exportación final usa una compresión más fina.
+- Pantallas más cortas: "Conocés a tus clientes" (−1 s), perfil de Pedro (−2 s, sin "Pide café con leche"), "Llená los días más flojos" (−1,5 s).
 
 ---
 

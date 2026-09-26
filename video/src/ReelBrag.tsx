@@ -51,12 +51,12 @@ const SFX: Fx[] = [
   [S.lock.from + 26, "pop", 0.3], [S.lock.from + 28, "shimmer", 0.24],
   // conocés: un pop por segmento; perfil: escaneo y un pop por dato
   ...[14, 20, 26].map((f): Fx => [S.know.from + f, "pop", 0.26]),
-  [S.profile.from + 8, "sel", 0.22], [S.profile.from + 36, "ding", 0.2], ...[38, 50, 62, 74, 86].map((f): Fx => [S.profile.from + f, "pop", 0.24]),
+  [S.profile.from + 6, "sel", 0.22], [S.profile.from + 28, "ding", 0.2], ...[30, 40, 50, 60].map((f): Fx => [S.profile.from + f, "pop", 0.24]),
   // panel de los martes: focos, toque y promo activada
-  [S.slowPanel.from + 12, "sel", 0.2], [S.slowPanel.from + 92, "sel", 0.2], [S.slowPanel.from + 158, "tap", 0.45], [S.slowPanel.from + 164, "ding", 0.3],
+  [S.slowPanel.from + 10, "cut2", 0.18], [S.slowPanel.from + 12, "sel", 0.2], [S.slowPanel.from + 88, "cut2", 0.18], [S.slowPanel.from + 92, "sel", 0.2], [S.slowPanel.from + 150, "cut2", 0.18], [S.slowPanel.from + 158, "tap", 0.45], [S.slowPanel.from + 164, "ding", 0.3],
   [S.slowChart.from + 14, "cut2", 0.18], [S.slowChart.from + 40, "pop", 0.24],
   // sugerencias que se apilan; la de Juli se ilumina
-  ...Array.from({ length: 7 }, (_, i): Fx => [S.wall.from + 4 + i * 17, "card", 0.24]), [S.wall.from + S.wall.dur - 34, "shimmer", 0.3], [S.wall.from + S.wall.dur - 16, "cut", 0.28],
+  ...Array.from({ length: 7 }, (_, i): Fx => [S.wall.from + 4 + i * 15 + (i === 6 ? 8 : 0), "card", 0.26]), [S.wall.from + S.wall.dur - 34, "shimmer", 0.3], [S.wall.from + S.wall.dur - 16, "cut", 0.28],
   ...Array.from({ length: 14 }, (_, i): Fx => [S.aiMsg.from + 6 + i * 3, "key", 0.1]),
   [S.aiMsg.from + 50, "pop", 0.22], [S.aiMsg.from + 108, "tap", 0.45], [S.aiMsg.from + 114, "ding", 0.3],
   [S.punch.from, "hit", 0.32], [S.punch.from + 10, "hit", 0.28], [S.punch.from + 20, "hit", 0.3],
