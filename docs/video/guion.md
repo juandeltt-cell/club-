@@ -1,4 +1,32 @@
-# Mejores Amigos — Guion del reel (v12)
+# Mejores Amigos — Guion del reel (v13, estilo brag)
+
+**Formato:** vertical 1080×1920 · 30 fps · **~41 s** (v12: 83 s)
+**Dirección de arte** (tomada de latent-spaces/brag): campos de color plano (verde oscuro / menta / crema) que cambian sobre el pulso, tipografía gigante, una palabra clave por pantalla dentro de un bloque que se pinta, etiquetas monoespaciadas (JetBrains Mono), palabras enormes pasando de fondo, texto que se tipea, cortes secos con un barrido de 6 cuadros. Pocas palabras por pantalla: se lee aunque sea corto.
+**Música:** `cancion.mp3` desde 3,59 s (2 compases antes de la subida), fundido final de 2 s. Efectos de Kenney (CC0).
+
+| Tiempo | Pantalla |
+|---|---|
+| 0–1,9 s | **¿Tenés un comercio gastronómico?** — detrás pasan RESTÓ · BAR · CAFÉ · PARRILLA… |
+| 1,9–4,9 s | **Un cliente vino 12 veces este año.** |
+| 4,9–6,5 s | **¿Sabés quién es?** |
+| 6,5–11 s | Subida: **Con [Mejores Amigos], sí.** → *Un nuevo sistema de fidelización de clientes para restaurantes.* |
+| 11–13,2 s | PASO 01 · **Escanea el QR.** (el QR se arma y se escanea) |
+| 13,2–15,5 s | PASO 02 · **Suma estrellitas.** (estrellita 3D + tarjeta de 5 que se llena) |
+| 15,5–17,3 s | PASO 03 · **Desbloquea premios.** (cupón: ¡Primer premio! Postre sin cargo) |
+| 17,3–19 s | **¿Y tu comercio qué gana?** — detrás pasan MÁS VISITAS · MÁS CLIENTES · MÁS VENTAS |
+| 19–20,8 s | BENEFICIO 01 · **Conocés a tus clientes.** (Nuevos 63 · Frecuentes 148 · En riesgo 37) |
+| 20,8–22,2 s | BENEFICIO 02 · **¿Martes flojo?** |
+| 22,2–24,8 s | **Doble estrellita los martes.** (barras 3D: el martes sube +55%) |
+| 24,8–26,6 s | BENEFICIO 03 · **La IA te sugiere el mensaje.** |
+| 26,6–30,6 s | Se tipea: *¡Hola, Juli! Se viene tu cumple: si venís con 4 amigos, tu plato va por nuestra cuenta.* → Aprobar y enviar → ✓ Enviado |
+| 30,6–32,4 s | BENEFICIO 04 · **Tus clientes vuelven.** |
+| 32,4–35,2 s | **Más frecuencia. Más clientes. Más ventas.** (una por pulso) |
+| 35,2–41,2 s | Logo · *Convertí a tus clientes en mejores amigos.* · **Lo instalamos en tu restó** · 2254447706 · @luz.sur.arg · cinta SIN APPS ✦ SIN TARJETAS ✦ SOLO WHATSAPP |
+
+---
+
+## Versiones anteriores
+### v12
 
 **Formato:** vertical 1080×1920 · 30 fps · **~83 s** (v11: 71,5 s · v10: 64 s · v9: 69,5 s · v8: 68,5 s · v7: 76 s · v6: 82 s)
 **Música:** `cancion.mp3` (~134 BPM), recortada: arranca en 4,68 s (3 compases antes de la subida) y termina con un fundido de 2 s a los 69,4 s. No hay cortes en el medio de la canción.

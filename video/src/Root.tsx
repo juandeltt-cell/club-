@@ -1,10 +1,10 @@
 import React from "react";
 import { Composition } from "remotion";
-import { Reel } from "./Reel";
-import { FPS, TOTAL_FRAMES } from "./timeline";
+import { ReelBrag } from "./ReelBrag";
+import { FPS, TOTAL } from "./brag/timeline";
 
 export const RemotionRoot: React.FC = () => (
   <>
-    <Composition id="MejoresAmigosReel" component={Reel} durationInFrames={TOTAL_FRAMES} fps={FPS} width={1080} height={1920} />
+    <Composition id="MejoresAmigosReel" component={ReelBrag} durationInFrames={TOTAL} fps={FPS} width={1080} height={1920} />
   </>
 );

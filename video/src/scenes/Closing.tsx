@@ -59,7 +59,7 @@ export const Closing: React.FC = () => (
   </AbsoluteFill>
 );
 
-const Brand: React.FC = () => {
+export const Brand: React.FC = () => {
   const frame = useCurrentFrame();
   const breathe = useBreathe(0.012, 20);
   const btn = useIn(50, theme.spring.bouncy);
