@@ -9,7 +9,7 @@ const b = (n: number) => Math.round(DROP + n * BEAT);
 const span = (from: number, to: number) => ({ from, to, dur: to - from });
 
 // Pulsos por pantalla (después de la subida). Ajustados con el control de legibilidad (Tesseract).
-export const BEATS = { logo: 11, scan: 8, stars: 6, prize: 12, commerce: 5, know: 4, slowQ: 8, slowA: 6, aiQ: 5, aiMsg: 12, lock: 6, ret: 4, punch: 6 } as const;
+export const BEATS = { logo: 10, scan: 8, stars: 5, prize: 10, commerce: 5, know: 7, slowQ: 7, slowPanel: 11, slowA: 10, aiQ: 7, wall: 9, aiMsg: 11, lock: 6, ret: 4, punch: 6 } as const;
 
 const after = (() => {
   let n = 0;
@@ -32,13 +32,15 @@ export const S = {
   commerce: after.commerce, // ¿Y tu comercio qué gana?
   know: after.know, // Conocés a tus clientes.
   slowQ: after.slowQ, // ¿El sistema detectó que va poca gente los martes?
-  slowA: after.slowA, // Doble estrellita los martes.
-  aiQ: after.aiQ, // La IA te sugiere el mensaje.
+  slowPanel: after.slowPanel, // la sugerencia del panel: "Los martes vienen la mitad de clientes…"
+  slowA: after.slowA, // El sistema propone que los martes, cada visita suma dos estrellitas + Activar promo
+  aiQ: after.aiQ, // La IA te sugiere el mensaje para cada cliente.
+  wall: after.wall, // la pantalla se llena de sugerencias; la de Juli se ilumina
   aiMsg: after.aiMsg, // el mensaje se tipea → Aprobar → Enviado
   lock: after.lock, // le llega por WhatsApp (celular bloqueado 20:41)
   ret: after.ret, // Tus clientes vuelven.
   punch: after.punch, // Más frecuencia. Más clientes. Más ventas.
-  closing: span(after.end, after.end + 180), // logo + contacto
+  closing: span(after.end, after.end + 165), // logo + contacto
 } as const;
 
 export const TOTAL = S.closing.to;

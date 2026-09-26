@@ -1,12 +1,12 @@
-# Mejores Amigos — Guion del reel (v14)
+# Mejores Amigos — Guion del reel (v15)
 
-**Formato:** vertical 1080×1920 · 30 fps · **~54 s**
+**Formato:** vertical 1080×1920 · 30 fps · **~64 s**
 **Dirección de arte:** la de brag (campos de color plano, tipografía gigante, palabra clave en bloque con reflejo de luz, etiquetas monoespaciadas, cortes sobre el pulso) + las animaciones que funcionaban de versiones anteriores + luces: rayos "God Rays" (21st.dev / Paper Shaders, Apache-2.0), brillos, luces de película.
 **Control de legibilidad:** `node scripts/check-legibility.mjs out/mejores-amigos-reel.mp4` lee cada pantalla con Tesseract (OCR) y mide cuánto queda la frase completa en pantalla contra la regla de ~0,3 s por palabra.
 
 | Pantalla | Qué se ve |
 |---|---|
-| ¿Tenés un comercio gastronómico? | rayos de luz desde arriba + brillos |
+| ¿Tenés un comercio gastronómico? | comandas de restaurante flotando en profundidad (cerca nítidas, lejos desenfocadas), algunas con "★ +1 estrellita" |
 | Un cliente vino 12 veces este año. | campo menta |
 | ¿Sabés quién es? | anillos que se abren, persona borrosa en el círculo iluminado, signos de pregunta, rayos detrás |
 | Con Mejores Amigos, sí. → Un nuevo sistema de fidelización de clientes para restaurantes. | subida de la canción |
@@ -16,8 +16,10 @@
 | ¿Y tu comercio qué gana? | |
 | Conocés a tus clientes. | Nuevos · Frecuentes · En riesgo |
 | ¿El sistema detectó que va poca gente los martes? | |
-| Doble estrellita los martes. | barras 3D, el martes +55% |
-| La IA te sugiere el mensaje. | |
+| (panel) Sugerencia del sistema de IA | la captura real: foco en "Los martes vienen la mitad de clientes que el resto de la semana" y después en el mensaje sugerido |
+| El sistema propone que los martes, cada visita suma dos estrellitas. | "Martes de doble estrellita" → se toca "Activar promo" → "Activada" → barras 3D, el martes +55% |
+| La IA te sugiere el mensaje para cada cliente. | |
+| (sugerencias) | la pantalla se llena de 8 sugerencias (Martín no viene hace 45 días → café sin cargo; Caro a 1 estrellita; Juli cumple en 5 días; martes flojos; Lucas vino 3 veces; 12 frecuentes no vinieron; Sofi cumple 1 año; viernes de familias). La de Juli se ilumina y la cámara entra en ella |
 | (mensaje tipeado) → Aprobar y enviar → Enviado | |
 | Le llega por WhatsApp. | celular bloqueado 20:41 + notificación de vidrio |
 | Tus clientes vuelven. | |

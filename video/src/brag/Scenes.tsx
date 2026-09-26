@@ -9,7 +9,11 @@ import { LockDelivery } from "../scenes/Owner";
 import { LightLeak } from "../components/Light";
 import { Bars3D } from "../components/Bars3D";
 import { DepthIn } from "../components/Camera";
-import { Tap } from "../components/Device";
+import { PanelShot, Tap } from "../components/Device";
+import { Aurora } from "../components/Glass";
+import { Spotlight } from "../components/Marks";
+import { Tickets } from "../fx/Tickets";
+import { Emoji3D as E3D, EmojiName } from "../components/Emoji";
 import { Emoji3D } from "../components/Emoji";
 import { CheckIcon, SparkleIcon, StarIcon } from "../components/Icons";
 import { useIn } from "../components/Motion";
@@ -25,8 +29,9 @@ const L = 84; // margen izquierdo de los titulares
 // ---------- gancho ----------
 export const HookQuestion: React.FC = () => (
   <Field c="ink">
-    <GodRays origin={[0, 0.95]} intensity={0.38} bloom={0.32} />
-    <Sparkles count={46} seed="hq" area={{ x: 0, y: 900, w: 1080, h: 1020 }} />
+    <Tickets />
+    {/* velo oscuro detrás de la pregunta para que se lea sobre las comandas */}
+    <AbsoluteFill style={{ background: "linear-gradient(180deg, rgba(2,49,42,0.2) 0%, rgba(2,49,42,0.88) 26%, rgba(2,49,42,0.88) 56%, rgba(2,49,42,0.15) 78%)" }} />
     <Words c="ink" size={128} at={2} per={3} lines={[["¿Tenés", "un"], ["comercio"], [{ t: "gastronómico?", hl: true }]]} style={{ position: "absolute", left: L, top: 560 }} />
   </Field>
 );
@@ -196,17 +201,48 @@ export const BenefitSlowQ: React.FC = () => (
   </Field>
 );
 
-export const BenefitSlowA: React.FC = () => {
+const kT = 900 / 1194;
+
+/** La sugerencia real del panel: foco en el diagnóstico y después en el mensaje sugerido. */
+export const SlowPanel: React.FC = () => (
+  <Field c="cream">
+    <Mono c="cream" text="SUGERENCIA DEL SISTEMA DE IA" at={0} style={{ position: "absolute", left: 90, top: 240 }} />
+    <DepthIn at={2} from={{ rx: 16, ry: -16, z: -500 }} style={{ position: "absolute", left: 90, top: 330 }}>
+      <PanelShot frames={["panel/sugg-tuesday.png"]} srcWidth={1194} srcHeight={1250} width={900}>
+        <Spotlight x={236 * kT} y={150 * kT} w={860 * kT} h={210 * kT} at={18} until={66} />
+        <Spotlight x={96 * kT} y={755 * kT} w={990 * kT} h={180 * kT} at={72} until={140} />
+      </PanelShot>
+    </DepthIn>
+  </Field>
+);
+
+/** "El sistema propone…" + tocar "Activar promo" + las barras del martes suben. */
+export const SlowPromo: React.FC = () => {
   const f = useCurrentFrame();
-  const pill = useIn(52, theme.spring.bouncy);
+  const btn = useIn(24, theme.spring.bouncy);
+  const pressed = f >= 52 ? interpolate(f, [52, 56], [0.93, 1], clamp) : 1;
+  const done = f >= 58;
+  const pill = useIn(100, theme.spring.bouncy);
   return (
     <Field c="ink">
-      <Words c="ink" size={116} at={0} lines={[["Doble", "estrellita"], [{ t: "los martes.", hl: true }]]} style={{ position: "absolute", left: L, top: 300 }} />
-      <DepthIn at={8} from={{ rx: 20, ry: -10, z: -500 }} style={{ position: "absolute", left: 70, top: 640 }}>
-        <Bars3D at={8} grow={[26, 50]} boostTo={232} width={940} />
+      <Words c="ink" size={88} at={0} per={2} lines={[["El", "sistema", "propone", "que"], ["los", "martes,", "cada", "visita"], ["suma", { t: "dos estrellitas.", hl: true }]]} style={{ position: "absolute", left: 70, top: 230 }} />
+      <DepthIn at={14} from={{ rx: 18, ry: -12, z: -400 }} style={{ position: "absolute", left: 70, top: 580, width: 940 }}>
+        <div style={{ position: "relative", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 20, background: T.cream, borderRadius: 40, padding: "22px 26px 22px 34px" }}>
+          <div>
+            <div style={{ fontFamily: "JetBrains Mono", fontWeight: 700, fontSize: 24, letterSpacing: "0.12em", color: T.mintDeep }}>PROMO AUTOMÁTICA</div>
+            <div style={{ ...display(46, T.ink, 800), marginTop: 6 }}>Martes de doble estrellita</div>
+          </div>
+          <div style={{ flex: "none", display: "inline-flex", alignItems: "center", gap: 10, background: done ? T.ink : T.mint, borderRadius: 60, padding: "20px 30px", ...body(34, T.white, 800), transform: `scale(${interpolate(btn, [0, 1], [0.6, 1]) * pressed})`, opacity: btn }}>
+            {done ? <><CheckIcon size={36} color={T.mint} /> Activada</> : "Activar promo"}
+          </div>
+          <Tap x={800} y={70} at={52} />
+        </div>
       </DepthIn>
-      {f >= 52 && (
-        <div style={{ position: "absolute", left: 400, top: 800, background: T.mint, borderRadius: 40, padding: "10px 24px", ...display(44, T.ink, 800), transform: `scale(${pill}) rotate(-5deg)`, boxShadow: "0 14px 26px -12px rgba(0,0,0,0.4)" }}>
+      <DepthIn at={62} from={{ rx: 20, ry: -10, z: -500 }} style={{ position: "absolute", left: 70, top: 800 }}>
+        <Bars3D at={62} grow={[74, 100]} boostTo={232} width={940} />
+      </DepthIn>
+      {f >= 100 && (
+        <div style={{ position: "absolute", left: 400, top: 970, background: T.mint, borderRadius: 40, padding: "10px 24px", ...display(44, T.ink, 800), transform: `scale(${pill}) rotate(-5deg)`, boxShadow: "0 14px 26px -12px rgba(0,0,0,0.4)" }}>
           +55% los martes
         </div>
       )}
@@ -217,15 +253,65 @@ export const BenefitSlowA: React.FC = () => {
 export const BenefitAIQ: React.FC = () => (
   <Field c="mint">
     <Mono c="mint" text="BENEFICIO 03" at={0} style={{ position: "absolute", left: L, top: 300 }} />
-    <Words c="mint" size={150} at={2} lines={[["La", "IA"], ["te", "sugiere"], [{ t: "el mensaje.", hl: true }]]} style={{ position: "absolute", left: L, top: 380 }} />
+    <Words c="mint" size={128} at={2} per={2} lines={[["La", "IA", "te"], ["sugiere", "el"], ["mensaje", "para"], [{ t: "cada cliente.", hl: true }]]} style={{ position: "absolute", left: L, top: 380 }} />
   </Field>
 );
+
+const SUGGESTIONS: { icon: EmojiName; text: string; action: string; juli?: boolean }[] = [
+  { icon: "hot_beverage", text: "Martín no viene hace 45 días.", action: "Proponele un café sin cargo" },
+  { icon: "star", text: "Caro está a 1 estrellita de su premio.", action: "Avisale" },
+  { icon: "birthday_cake", text: "Juli cumple en 5 días.", action: "Invitala a festejar", juli: true },
+  { icon: "tear-off_calendar", text: "Los martes vienen la mitad de clientes.", action: "Activá doble estrellita" },
+  { icon: "shortcake", text: "Lucas vino 3 veces esta semana.", action: "Regalale un postre" },
+  { icon: "bell", text: "12 frecuentes no vinieron este mes.", action: "Mandales una promo" },
+  { icon: "clinking_glasses", text: "Sofi cumple 1 año como clienta.", action: "Saludala" },
+  { icon: "pizza", text: "Los viernes vienen muchas familias.", action: "Proponé la promo familiar" },
+];
+
+const SuggestionCard: React.FC<{ s: (typeof SUGGESTIONS)[number]; at: number; lit: number; dim: number }> = ({ s, at, lit, dim }) => (
+  <DepthIn at={at} dur={20} from={{ rx: 24, ry: at % 2 ? 22 : -22, z: -800, y: 80 }}>
+    <div style={{
+      width: 455, height: 300, borderRadius: 36, background: T.cream, padding: "24px 26px", display: "flex", flexDirection: "column", justifyContent: "space-between",
+      opacity: 1 - dim * 0.65, boxShadow: `0 30px 60px -30px rgba(0,0,0,0.6), 0 0 0 ${lit * 8}px ${T.mint}, 0 0 ${lit * 60}px ${lit * 16}px rgba(5,171,135,0.55)`,
+    }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+        <E3D name={s.icon} size={56} at={at + 4} float={0} depth={0.4} />
+        <span style={{ fontFamily: "JetBrains Mono", fontWeight: 700, fontSize: 20, letterSpacing: "0.12em", color: T.mintDeep }}>SUGERENCIA IA</span>
+      </div>
+      <div style={{ ...body(34, T.ink, 800), lineHeight: 1.2 }}>{s.text}</div>
+      <div style={{ alignSelf: "flex-start", background: T.mint, borderRadius: 30, padding: "10px 18px", ...body(26, T.ink, 800) }}>→ {s.action}</div>
+    </div>
+  </DepthIn>
+);
+
+/** La pantalla se llena de sugerencias del sistema; la de Juli se ilumina y la cámara entra en ella. */
+export const AiWall: React.FC<{ dur: number }> = ({ dur }) => {
+  const f = useCurrentFrame();
+  const pull = interpolate(f, [0, 64], [1.12, 1], { ...clamp, easing: expoOut });
+  const lit = interpolate(f, [dur - 34, dur - 24], [0, 1], clamp);
+  const dive = interpolate(f, [dur - 18, dur], [0, 1], { ...clamp, easing: Easing.in(Easing.cubic) });
+  // centro de la tarjeta de Juli (columna 1, fila 2)
+  const cx = 70 + 455 / 2, cy = 360 + 1 * 330 + 150;
+  return (
+    <Field c="ink">
+      <Aurora base={T.ink} colors={["rgba(5,171,135,0.35)", "rgba(245,184,61,0.14)", "rgba(5,171,135,0.25)"]} />
+      <div style={{ position: "absolute", inset: 0, transform: `scale(${pull * (1 + dive * 1.6)})`, transformOrigin: `${cx}px ${cy}px`, filter: dive > 0 ? `blur(${dive * 8}px)` : undefined }}>
+        <Mono c="ink" text="SUGERENCIAS DE HOY · 8" at={0} style={{ position: "absolute", left: 70, top: 260 }} />
+        {SUGGESTIONS.map((sg, i) => (
+          <div key={i} style={{ position: "absolute", left: 70 + (i % 2) * 485, top: 360 + Math.floor(i / 2) * 330 }}>
+            <SuggestionCard s={sg} at={4 + i * 6} lit={sg.juli ? lit : 0} dim={sg.juli ? 0 : lit} />
+          </div>
+        ))}
+      </div>
+    </Field>
+  );
+};
 
 export const BenefitAIMsg: React.FC = () => {
   const f = useCurrentFrame();
   const btn = useIn(50, theme.spring.bouncy);
-  const pressed = f >= 130 ? interpolate(f, [130, 134], [0.94, 1], clamp) : 1;
-  const done = f >= 136;
+  const pressed = f >= 118 ? interpolate(f, [118, 122], [0.94, 1], clamp) : 1;
+  const done = f >= 124;
   return (
     <Field c="cream">
       <DepthIn at={0} dur={16} from={{ rx: 16, ry: -14, z: -400 }} style={{ position: "absolute", left: 70, top: 420, width: 940 }}>
@@ -239,7 +325,7 @@ export const BenefitAIMsg: React.FC = () => {
           <div style={{ marginTop: 20, display: "inline-flex", alignItems: "center", gap: 14, background: done ? T.ink : T.mint, borderRadius: 80, padding: "26px 46px", ...body(42, T.white, 800), transform: `scale(${interpolate(btn, [0, 1], [0.6, 1]) * pressed})`, opacity: btn, transformOrigin: "left center" }}>
             {done ? <><CheckIcon size={44} color={T.mint} /> Enviado</> : "Aprobar y enviar"}
           </div>
-          <Tap x={250} y={700} at={130} />
+          <Tap x={250} y={700} at={118} />
         </div>
       </DepthIn>
     </Field>

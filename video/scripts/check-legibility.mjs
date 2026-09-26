@@ -33,13 +33,14 @@ const SCREENS = [
   ["comercio", ...at.commerce, "¿Y tu comercio qué gana?"],
   ["conocés", ...at.know, "Conocés a tus clientes."],
   ["martes ?", ...at.slowQ, "¿El sistema detectó que va poca gente los martes?"],
-  ["martes !", ...at.slowA, "Doble estrellita los martes."],
-  ["IA", ...at.aiQ, "La IA te sugiere el mensaje."],
+  ["panel", ...at.slowPanel, "Los martes vienen la mitad de clientes que el resto de la semana"],
+  ["promo", ...at.slowA, "El sistema propone que los martes, cada visita suma dos estrellitas."],
+  ["IA", ...at.aiQ, "La IA te sugiere el mensaje para cada cliente."],
   ["mensaje", ...at.aiMsg, "Hola, Juli! Se viene tu cumple: si venís con 4 amigos, tu plato va por nuestra cuenta."],
   ["le llega", ...at.lock, "Le llega por WhatsApp."],
   ["vuelven", ...at.ret, "Tus clientes vuelven."],
   ["remate", ...at.punch, "Más frecuencia. Más clientes. Más ventas."],
-  ["cierre", at.end, at.end + 180, "Convertí a tus clientes en mejores amigos. Lo instalamos en tu restó"],
+  ["cierre", at.end, at.end + 165, "Convertí a tus clientes en mejores amigos. Lo instalamos en tu restó"],
 ];
 
 const norm = (t) => t.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z0-9ñ ]/g, " ").split(/\s+/).filter(Boolean);

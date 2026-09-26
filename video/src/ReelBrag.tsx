@@ -37,7 +37,7 @@ const KIT: Record<string, string> = {
   pop: "sfx/bong_001", chip: "sfx/chip-lay-1", card: "sfx/card-place-1", sel: "sfx/select_008", shimmer: "audio/shimmer",
 };
 type Fx = [number, string, number];
-const cuts = [S.claim, S.who, S.scan, S.stars, S.prize, S.commerce, S.know, S.slowQ, S.slowA, S.aiQ, S.aiMsg, S.lock, S.ret, S.punch, S.closing];
+const cuts = [S.claim, S.who, S.scan, S.stars, S.prize, S.commerce, S.know, S.slowQ, S.slowPanel, S.slowA, S.aiQ, S.wall, S.lock, S.ret, S.punch, S.closing];
 const SFX: Fx[] = [
   [2, "soft", 0.3], [8, "soft2", 0.22],
   ...cuts.map((s, i): Fx => [s.from - 1, i % 2 ? "cut2" : "cut", 0.22]),
@@ -49,9 +49,11 @@ const SFX: Fx[] = [
   [S.prize.from + 12, "chip", 0.26], [S.prize.from + 24, "chip", 0.28], [S.prize.from + 26, "shimmer", 0.3], [S.prize.from + 48, "cut2", 0.2], [S.prize.from + 70, "ding", 0.3],
   [S.who.from + 12, "pop", 0.22], [S.who.from + 20, "sel", 0.16], [S.who.from + 25, "sel", 0.16], [S.who.from + 30, "sel", 0.16],
   [S.lock.from + 26, "pop", 0.3], [S.lock.from + 28, "shimmer", 0.24],
-  [S.slowA.from + 26, "cut2", 0.18], [S.slowA.from + 52, "pop", 0.26],
+  [S.slowPanel.from + 18, "sel", 0.2], [S.slowPanel.from + 72, "sel", 0.2],
+  [S.slowA.from + 24, "pop", 0.22], [S.slowA.from + 52, "tap", 0.45], [S.slowA.from + 58, "ding", 0.28], [S.slowA.from + 74, "cut2", 0.18], [S.slowA.from + 100, "pop", 0.26],
+  ...Array.from({ length: 8 }, (_, i): Fx => [S.wall.from + 4 + i * 6, "card", 0.2]), [S.wall.from + S.wall.dur - 34, "shimmer", 0.3], [S.wall.from + S.wall.dur - 18, "cut", 0.28],
   ...Array.from({ length: 14 }, (_, i): Fx => [S.aiMsg.from + 6 + i * 3, "key", 0.1]),
-  [S.aiMsg.from + 50, "pop", 0.22], [S.aiMsg.from + 130, "tap", 0.45], [S.aiMsg.from + 136, "ding", 0.3],
+  [S.aiMsg.from + 50, "pop", 0.22], [S.aiMsg.from + 118, "tap", 0.45], [S.aiMsg.from + 124, "ding", 0.3],
   [S.punch.from, "hit", 0.32], [S.punch.from + 10, "hit", 0.28], [S.punch.from + 20, "hit", 0.3],
   [S.closing.from + 2, "shimmer", 0.28], [S.closing.from + 3, "bell", 0.24],
 ];
@@ -71,9 +73,11 @@ export const ReelBrag: React.FC = () => {
         <Scene s={S.commerce} dir="left"><Sc.Commerce /></Scene>
         <Scene s={S.know}><Sc.BenefitKnow /></Scene>
         <Scene s={S.slowQ} dir="left"><Sc.BenefitSlowQ /></Scene>
-        <Scene s={S.slowA}><Sc.BenefitSlowA /></Scene>
+        <Scene s={S.slowPanel}><Sc.SlowPanel /></Scene>
+        <Scene s={S.slowA} dir="left"><Sc.SlowPromo /></Scene>
         <Scene s={S.aiQ} dir="left"><Sc.BenefitAIQ /></Scene>
-        <Scene s={S.aiMsg}><Sc.BenefitAIMsg /></Scene>
+        <Scene s={S.wall}><Sc.AiWall dur={S.wall.dur} /></Scene>
+        <Scene s={S.aiMsg} dir="none"><Sc.BenefitAIMsg /></Scene>
         <Scene s={S.lock} dir="left"><Sc.Delivered /></Scene>
         <Scene s={S.ret} dir="left"><Sc.BenefitReturn /></Scene>
         <Scene s={S.punch}><Sc.Punch /></Scene>
