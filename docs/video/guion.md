@@ -18,10 +18,10 @@
 ---
 
 ## Cambios v12 (aplicando latent-spaces/brag)
-- **Gancho nuevo (0–3 s):** "¿Tenés un comercio gastronómico?" sobre un restó ilustrado con cámara en parallax: pared cálida, ventanas al atardecer sobre el mar con haces de luz, cartel de neón "Brasa Restó" que se enciende, lámparas colgantes que se balancean, comensales en dos mesas con platos humeantes y un mozo que cruza con la bandeja. Suenan pasos, platos y copas. Después siguen "12 veces" y "¿Sabés quién es?". La canción arranca desde el principio (la subida cae en el logo, a los 10 s).
+- **Gancho nuevo (0–3 s):** solo la pregunta "¿Tenés un comercio gastronómico?" sobre fondo oscuro de marca, con un plato y una campana plateada en 3D real (three.js) bajo un foco de luz: la campana se levanta, sale vapor y aparece la estrellita dorada del sistema. Después siguen "12 veces" y "¿Sabés quién es?". La canción arranca desde el principio (la subida cae en el logo, a los 10 s).
 - **Regla de lectura de brag** (~0,3 s por palabra desde que la frase termina de entrar): más tiempo en la definición, la línea de IA, el premio, las placas de beneficio y el mensaje de cumpleaños.
 - **Efectos de sonido reales** de Kenney (CC0, incluidos en brag), mezclados suaves bajo la música: tarjetas, clicks, campanas, golpes suaves, fichas para las estrellitas.
-- **Reacción a la música:** los graves de la canción avivan el brillo de las lámparas y el neón del restó, las auroras de las placas y los fondos (nunca el texto).
+- **Reacción a la música:** los graves de la canción avivan el haz de luz del gancho, las auroras de las placas y los fondos (nunca el texto).
 - **Entregables extra:** `texto-para-publicar.txt` (copy para Instagram) y una portada (`portada.jpg`) con el cuadro más fuerte para elegir como cover.
 
 ## Cambios v11

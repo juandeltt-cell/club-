@@ -49,9 +49,8 @@ const S = SCENES;
 const at = (sc: { from: number }, f: number) => sc.from + f;
 type Fx = [number, string, number];
 const SFX: Fx[] = [
-  // gancho · el restó: pasos del mozo, platos y copas
-  ...[6, 15, 24, 33, 42, 51, 60, 69, 78].map((f, i): Fx => [f, `step${(i % 4) + 1}`, 0.14]),
-  [14, "plate", 0.22], [34, "glass", 0.2], [58, "plate2", 0.18], [70, "glass2", 0.16],
+  // gancho · el plato: aparece, se levanta la campana, brilla la estrellita
+  [6, "plate", 0.24], [38, "glass", 0.22], [46, "shimmer", 0.3], [50, "bell", 0.24],
   // gancho · 12 veces + pregunta
   [CLAIM_AT - 4, "whoosh", 0.3], [CLAIM_AT + 6, "soft", 0.35], ...[24, 26, 28, 30, 32, 34, 36, 38, 40, 42, 44, 46].map((f): Fx => [CLAIM_AT + f, "tick", 0.14]),
   [QUESTION_AT - 8, "whoosh", 0.3], [QUESTION_AT + 20, "pop4", 0.26], [QUESTION_AT + 34, "pop1", 0.2], [QUESTION_AT + 40, "pop2", 0.2], [QUESTION_AT + 46, "pop3", 0.2],

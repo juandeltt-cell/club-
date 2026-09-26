@@ -2,7 +2,7 @@ import React from "react";
 import { noise2D } from "@remotion/noise";
 import { AbsoluteFill, interpolate, Sequence, useCurrentFrame } from "remotion";
 import { DROP } from "../timeline";
-import { Restaurant } from "./Restaurant";
+import { Opening } from "./Opening";
 import { Character } from "../components/Character";
 import { Emoji3D, Odometer } from "../components/Emoji";
 import { SceneBg } from "../components/Layers";
@@ -14,12 +14,12 @@ export const CLAIM_AT = 90;
 export const QUESTION_AT = 215;
 
 // Escena 1 · Gancho (0–302, intro tranquila de la canción):
-// restó "¿Tenés un comercio gastronómico?" → "12 veces" → "¿Sabés quién es?"
+// "¿Tenés un comercio gastronómico?" (plato 3D) → "12 veces" → "¿Sabés quién es?"
 export const Hook: React.FC = () => {
   const frame = useCurrentFrame();
   return (
     <AbsoluteFill>
-      {frame < CLAIM_AT && <Restaurant />}
+      {frame < CLAIM_AT && <Opening />}
       {frame >= CLAIM_AT && frame < QUESTION_AT && (
         <Sequence from={CLAIM_AT} layout="none">
           <Claim />
