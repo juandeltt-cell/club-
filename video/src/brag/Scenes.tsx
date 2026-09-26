@@ -1,15 +1,22 @@
 import React from "react";
-import { Easing, interpolate, useCurrentFrame } from "remotion";
+import { noise2D } from "@remotion/noise";
+import { AbsoluteFill, Easing, interpolate, useCurrentFrame } from "remotion";
+import { Character } from "../components/Character";
+import { GodRays } from "../fx/GodRays";
+import { Sparkles } from "../fx/Sparkles";
+import { RedeemStage, TableScene } from "../scenes/Client";
+import { LockDelivery } from "../scenes/Owner";
+import { LightLeak } from "../components/Light";
 import { Bars3D } from "../components/Bars3D";
 import { DepthIn } from "../components/Camera";
-import { Qr, Tap } from "../components/Device";
+import { Tap } from "../components/Device";
 import { Emoji3D } from "../components/Emoji";
 import { CheckIcon, SparkleIcon, StarIcon } from "../components/Icons";
 import { useIn } from "../components/Motion";
 import { Star3D } from "../components/Star3D";
 import { body, display } from "../components/Type";
 import { T, theme } from "../theme";
-import { Field, Mono, Ticker, Typed, Words } from "./Kit";
+import { Field, Mono, Typed, Words } from "./Kit";
 
 const clamp = { extrapolateLeft: "clamp", extrapolateRight: "clamp" } as const;
 const expoOut = Easing.bezier(0.16, 1, 0.3, 1);
@@ -18,9 +25,9 @@ const L = 84; // margen izquierdo de los titulares
 // ---------- gancho ----------
 export const HookQuestion: React.FC = () => (
   <Field c="ink">
-    <Ticker words={["RESTÓ", "BAR", "CAFÉ", "PARRILLA", "PIZZERÍA", "HELADERÍA"]} y={1230} size={230} speed={-5} color={T.mint} opacity={0.55} />
-    <Ticker words={["CERVECERÍA", "PANADERÍA", "BODEGÓN", "CAFETERÍA", "RESTÓ"]} y={1500} size={230} speed={5} color={T.cream} opacity={0.18} />
-    <Words c="ink" size={128} at={2} per={3} lines={[["¿Tenés", "un"], ["comercio"], [{ t: "gastronómico?", hl: true }]]} style={{ position: "absolute", left: L, top: 470 }} />
+    <GodRays origin={[0, 0.95]} intensity={0.38} bloom={0.32} />
+    <Sparkles count={46} seed="hq" area={{ x: 0, y: 900, w: 1080, h: 1020 }} />
+    <Words c="ink" size={128} at={2} per={3} lines={[["¿Tenés", "un"], ["comercio"], [{ t: "gastronómico?", hl: true }]]} style={{ position: "absolute", left: L, top: 560 }} />
   </Field>
 );
 
@@ -43,32 +50,79 @@ export const HookClaim: React.FC = () => {
   );
 };
 
-export const HookWho: React.FC = () => {
+const FloatQ: React.FC<{ at: number; x: number; y: number; size: number; color: string; rotate: number }> = ({ at, x, y, size, color, rotate }) => {
   const f = useCurrentFrame();
-  const shake = f > 34 ? Math.sin(f * 2.1) * (f - 34) * 0.5 : 0;
+  const p = useIn(at, theme.spring.bouncy);
+  if (f < at) return null;
+  const dx = noise2D(`qx${x}`, f / 60, 0) * 18;
+  const dy = noise2D(`qy${y}`, f / 60, 0) * 18;
+  return <div style={{ position: "absolute", left: x + dx, top: y + dy, ...display(size, color, 800), opacity: Math.min(1, p * 1.5), transform: `scale(${p}) rotate(${rotate}deg)` }}>?</div>;
+};
+
+/** Anillos que se abren hacia cámara mientras el círculo queda igual (dolly zoom). */
+const DollyRings: React.FC<{ dur: number }> = ({ dur }) => {
+  const f = useCurrentFrame();
+  const t = interpolate(f, [0, dur], [0, 1], { ...clamp, easing: Easing.bezier(0.65, 0, 0.35, 1) });
+  const o = interpolate(f, [0, 10], [0, 1], clamp);
+  return (
+    <svg width={1080} height={1920} style={{ position: "absolute", inset: 0, opacity: o }}>
+      {Array.from({ length: 9 }).map((_, i) => {
+        const r = (340 + i * 150) * (1 + t * (1.1 + i * 0.12));
+        return <circle key={i} cx={540} cy={1200} r={r} fill="none" stroke={T.mint} strokeOpacity={0.4 - i * 0.035} strokeWidth={5 + i * 3} />;
+      })}
+    </svg>
+  );
+};
+
+export const HookWho: React.FC<{ dur: number }> = ({ dur }) => {
+  const f = useCurrentFrame();
+  const pill = interpolate(f, [8, 20], [0, 1], { ...clamp, easing: expoOut });
+  const card = useIn(10, theme.spring.bouncy);
+  const build = interpolate(f, [dur * 0.55, dur - 2], [0, 1], { ...clamp, easing: Easing.in(Easing.cubic) });
+  const shake = Math.sin(f * 1.7) * build * 6;
   return (
     <Field c="ink">
-      <Ticker words={["¿QUIÉN ES?"]} y={1330} size={300} speed={-7} color={T.mint} opacity={0.25} />
-      <Words c="ink" size={200} at={0} per={4} align="center" lines={[["¿Sabés"], [{ t: "quién es?", hl: true }]]} style={{ position: "absolute", left: 0, right: 0, top: 640, transform: `translateX(${shake}px)` }} />
+      <GodRays origin={[0, -0.28]} intensity={0.3 + build * 0.25} bloom={0.35 + build * 0.3} />
+      <DollyRings dur={dur} />
+      <div style={{ position: "absolute", left: 0, right: 0, top: 330, display: "flex", flexDirection: "column", alignItems: "center" }}>
+        <Words c="ink" size={190} at={0} lines={[["¿Sabés"]]} />
+        <div style={{ position: "relative", marginTop: 6 }}>
+          <div style={{ position: "absolute", left: -34, right: -34, top: 18, bottom: -6, borderRadius: 160, background: T.mint, transform: `scaleX(${pill})`, transformOrigin: "left center" }} />
+          <Words c="ink" size={190} at={4} lines={[["quién", "es?"]]} style={{ position: "relative" }} />
+        </div>
+      </div>
+      {/* la clienta, detrás de un vidrio esmerilado e iluminada desde atrás */}
+      <div style={{
+        position: "absolute", left: 540 - 300, top: 900, width: 600, height: 600, borderRadius: "50%", overflow: "hidden", background: T.mint, opacity: card,
+        transform: `scale(${interpolate(card, [0, 1], [0.5, 1]) * (1 + build * 0.08)}) translateX(${shake}px)`,
+        boxShadow: `0 0 0 10px ${T.mint}, 0 0 ${80 + build * 80}px ${20 + build * 30}px rgba(5,171,135,0.55), 0 30px 80px rgba(0,0,0,0.4)`,
+      }}>
+        <div style={{ position: "absolute", left: 70, top: 80, filter: `blur(${16 - build * 6}px)`, opacity: 0.9 }}>
+          <Character body="Device" hair="Long" face="SmileBig" width={460} fill={T.white} />
+        </div>
+        <AbsoluteFill style={{ background: "rgba(5,171,135,0.25)" }} />
+      </div>
+      <FloatQ at={20} x={130} y={930} size={200} color={T.star} rotate={-14} />
+      <FloatQ at={25} x={830} y={1000} size={150} color={T.cream} rotate={12} />
+      <FloatQ at={30} x={800} y={1390} size={130} color={T.mint} rotate={-6} />
     </Field>
   );
 };
 
 // ---------- los tres pasos del cliente ----------
-export const StepQR: React.FC = () => {
+export const StepScan: React.FC = () => {
   const f = useCurrentFrame();
-  const qr = interpolate(f, [8, 32], [0, 1], { ...clamp, easing: expoOut });
-  const scan = interpolate(f, [30, 58], [0, 1], clamp);
+  const pill = useIn(78, theme.spring.bouncy);
   return (
-    <Field c="ink">
-      <Mono c="ink" text="PASO 01 · TU CLIENTE" at={0} style={{ position: "absolute", left: L, top: 300 }} />
-      <Words c="ink" size={170} at={2} lines={[["Escanea"], ["el", { t: "QR.", hl: true }]]} style={{ position: "absolute", left: L, top: 380 }} />
-      <DepthIn at={6} from={{ rx: 20, ry: -16, z: -400 }} style={{ position: "absolute", left: 540 - 250, top: 1020 }}>
-        <div style={{ position: "relative", width: 500, height: 500, borderRadius: 48, background: T.cream, display: "grid", placeItems: "center", boxShadow: "0 40px 80px -30px rgba(0,0,0,0.6)" }}>
-          <Qr size={400} progress={qr} />
-          {f >= 30 && f < 60 && <div style={{ position: "absolute", left: 30, right: 30, top: 40 + scan * 400, height: 10, borderRadius: 10, background: T.mint, boxShadow: `0 0 30px 8px ${T.mintGlow}` }} />}
+    <Field c="cream">
+      <Words c="cream" size={96} at={0} per={2} lines={[["El", "cliente", "escanea"], ["el", { t: "QR", hl: true }, "en", "la", "mesa."]]} style={{ position: "absolute", left: 70, top: 250, zIndex: 3 }} />
+      <TableScene scanAt={22} />
+      <Star3D size={330} at={66} x={680} y={560} turns={1.5} />
+      {f >= 78 && (
+        <div style={{ position: "absolute", left: 680, top: 880, background: T.star, borderRadius: 60, padding: "14px 28px", ...display(44, T.ink, 800), transform: `scale(${interpolate(pill, [0, 1], [0.4, 1])}) rotate(-4deg)`, boxShadow: "0 16px 30px -14px rgba(0,0,0,0.45)" }}>
+          +1 estrellita
         </div>
-      </DepthIn>
+      )}
     </Field>
   );
 };
@@ -77,10 +131,10 @@ export const StepStars: React.FC = () => {
   const f = useCurrentFrame();
   return (
     <Field c="mint">
-      <Mono c="mint" text="PASO 02 · EN CADA VISITA" at={0} style={{ position: "absolute", left: L, top: 300 }} />
-      <Words c="mint" size={170} at={2} lines={[["Suma"], [{ t: "estrellitas.", hl: true }]]} style={{ position: "absolute", left: L, top: 380 }} />
-      <Star3D size={520} at={6} x={540 - 260} y={880} turns={1.5} />
-      <div style={{ position: "absolute", left: 0, right: 0, top: 1480, display: "flex", justifyContent: "center", gap: 22 }}>
+      <Sparkles count={36} seed="st" color="#FFF6D8" area={{ x: 0, y: 700, w: 1080, h: 900 }} />
+      <Words c="mint" size={138} at={0} per={3} lines={[["En", "cada"], ["visita,", "suma"], [{ t: "estrellitas.", hl: true }]]} style={{ position: "absolute", left: 70, top: 260 }} />
+      <Star3D size={480} at={8} x={540 - 240} y={960} turns={1.5} />
+      <div style={{ position: "absolute", left: 0, right: 0, top: 1500, display: "flex", justifyContent: "center", gap: 22 }}>
         {[0, 1, 2, 3, 4].map((i) => {
           const on = f >= 22 + i * 7;
           const p = interpolate(f, [22 + i * 7, 30 + i * 7], [0.4, 1], { ...clamp, easing: expoOut });
@@ -97,22 +151,17 @@ export const StepStars: React.FC = () => {
 
 export const StepPrize: React.FC = () => (
   <Field c="cream">
-    <Mono c="cream" text="PASO 03 · PREMIO" at={0} style={{ position: "absolute", left: L, top: 300 }} />
-    <Words c="cream" size={150} at={2} lines={[["Desbloquea"], [{ t: "premios.", hl: true }]]} style={{ position: "absolute", left: L, top: 380 }} />
-    <DepthIn at={6} from={{ rx: -18, ry: 20, z: -500 }} style={{ position: "absolute", left: 540 - 360, top: 900 }}>
-      <div style={{ width: 720, borderRadius: 48, background: T.white, border: `6px dashed ${T.mint}`, padding: "40px 40px 46px", display: "flex", flexDirection: "column", alignItems: "center", gap: 18, boxShadow: "0 40px 80px -40px rgba(2,49,42,0.5)" }}>
-        <div style={{ fontFamily: "JetBrains Mono", fontWeight: 700, fontSize: 30, letterSpacing: "0.14em", color: T.mintDeep }}>¡PRIMER PREMIO!</div>
-        <Emoji3D name="shortcake" size={190} at={12} float={0.3} />
-        <div style={{ ...display(66, T.ink, 800) }}>Postre sin cargo</div>
-      </div>
-    </DepthIn>
+    <AbsoluteFill style={{ background: "radial-gradient(ellipse at 50% 60%, rgba(245,184,61,0.28), transparent 60%)" }} />
+    <Words c="cream" size={130} at={0} lines={[["Desbloquea"], [{ t: "premios.", hl: true }]]} style={{ position: "absolute", left: 70, top: 230, zIndex: 3 }} />
+    <RedeemStage dy={150} />
+    <LightLeak at={26} dur={40} dir={-1} strength={0.55} />
   </Field>
 );
 
 // ---------- el comercio ----------
 export const Commerce: React.FC = () => (
   <Field c="mint">
-    <Ticker words={["MÁS VISITAS", "MÁS CLIENTES", "MÁS VENTAS"]} y={1380} size={200} speed={-6} color={T.ink} opacity={0.3} />
+    <Sparkles count={40} seed="co" color="#FFFFFF" area={{ x: 0, y: 1000, w: 1080, h: 920 }} size={4} opacity={0.8} />
     <Words c="mint" size={160} at={0} lines={[["¿Y", "tu"], ["comercio"], [{ t: "qué gana?", hl: true }]]} style={{ position: "absolute", left: L, top: 470 }} />
   </Field>
 );
@@ -142,8 +191,8 @@ export const BenefitKnow: React.FC = () => (
 
 export const BenefitSlowQ: React.FC = () => (
   <Field c="cream">
-    <Mono c="cream" text="BENEFICIO 02" at={0} style={{ position: "absolute", left: L, top: 300 }} />
-    <Words c="cream" size={230} at={2} per={4} lines={[["¿Martes"], [{ t: "flojo?", hl: true }]]} style={{ position: "absolute", left: L, top: 620 }} />
+    <Mono c="cream" text="BENEFICIO 02" at={0} style={{ position: "absolute", left: 70, top: 300 }} />
+    <Words c="cream" size={124} at={2} per={2} lines={[["¿El", "sistema"], ["detectó", "que", "va"], ["poca", "gente"], [{ t: "los martes?", hl: true }]]} style={{ position: "absolute", left: 70, top: 480 }} />
   </Field>
 );
 
@@ -174,9 +223,9 @@ export const BenefitAIQ: React.FC = () => (
 
 export const BenefitAIMsg: React.FC = () => {
   const f = useCurrentFrame();
-  const btn = useIn(66, theme.spring.bouncy);
-  const pressed = f >= 90 ? interpolate(f, [90, 94], [0.94, 1], clamp) : 1;
-  const done = f >= 96;
+  const btn = useIn(50, theme.spring.bouncy);
+  const pressed = f >= 130 ? interpolate(f, [130, 134], [0.94, 1], clamp) : 1;
+  const done = f >= 136;
   return (
     <Field c="cream">
       <DepthIn at={0} dur={16} from={{ rx: 16, ry: -14, z: -400 }} style={{ position: "absolute", left: 70, top: 420, width: 940 }}>
@@ -185,17 +234,26 @@ export const BenefitAIMsg: React.FC = () => {
             <SparkleIcon size={32} color={T.mint} /> SUGERIDO POR IA · CUMPLE DE JULI
           </div>
           <div style={{ ...body(60, T.ink, 600), lineHeight: 1.28, marginTop: 24, minHeight: 470 }}>
-            <Typed text="¡Hola, Juli! Se viene tu cumple: si venís con 4 amigos, tu plato va por nuestra cuenta." at={8} cps={1.7} />
+            <Typed text="¡Hola, Juli! Se viene tu cumple: si venís con 4 amigos, tu plato va por nuestra cuenta." at={6} cps={2.2} />
           </div>
           <div style={{ marginTop: 20, display: "inline-flex", alignItems: "center", gap: 14, background: done ? T.ink : T.mint, borderRadius: 80, padding: "26px 46px", ...body(42, T.white, 800), transform: `scale(${interpolate(btn, [0, 1], [0.6, 1]) * pressed})`, opacity: btn, transformOrigin: "left center" }}>
             {done ? <><CheckIcon size={44} color={T.mint} /> Enviado</> : "Aprobar y enviar"}
           </div>
-          <Tap x={250} y={700} at={90} />
+          <Tap x={250} y={700} at={130} />
         </div>
       </DepthIn>
     </Field>
   );
 };
+
+export const Delivered: React.FC = () => (
+  <Field c="cream">
+    <AbsoluteFill style={{ background: "radial-gradient(ellipse at 50% 55%, rgba(5,171,135,0.22), transparent 62%)" }} />
+    <Words c="cream" size={84} at={0} lines={[["Le", "llega", "por", { t: "WhatsApp.", hl: true }]]} style={{ position: "absolute", left: 70, top: 200 }} />
+    <LockDelivery />
+    <LightLeak at={24} dur={40} strength={0.45} />
+  </Field>
+);
 
 export const BenefitReturn: React.FC = () => (
   <Field c="ink">
@@ -210,8 +268,8 @@ export const Punch: React.FC = () => (
   <Field c="mint">
     <div style={{ position: "absolute", left: L, top: 560, display: "flex", flexDirection: "column", gap: 8 }}>
       <Words c="mint" size={120} at={0} lines={[["Más", { t: "frecuencia.", hl: true }]]} />
-      <Words c="mint" size={120} at={13} lines={[["Más", { t: "clientes.", hl: true }]]} />
-      <Words c="mint" size={120} at={26} lines={[["Más", { t: "ventas.", hl: true }]]} />
+      <Words c="mint" size={120} at={10} lines={[["Más", { t: "clientes.", hl: true }]]} />
+      <Words c="mint" size={120} at={20} lines={[["Más", { t: "ventas.", hl: true }]]} />
     </div>
   </Field>
 );

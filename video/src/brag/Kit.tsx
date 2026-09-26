@@ -49,7 +49,10 @@ export const Words: React.FC<{
             return (
               <span key={wi} style={{ position: "relative", display: "inline-block", overflow: "visible" }}>
                 {w.hl && (
-                  <span style={{ position: "absolute", left: -size * 0.12, right: -size * 0.12, top: size * 0.1, bottom: size * 0.02, background: pal.hlBg, borderRadius: size * 0.1, transform: `scaleX(${paint})`, transformOrigin: "left center" }} />
+                  <span style={{ position: "absolute", left: -size * 0.12, right: -size * 0.12, top: size * 0.1, bottom: size * 0.02, background: pal.hlBg, borderRadius: size * 0.1, transform: `scaleX(${paint})`, transformOrigin: "left center", overflow: "hidden" }}>
+                    {/* reflejo de luz que cruza el bloque una vez (idea de "Animated Shiny Text", 21st.dev) */}
+                    <span style={{ position: "absolute", top: 0, bottom: 0, width: "40%", left: `${interpolate(f, [start + 12, start + 30], [-50, 130], clamp)}%`, background: "linear-gradient(100deg, transparent, rgba(255,255,255,0.45), transparent)", transform: "skewX(-20deg)" }} />
+                  </span>
                 )}
                 <span
                   style={{

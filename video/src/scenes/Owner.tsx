@@ -275,3 +275,24 @@ export const OwnerSlowDays: React.FC = () => {
     </AbsoluteFill>
   );
 };
+
+/** El mensaje le llega al cliente: celular bloqueado (20:41) que sube y notificación de vidrio (local 0–81). */
+export const LockDelivery: React.FC<{ title?: string; text?: string }> = ({
+  title = "Brasa Restó", text = "¡Hola, Juli! Se viene tu cumple: si venís con 4 amigos, tu plato va por nuestra cuenta.",
+}) => {
+  const frame = useCurrentFrame();
+  const rise = ease(frame, [0, 24], [0, 1], theme.ease.out);
+  return (
+    <div style={{ position: "absolute", left: 540 - 300, top: 360, opacity: Math.min(1, rise * 2), transform: `translateY(${(1 - rise) * 420}px) scale(${0.86 + 0.14 * rise})`, transformOrigin: "50% 30%" }}>
+      <Tilt3D range={[0, 28]} from={[-20, 12]} to={[6, 2]}>
+        <PhoneBody width={600}>
+          <Phone width={600} screenBg="#0A3D34">
+            <LockScreen>
+              <GlassNotification at={26} title={title} text={text} />
+            </LockScreen>
+          </Phone>
+        </PhoneBody>
+      </Tilt3D>
+    </div>
+  );
+};

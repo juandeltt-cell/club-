@@ -66,7 +66,7 @@ const Typing: React.FC<{ from: number; to: number }> = ({ from, to }) => {
 };
 
 // ---------- ilustración de la mesa ----------
-const TableScene: React.FC<{ scanAt: number }> = ({ scanAt }) => {
+export const TableScene: React.FC<{ scanAt: number }> = ({ scanAt }) => {
   const frame = useCurrentFrame();
   const juli = useIn(4, theme.spring.smooth);
   const stand = useIn(14, theme.spring.bouncy);
@@ -223,19 +223,26 @@ const MeterSlot: React.FC<{ filled: boolean; at: number }> = ({ filled, at }) =>
 
 // ---------- PASO 03 · desbloquea su premio (local 0–148) ----------
 export const StepRedeem: React.FC = () => {
-  const frame = useCurrentFrame();
-  const flip = ease(frame, [48, 70], [0, 180], theme.ease.inOut);
-  const filled = 3 + (frame >= 12 ? 1 : 0) + (frame >= 24 ? 1 : 0);
-  // el acercamiento ocurre durante el giro de la tarjeta; después, todo queda quieto
-  const push = ease(frame, [48, 70], [1, 1.1], theme.ease.inOut);
-  // el teléfono sube y se asienta (parallax device rise)
-  const rise = ease(frame, [0, 22], [0, 1], theme.ease.out);
   return (
     <AbsoluteFill>
       <SceneBg />
       <div style={{ position: "absolute", left: 90, top: 250, right: 40 }}>
         <StepHeader num="03" label={["Junta 5 y desbloquea", "su premio"]} at={0} />
       </div>
+      <RedeemStage />
+    </AbsoluteFill>
+  );
+};
+
+/** El celular con la tarjeta que se llena y se da vuelta mostrando el premio (local 0–~120). */
+export const RedeemStage: React.FC<{ dy?: number }> = ({ dy = 0 }) => {
+  const frame = useCurrentFrame();
+  const flip = ease(frame, [48, 70], [0, 180], theme.ease.inOut);
+  const filled = 3 + (frame >= 12 ? 1 : 0) + (frame >= 24 ? 1 : 0);
+  const push = ease(frame, [48, 70], [1, 1.1], theme.ease.inOut);
+  const rise = ease(frame, [0, 22], [0, 1], theme.ease.out);
+  return (
+    <AbsoluteFill style={{ transform: `translateY(${dy}px)` }}>
       <div style={{ position: "absolute", left: PHONE_X, top: PHONE_Y, transform: `translateY(${(1 - rise) * 380}px) scale(${push * (0.86 + 0.14 * rise)})`, transformOrigin: "50% 30%", opacity: Math.min(1, rise * 2) }}>
         <Tilt3D range={[0, 40]} from={[22, 10]} to={[-8, 2]}>
         <PhoneBody width={PHONE_W}>

@@ -55,7 +55,7 @@ export const LogoDrop: React.FC = () => {
   const br = useBreathe(0.012, 16);
   const logoBreathe = frame > 40 ? br : 1;
   const si = useIn(12, theme.spring.bouncy);
-  const answerOut = ease(frame, [58, 66], [0, 1], theme.ease.in);
+  const answerOut = ease(frame, [44, 52], [0, 1], theme.ease.in);
   return (
     <AbsoluteFill>
       <SceneBg />
@@ -81,7 +81,7 @@ export const LogoDrop: React.FC = () => {
       <div style={{ position: "absolute", left: 0, right: 0, top: 1150 }}>
         <Lines
           lines={["Un nuevo sistema de", "fidelización de clientes", "para restaurantes."]}
-          size={80} delay={66} lineGap={5} align="center" accent={["fidelización", "clientes"]}
+          size={80} delay={50} lineGap={5} align="center" accent={["fidelización", "clientes"]}
         />
       </div>
     </AbsoluteFill>
