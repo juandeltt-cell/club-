@@ -7,7 +7,7 @@
     "sfx": "node scripts/gen-audio.mjs",
     "studio": "remotion studio src/index.ts",
     "render": "remotion render src/index.ts MejoresAmigosReel out/mejores-amigos-reel.mp4 --codec h264 --crf 16 --gl=angle",
-    "music": "mkdir -p public/music && cp ../cancion.mp3 public/music/cancion.mp3 && ffmpeg -v error -y -i public/music/cancion.mp3 -af \"atrim=3.593:68.6,asetpts=PTS-STARTPTS,afade=t=in:d=0.12,afade=t=out:st=62.9:d=2.0,loudnorm=I=-14:TP=-1.5:LRA=9\" -ar 48000 public/music/song-reel.wav"
+    "music": "mkdir -p public/music && cp ../cancion.mp3 public/music/cancion.mp3 && ffmpeg -v error -y -i public/music/cancion.mp3 -af \"atrim=3.593:71.9,asetpts=PTS-STARTPTS,afade=t=in:d=0.12,afade=t=out:st=66.1:d=2.0,loudnorm=I=-14:TP=-1.5:LRA=9\" -ar 48000 public/music/song-reel.wav"
   },
   "dependencies": {
     "@react-three/fiber": "^9.8.1",

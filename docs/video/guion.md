@@ -1,30 +1,29 @@
-# Mejores Amigos — Guion del reel (v15)
+# Mejores Amigos — Guion del reel (v16)
 
-**Formato:** vertical 1080×1920 · 30 fps · **~64 s**
-**Dirección de arte:** la de brag (campos de color plano, tipografía gigante, palabra clave en bloque con reflejo de luz, etiquetas monoespaciadas, cortes sobre el pulso) + las animaciones que funcionaban de versiones anteriores + luces: rayos "God Rays" (21st.dev / Paper Shaders, Apache-2.0), brillos, luces de película.
-**Control de legibilidad:** `node scripts/check-legibility.mjs out/mejores-amigos-reel.mp4` lee cada pantalla con Tesseract (OCR) y mide cuánto queda la frase completa en pantalla contra la regla de ~0,3 s por palabra.
+**Formato:** vertical 1080×1920 · 30 fps · **~68 s**
+**Control de legibilidad:** `node scripts/check-legibility.mjs out/mejores-amigos-reel.mp4` (Tesseract).
 
 | Pantalla | Qué se ve |
 |---|---|
-| ¿Tenés un comercio gastronómico? | comandas de restaurante flotando en profundidad (cerca nítidas, lejos desenfocadas), algunas con "★ +1 estrellita" |
-| Un cliente vino 12 veces este año. | campo menta |
-| ¿Sabés quién es? | anillos que se abren, persona borrosa en el círculo iluminado, signos de pregunta, rayos detrás |
-| Con Mejores Amigos, sí. → Un nuevo sistema de fidelización de clientes para restaurantes. | subida de la canción |
-| El cliente escanea el QR en la mesa. | la señora escaneando + estrellita 3D "+1 estrellita" |
+| ¿Tenés un comercio gastronómico? | comandas de restaurante flotando en profundidad |
+| Un cliente vino 12 veces este año. | "veces" sobre la línea de base del 12; se apilan 12 comandas "VISITA n · JULI" |
+| ¿Sabés quién es? | anillos, persona borrosa en el círculo iluminado, signos de pregunta, rayos detrás |
+| Con Mejores Amigos, sí. → definición | subida de la canción |
+| El cliente escanea el QR en la mesa. | la señora escaneando + estrellita 3D |
 | En cada visita, suma estrellitas. | estrellita 3D + tarjeta de 5 |
-| Desbloquea premios. | celular: se llenan las estrellitas, lluvia de estrellas, la tarjeta se da vuelta: ¡Primer premio! |
+| Desbloquea premios. | el celular que da vuelta la tarjeta: ¡Primer premio! |
 | ¿Y tu comercio qué gana? | |
-| Conocés a tus clientes. | Nuevos · Frecuentes · En riesgo |
-| ¿El sistema detectó que va poca gente los martes? | |
-| (panel) Sugerencia del sistema de IA | la captura real: foco en "Los martes vienen la mitad de clientes que el resto de la semana" y después en el mensaje sugerido |
-| El sistema propone que los martes, cada visita suma dos estrellitas. | "Martes de doble estrellita" → se toca "Activar promo" → "Activada" → barras 3D, el martes +55% |
+| Conocés a tus clientes. | Nuevos 63 · Frecuentes 148 · En riesgo 37, en columna, con sonido |
+| Perfil del cliente | Pedro escaneado: Viene 1 vez por semana · Cumple el 7 de enero · Pide café con leche · Frecuente |
+| Llená los días más flojos. | + "El sistema detecta tu día más flojo y te propone una promo." |
+| Sugerencia del sistema de IA | captura del panel: foco en "Los martes vienen la mitad de clientes…", foco en el mensaje, toque en el botón → "Promo automática activada · Martes de doble estrellita" |
+| Los martes +55% de visitas. | barras 3D |
 | La IA te sugiere el mensaje para cada cliente. | |
-| (sugerencias) | la pantalla se llena de 8 sugerencias (Martín no viene hace 45 días → café sin cargo; Caro a 1 estrellita; Juli cumple en 5 días; martes flojos; Lucas vino 3 veces; 12 frecuentes no vinieron; Sofi cumple 1 año; viernes de familias). La de Juli se ilumina y la cámara entra en ella |
-| (mensaje tipeado) → Aprobar y enviar → Enviado | |
-| Le llega por WhatsApp. | celular bloqueado 20:41 + notificación de vidrio |
+| Sugerencias de hoy | mazo: cada sugerencia cae adelante y empuja a las demás hacia atrás; la última es "Juli cumple en 5 días", se ilumina y la cámara entra |
+| (mensaje) → Enviado → Le llega por WhatsApp. | celular 20:41 con notificación |
 | Tus clientes vuelven. | |
-| Más frecuencia. Más clientes. Más ventas. | |
-| Cierre | logo, "Convertí a tus clientes en mejores amigos.", "Lo instalamos en tu restó", contacto, cinta |
+| + frecuencia. + clientes. + ventas. | cada "+" gira y entra, la palabra se revela y se subraya |
+| Cierre | logo, contacto, cinta horizontal SIN APPS ✦ SIN TARJETAS ✦ SOLO WHATSAPP |
 
 ---
 

@@ -68,3 +68,28 @@ export const Tickets: React.FC<{ count?: number; seed?: string }> = ({ count = 1
     </AbsoluteFill>
   );
 };
+
+/** Comandas chicas que se apilan una por visita (para "12 veces"). */
+export const VisitStack: React.FC<{ count: number; x: number; y: number }> = ({ count, x, y }) => {
+  const DATES = ["03/01", "11/01", "19/01", "02/02", "14/02", "28/02", "07/03", "15/03", "23/03", "04/04", "12/04", "20/04"];
+  return (
+    <>
+      {Array.from({ length: 12 }).map((_, i) => {
+        if (i >= count) return null;
+        const rot = (random(`vs${i}`) - 0.5) * 12;
+        const w = 340;
+        return (
+          <div key={i} style={{ position: "absolute", left: x + i * 30, top: y + i * 40, transform: `rotate(${rot}deg)`, filter: "drop-shadow(0 18px 22px rgba(2,49,42,0.25))" }}>
+            <div style={{ width: w, background: "#FFFDF7", padding: "16px 18px 26px", fontFamily: MONO, color: "#1F2A27", clipPath: `polygon(0 0, 100% 0, 100% calc(100% - 10px), ${Array.from({ length: 10 }, (_, k) => `${100 - (k + 0.5) * 10}% ${k % 2 ? "calc(100% - 10px)" : "100%"}`).join(", ")}, 0 calc(100% - 10px))` }}>
+              <div style={{ fontSize: 26, fontWeight: 700, letterSpacing: "0.1em" }}>VISITA {i + 1}</div>
+              <div style={{ fontSize: 36, fontWeight: 700, marginTop: 4 }}>JULI</div>
+              <div style={{ display: "flex", justifyContent: "space-between", fontSize: 24, marginTop: 8 }}>
+                <span>{DATES[i]}</span><span style={{ color: T.mintDeep, fontWeight: 700 }}>★ +1</span>
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </>
+  );
+};

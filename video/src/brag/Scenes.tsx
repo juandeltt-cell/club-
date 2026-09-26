@@ -12,7 +12,7 @@ import { DepthIn } from "../components/Camera";
 import { PanelShot, Tap } from "../components/Device";
 import { Aurora } from "../components/Glass";
 import { Spotlight } from "../components/Marks";
-import { Tickets } from "../fx/Tickets";
+import { Tickets, VisitStack } from "../fx/Tickets";
 import { Emoji3D as E3D, EmojiName } from "../components/Emoji";
 import { Emoji3D } from "../components/Emoji";
 import { CheckIcon, SparkleIcon, StarIcon } from "../components/Icons";
@@ -38,16 +38,22 @@ export const HookQuestion: React.FC = () => (
 
 export const HookClaim: React.FC = () => {
   const f = useCurrentFrame();
-  const n = Math.round(interpolate(f, [8, 30], [0, 12], { ...clamp, easing: expoOut }));
+  const n = Math.round(interpolate(f, [8, 34], [0, 12], { ...clamp, easing: expoOut }));
   const pop = useIn(8, theme.spring.bouncy);
+  const v = interpolate(f, [12, 22], [0, 1], { ...clamp, easing: expoOut });
+  const paint = interpolate(f, [16, 26], [0, 1], { ...clamp, easing: expoOut });
   return (
     <Field c="mint">
-      <div style={{ position: "absolute", left: L, top: 430 }}>
+      <VisitStack count={n} x={300} y={1020} />
+      <div style={{ position: "absolute", left: L, top: 330 }}>
         <Words c="mint" size={112} at={0} lines={[["Un", "cliente", "vino"]]} />
-        {/* número y "veces" sobre la misma línea de base */}
-        <div style={{ display: "flex", alignItems: "baseline", gap: 44, marginTop: -10 }}>
+        {/* número y "veces" comparten la línea de base */}
+        <div style={{ display: "flex", alignItems: "baseline", gap: 46, marginTop: -10 }}>
           <span style={{ ...display(400, T.ink, 800), letterSpacing: "-0.06em", lineHeight: 1, fontVariantNumeric: "tabular-nums", display: "inline-block", transform: `scale(${interpolate(pop, [0, 1], [0.6, 1])})`, transformOrigin: "20% 80%", opacity: Math.min(1, pop * 2) }}>{n}</span>
-          <Words c="mint" size={150} at={12} lines={[[{ t: "veces", hl: true }]]} />
+          <span style={{ position: "relative", display: "inline-block", ...display(150, paint > 0.5 ? T.cream : T.ink, 800), letterSpacing: "-0.045em", opacity: Math.min(1, v * 1.6), transform: `translateY(${(1 - v) * 60}px)` }}>
+            <span style={{ position: "absolute", left: -26, right: -26, top: 22, bottom: -6, background: T.ink, borderRadius: 18, transform: `scaleX(${paint})`, transformOrigin: "left center" }} />
+            <span style={{ position: "relative" }}>veces</span>
+          </span>
         </div>
         <Words c="mint" size={112} at={20} lines={[["este", "año."]]} style={{ marginTop: -6 }} />
       </div>
@@ -171,137 +177,185 @@ export const Commerce: React.FC = () => (
   </Field>
 );
 
-const Chip: React.FC<{ at: number; label: string; n: string; dot: string }> = ({ at, label, n, dot }) => {
-  const p = useIn(at, theme.spring.bouncy);
-  return (
-    <div style={{ display: "flex", alignItems: "center", gap: 14, padding: "18px 28px", borderRadius: 60, border: "2px solid rgba(253,249,242,0.25)", background: "rgba(253,249,242,0.06)", transform: `scale(${interpolate(p, [0, 1], [0.5, 1])})`, opacity: Math.min(1, p * 2) }}>
-      <span style={{ width: 18, height: 18, borderRadius: "50%", background: dot }} />
-      <span style={{ ...body(38, T.cream, 700) }}>{label}</span>
-      <span style={{ fontFamily: "JetBrains Mono", fontWeight: 700, fontSize: 34, color: T.mint }}>{n}</span>
+const Segment: React.FC<{ at: number; label: string; n: string; dot: string }> = ({ at, label, n, dot }) => (
+  <DepthIn at={at} dur={16} from={{ rx: 0, ry: -30, z: -300, y: 0 }}>
+    <div style={{ width: 912, display: "flex", alignItems: "center", gap: 26, padding: "30px 40px", borderRadius: 40, background: "rgba(253,249,242,0.07)", border: "2px solid rgba(253,249,242,0.18)" }}>
+      <span style={{ width: 34, height: 34, borderRadius: "50%", background: dot, boxShadow: `0 0 24px ${dot}` }} />
+      <span style={{ ...display(62, T.cream, 800), flex: 1 }}>{label}</span>
+      <span style={{ fontFamily: "JetBrains Mono", fontWeight: 700, fontSize: 60, color: T.mint }}>{n}</span>
     </div>
-  );
-};
+  </DepthIn>
+);
 
 export const BenefitKnow: React.FC = () => (
   <Field c="ink">
-    <Mono c="ink" text="BENEFICIO 01" at={0} style={{ position: "absolute", left: L, top: 300 }} />
-    <Words c="ink" size={150} at={2} lines={[["Conocés", "a"], ["tus", { t: "clientes.", hl: true }]]} style={{ position: "absolute", left: L, top: 380 }} />
-    <div style={{ position: "absolute", left: L, right: 60, top: 1000, display: "flex", flexWrap: "wrap", gap: 20 }}>
-      <Chip at={14} label="Nuevos" n="63" dot="#6EA8FE" />
-      <Chip at={18} label="Frecuentes" n="148" dot={T.mint} />
-      <Chip at={22} label="En riesgo" n="37" dot="#F08A4B" />
+    <Words c="ink" size={150} at={0} lines={[["Conocés", "a"], ["tus", { t: "clientes.", hl: true }]]} style={{ position: "absolute", left: L, top: 330 }} />
+    <div style={{ position: "absolute", left: 84, top: 790, display: "flex", flexDirection: "column", gap: 26 }}>
+      <Segment at={14} label="Nuevos" n="63" dot="#6EA8FE" />
+      <Segment at={20} label="Frecuentes" n="148" dot={T.mint} />
+      <Segment at={26} label="En riesgo" n="37" dot="#F08A4B" />
     </div>
   </Field>
 );
 
+const ProfileRow: React.FC<{ at: number; y: number; big?: boolean; children: React.ReactNode }> = ({ at, y, big, children }) => {
+  const f = useCurrentFrame();
+  const p = interpolate(f, [at, at + 10], [0, 1], { ...clamp, easing: expoOut });
+  const line = interpolate(f, [at - 6, at + 2], [0, 1], clamp);
+  return (
+    <>
+      <div style={{ position: "absolute", left: 132, top: y + (big ? 44 : 34), width: 60 * line, height: 5, background: T.mint, borderRadius: 4 }} />
+      <div style={{ position: "absolute", left: 210, top: y, opacity: p, transform: `translateX(${(1 - p) * 40}px)`, filter: p < 1 ? `blur(${(1 - p) * 8}px)` : undefined, ...(big ? display(88, T.cream, 800) : body(54, T.cream, 700)) }}>{children}</div>
+    </>
+  );
+};
+
+/** El sistema identifica el perfil: retrato escaneado y los datos saliendo en líneas. */
+export const Profile: React.FC = () => {
+  const f = useCurrentFrame();
+  const card = useIn(0, theme.spring.smooth);
+  const scan = interpolate(f, [8, 36], [0, 1], { ...clamp, easing: Easing.inOut(Easing.cubic) });
+  const spine = interpolate(f, [34, 80], [0, 1], clamp);
+  const corner = interpolate(f, [4, 14], [0, 1], { ...clamp, easing: expoOut });
+  return (
+    <Field c="ink">
+      <Aurora base={T.ink} colors={["rgba(5,171,135,0.3)", "rgba(245,184,61,0.12)", "rgba(5,171,135,0.2)"]} />
+      <Mono c="ink" text="PERFIL DEL CLIENTE" at={0} style={{ position: "absolute", left: 90, top: 250 }} />
+      {/* retrato con marco de reconocimiento */}
+      <div style={{ position: "absolute", left: 540 - 250, top: 330, width: 500, height: 520, borderRadius: 48, overflow: "hidden", background: T.mintSoft, opacity: card, transform: `scale(${interpolate(card, [0, 1], [0.85, 1])})` }}>
+        <div style={{ position: "absolute", left: 50, top: 70 }}><Character body="Coffee" hair="ShortVolumed" face="Smile" facialHair="FullMedium" width={400} /></div>
+        {f >= 8 && f < 40 && <div style={{ position: "absolute", left: 0, right: 0, top: scan * 520 - 6, height: 12, background: T.mint, boxShadow: `0 0 40px 14px ${T.mintGlow}` }} />}
+        <AbsoluteFill style={{ background: `linear-gradient(180deg, transparent ${scan * 100}%, rgba(5,171,135,0.18) ${scan * 100}%)` }} />
+      </div>
+      {[[0, 0], [1, 0], [0, 1], [1, 1]].map(([cx, cy], i) => (
+        <div key={i} style={{
+          position: "absolute", left: 540 - 250 - 22 + cx * 544 - (cx ? 60 : 0), top: 330 - 22 + cy * 564 - (cy ? 60 : 0), width: 60, height: 60, opacity: corner,
+          borderLeft: cx ? "none" : `8px solid ${T.mint}`, borderRight: cx ? `8px solid ${T.mint}` : "none", borderTop: cy ? "none" : `8px solid ${T.mint}`, borderBottom: cy ? `8px solid ${T.mint}` : "none",
+          borderRadius: 14, transform: `scale(${interpolate(corner, [0, 1], [1.3, 1])})`,
+        }} />
+      ))}
+      {/* datos */}
+      <div style={{ position: "absolute", left: 128, top: 940, width: 5, height: 560 * spine, background: T.mint, borderRadius: 4 }} />
+      <ProfileRow at={38} y={930} big>Pedro</ProfileRow>
+      <ProfileRow at={50} y={1080}>Viene 1 vez por semana</ProfileRow>
+      <ProfileRow at={62} y={1200}>Cumple el 7 de enero</ProfileRow>
+      <ProfileRow at={74} y={1320}>Pide café con leche</ProfileRow>
+      <ProfileRow at={86} y={1440}><span style={{ color: T.mint }}>● Frecuente</span></ProfileRow>
+    </Field>
+  );
+};
+
 export const BenefitSlowQ: React.FC = () => (
   <Field c="cream">
-    <Mono c="cream" text="BENEFICIO 02" at={0} style={{ position: "absolute", left: 70, top: 300 }} />
-    <Words c="cream" size={124} at={2} per={2} lines={[["¿El", "sistema"], ["detectó", "que", "va"], ["poca", "gente"], [{ t: "los martes?", hl: true }]]} style={{ position: "absolute", left: 70, top: 480 }} />
+    <Words c="cream" size={140} at={0} lines={[["Llená", "los", "días"], [{ t: "más flojos.", hl: true }]]} style={{ position: "absolute", left: 70, top: 330 }} />
+    <Words c="cream" size={78} at={16} per={2} lines={[["El", "sistema", "detecta", "tu"], ["día", "más", "flojo", "y", "te"], ["propone", "una", "promo."]]} style={{ position: "absolute", left: 74, top: 760 }} />
   </Field>
 );
 
 const kT = 900 / 1194;
 
 /** La sugerencia real del panel: foco en el diagnóstico y después en el mensaje sugerido. */
-export const SlowPanel: React.FC = () => (
-  <Field c="cream">
-    <Mono c="cream" text="SUGERENCIA DEL SISTEMA DE IA" at={0} style={{ position: "absolute", left: 90, top: 240 }} />
-    <DepthIn at={2} from={{ rx: 16, ry: -16, z: -500 }} style={{ position: "absolute", left: 90, top: 330 }}>
-      <PanelShot frames={["panel/sugg-tuesday.png"]} srcWidth={1194} srcHeight={1250} width={900}>
-        <Spotlight x={236 * kT} y={150 * kT} w={860 * kT} h={210 * kT} at={18} until={66} />
-        <Spotlight x={96 * kT} y={755 * kT} w={990 * kT} h={180 * kT} at={70} until={126} />
-      </PanelShot>
-    </DepthIn>
-  </Field>
-);
-
-/** "El sistema propone…" + tocar "Activar promo" + las barras del martes suben. */
-export const SlowPromo: React.FC = () => {
+export const SlowPanel: React.FC = () => {
   const f = useCurrentFrame();
-  const btn = useIn(18, theme.spring.bouncy);
-  const pressed = f >= 40 ? interpolate(f, [40, 44], [0.93, 1], clamp) : 1;
-  const done = f >= 46;
-  const pill = useIn(84, theme.spring.bouncy);
+  const toast = useIn(172, theme.spring.bouncy);
   return (
-    <Field c="ink">
-      <Words c="ink" size={88} at={0} per={2} lines={[["El", "sistema", "propone", "que"], ["los", "martes,", "cada", "visita"], ["suma", { t: "dos estrellitas.", hl: true }]]} style={{ position: "absolute", left: 70, top: 230 }} />
-      <DepthIn at={14} from={{ rx: 18, ry: -12, z: -400 }} style={{ position: "absolute", left: 70, top: 580, width: 940 }}>
-        <div style={{ position: "relative", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 20, background: T.cream, borderRadius: 40, padding: "22px 26px 22px 34px" }}>
-          <div>
-            <div style={{ fontFamily: "JetBrains Mono", fontWeight: 700, fontSize: 24, letterSpacing: "0.12em", color: T.mintDeep }}>PROMO AUTOMÁTICA</div>
-            <div style={{ ...display(46, T.ink, 800), marginTop: 6 }}>Martes de doble estrellita</div>
-          </div>
-          <div style={{ flex: "none", display: "inline-flex", alignItems: "center", gap: 10, background: done ? T.ink : T.mint, borderRadius: 60, padding: "20px 30px", ...body(34, T.white, 800), transform: `scale(${interpolate(btn, [0, 1], [0.6, 1]) * pressed})`, opacity: btn }}>
-            {done ? <><CheckIcon size={36} color={T.mint} /> Activada</> : "Activar promo"}
-          </div>
-          <Tap x={800} y={70} at={40} />
+    <Field c="cream">
+      <Mono c="cream" text="SUGERENCIA DEL SISTEMA DE IA" at={0} style={{ position: "absolute", left: 90, top: 240 }} />
+      <DepthIn at={2} from={{ rx: 16, ry: -16, z: -500 }} style={{ position: "absolute", left: 90, top: 330 }}>
+        <div style={{ position: "relative" }}>
+          <PanelShot frames={["panel/sugg-tuesday.png"]} srcWidth={1194} srcHeight={1250} width={900}>
+            <Spotlight x={236 * kT} y={150 * kT} w={860 * kT} h={210 * kT} at={12} until={88} />
+            <Spotlight x={96 * kT} y={755 * kT} w={990 * kT} h={180 * kT} at={92} until={158} />
+          </PanelShot>
+          <Tap x={470 * kT} y={1167 * kT} at={166} />
         </div>
       </DepthIn>
-      <DepthIn at={48} from={{ rx: 20, ry: -10, z: -500 }} style={{ position: "absolute", left: 70, top: 800 }}>
-        <Bars3D at={48} grow={[58, 82]} boostTo={232} width={940} />
-      </DepthIn>
-      {f >= 84 && (
-        <div style={{ position: "absolute", left: 400, top: 970, background: T.mint, borderRadius: 40, padding: "10px 24px", ...display(44, T.ink, 800), transform: `scale(${pill}) rotate(-5deg)`, boxShadow: "0 14px 26px -12px rgba(0,0,0,0.4)" }}>
-          +55% los martes
+      {f >= 172 && (
+        <div style={{ position: "absolute", left: 70, right: 70, top: 1320, display: "flex", alignItems: "center", gap: 22, background: T.ink, borderRadius: 40, padding: "26px 34px", opacity: Math.min(1, toast * 2), transform: `translateY(${(1 - toast) * 120}px)`, boxShadow: "0 30px 60px -24px rgba(2,49,42,0.6)" }}>
+          <div style={{ width: 72, height: 72, borderRadius: "50%", background: T.mint, display: "grid", placeItems: "center", flex: "none" }}><CheckIcon size={44} color={T.ink} /></div>
+          <div>
+            <div style={{ fontFamily: "JetBrains Mono", fontWeight: 700, fontSize: 24, letterSpacing: "0.12em", color: T.mint }}>PROMO AUTOMÁTICA ACTIVADA</div>
+            <div style={{ ...display(46, T.cream, 800), marginTop: 6 }}>Martes de doble estrellita</div>
+          </div>
         </div>
       )}
     </Field>
   );
 };
 
+/** Gráfico corto: los martes suben. */
+export const SlowChart: React.FC = () => (
+  <Field c="ink">
+    <Words c="ink" size={112} at={0} lines={[["Los", "martes"], [{ t: "+55% de visitas.", hl: true }]]} style={{ position: "absolute", left: 70, top: 300 }} />
+    <DepthIn at={6} from={{ rx: 20, ry: -10, z: -500 }} style={{ position: "absolute", left: 70, top: 660 }}>
+      <Bars3D at={6} grow={[14, 40]} boostTo={232} width={940} />
+    </DepthIn>
+  </Field>
+);
+
 export const BenefitAIQ: React.FC = () => (
   <Field c="mint">
-    <Mono c="mint" text="BENEFICIO 03" at={0} style={{ position: "absolute", left: L, top: 300 }} />
     <Words c="mint" size={128} at={2} per={2} lines={[["La", "IA", "te"], ["sugiere", "el"], ["mensaje", "para"], [{ t: "cada cliente.", hl: true }]]} style={{ position: "absolute", left: L, top: 380 }} />
   </Field>
 );
 
-const SUGGESTIONS: { icon: EmojiName; text: string; action: string; juli?: boolean }[] = [
+const SUGGESTIONS: { icon: EmojiName; text: string; action: string }[] = [
   { icon: "hot_beverage", text: "Martín no viene hace 45 días.", action: "Proponele un café sin cargo" },
   { icon: "star", text: "Caro está a 1 estrellita de su premio.", action: "Avisale" },
-  { icon: "birthday_cake", text: "Juli cumple en 5 días.", action: "Invitala a festejar", juli: true },
-  { icon: "tear-off_calendar", text: "Los martes vienen la mitad de clientes.", action: "Activá doble estrellita" },
+  { icon: "tear-off_calendar", text: "Los martes vienen pocos clientes.", action: "Activá doble estrellita" },
   { icon: "shortcake", text: "Lucas vino 3 veces esta semana.", action: "Regalale un postre" },
   { icon: "bell", text: "12 frecuentes no vinieron este mes.", action: "Mandales una promo" },
   { icon: "clinking_glasses", text: "Sofi cumple 1 año como clienta.", action: "Saludala" },
-  { icon: "pizza", text: "Los viernes vienen muchas familias.", action: "Proponé la promo familiar" },
+  { icon: "birthday_cake", text: "Juli cumple en 5 días.", action: "Invitala a festejar" },
 ];
+const EVERY = 17;
+const PEEK = 104; // lo que asoma de cada tarjeta de atrás (la frase principal queda visible)
 
-const SuggestionCard: React.FC<{ s: (typeof SUGGESTIONS)[number]; at: number; lit: number; dim: number }> = ({ s, at, lit, dim }) => (
-  <DepthIn at={at} dur={20} from={{ rx: 24, ry: at % 2 ? 22 : -22, z: -800, y: 80 }}>
-    <div style={{
-      width: 455, height: 300, borderRadius: 36, background: T.cream, padding: "24px 26px", display: "flex", flexDirection: "column", justifyContent: "space-between",
-      opacity: 1 - dim * 0.65, boxShadow: `0 30px 60px -30px rgba(0,0,0,0.6), 0 0 0 ${lit * 8}px ${T.mint}, 0 0 ${lit * 60}px ${lit * 16}px rgba(5,171,135,0.55)`,
-    }}>
-      <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-        <E3D name={s.icon} size={56} at={at + 4} float={0} depth={0.4} />
-        <span style={{ fontFamily: "JetBrains Mono", fontWeight: 700, fontSize: 20, letterSpacing: "0.12em", color: T.mintDeep }}>SUGERENCIA IA</span>
-      </div>
-      <div style={{ ...body(34, T.ink, 800), lineHeight: 1.2 }}>{s.text}</div>
-      <div style={{ alignSelf: "flex-start", background: T.mint, borderRadius: 30, padding: "10px 18px", ...body(26, T.ink, 800) }}>→ {s.action}</div>
-    </div>
-  </DepthIn>
-);
-
-/** La pantalla se llena de sugerencias del sistema; la de Juli se ilumina y la cámara entra en ella. */
+/**
+ * Mazo de sugerencias: cada nueva cae adelante y empuja a las anteriores hacia atrás
+ * (más chicas y oscuras), dejando ver su frase. La última es la de Juli.
+ */
 export const AiWall: React.FC<{ dur: number }> = ({ dur }) => {
   const f = useCurrentFrame();
-  const pull = interpolate(f, [0, 64], [1.12, 1], { ...clamp, easing: expoOut });
+  const arrived = SUGGESTIONS.reduce((acc, _, j) => acc + interpolate(f, [4 + j * EVERY, 4 + j * EVERY + 14], [0, 1], { ...clamp, easing: expoOut }), 0);
+  const last = SUGGESTIONS.length - 1;
   const lit = interpolate(f, [dur - 34, dur - 24], [0, 1], clamp);
-  const dive = interpolate(f, [dur - 18, dur], [0, 1], { ...clamp, easing: Easing.in(Easing.cubic) });
-  // centro de la tarjeta de Juli (columna 1, fila 2)
-  const cx = 70 + 455 / 2, cy = 360 + 1 * 330 + 150;
+  const dive = interpolate(f, [dur - 16, dur], [0, 1], { ...clamp, easing: Easing.in(Easing.cubic) });
+  const FRONT = 1290;
   return (
     <Field c="ink">
-      <Aurora base={T.ink} colors={["rgba(5,171,135,0.35)", "rgba(245,184,61,0.14)", "rgba(5,171,135,0.25)"]} />
-      <div style={{ position: "absolute", inset: 0, transform: `scale(${pull * (1 + dive * 1.6)})`, transformOrigin: `${cx}px ${cy}px`, filter: dive > 0 ? `blur(${dive * 8}px)` : undefined }}>
-        <Mono c="ink" text="SUGERENCIAS DE HOY · 8" at={0} style={{ position: "absolute", left: 70, top: 260 }} />
-        {SUGGESTIONS.map((sg, i) => (
-          <div key={i} style={{ position: "absolute", left: 70 + (i % 2) * 485, top: 360 + Math.floor(i / 2) * 330 }}>
-            <SuggestionCard s={sg} at={4 + i * 6} lit={sg.juli ? lit : 0} dim={sg.juli ? 0 : lit} />
-          </div>
-        ))}
+      <Aurora base={T.ink} colors={["rgba(5,171,135,0.32)", "rgba(245,184,61,0.12)", "rgba(5,171,135,0.22)"]} />
+      <Sparkles count={24} seed="wl" area={{ x: 0, y: 0, w: 1080, h: 1920 }} opacity={0.45} />
+      <div style={{ position: "absolute", inset: 0, transform: `scale(${1 + dive * 1.8})`, transformOrigin: `540px ${FRONT + 120}px`, filter: dive > 0 ? `blur(${dive * 8}px)` : undefined }}>
+        <Mono c="ink" text="SUGERENCIAS DE HOY" at={0} style={{ position: "absolute", left: 90, top: 300 }} />
+        {SUGGESTIONS.map((sg, k) => {
+          const at = 4 + k * EVERY;
+          if (f < at) return null;
+          const inP = interpolate(f, [at, at + 14], [0, 1], { ...clamp, easing: expoOut });
+          const d = Math.max(0, arrived - 1 - k); // 0 = adelante
+          const juli = k === last;
+          const y = FRONT - d * PEEK + (1 - inP) * 520;
+          const sc = 1 - d * 0.035;
+          const shade = Math.min(0.55, d * 0.09);
+          const tilt = (1 - inP) * (k % 2 ? 9 : -9) + (k % 2 ? 0.6 : -0.6) * Math.min(1, d);
+          return (
+            <div key={k} style={{
+              position: "absolute", left: 90, top: y, width: 900, height: 240, borderRadius: 36, background: T.cream, overflow: "hidden",
+              transform: `scale(${sc}) rotate(${tilt}deg)`, transformOrigin: "50% 0%", zIndex: k, opacity: Math.min(1, inP * 1.8),
+              boxShadow: `0 -14px 40px -16px rgba(0,0,0,0.55), 0 30px 60px -30px rgba(0,0,0,0.7), 0 0 0 ${juli ? lit * 8 : 0}px ${T.mint}, 0 0 ${juli ? lit * 70 : 0}px ${juli ? lit * 18 : 0}px rgba(5,171,135,0.55)`,
+            }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 22, padding: "22px 30px 0" }}>
+                <E3D name={sg.icon} size={64} at={at} float={0} depth={0.4} />
+                <div style={{ ...body(38, T.ink, 800), lineHeight: 1.15, whiteSpace: "nowrap" }}>{sg.text}</div>
+              </div>
+              <div style={{ padding: "22px 30px 0 116px" }}>
+                <div style={{ display: "inline-block", background: T.mint, borderRadius: 30, padding: "10px 20px", ...body(30, T.ink, 800) }}>→ {sg.action}</div>
+              </div>
+              <div style={{ position: "absolute", right: 28, top: 26, fontFamily: "JetBrains Mono", fontWeight: 700, fontSize: 20, letterSpacing: "0.12em", color: T.mintDeep }}>IA</div>
+              <AbsoluteFill style={{ background: `rgba(2,49,42,${shade})`, pointerEvents: "none" }} />
+            </div>
+          );
+        })}
       </div>
     </Field>
   );
@@ -310,8 +364,8 @@ export const AiWall: React.FC<{ dur: number }> = ({ dur }) => {
 export const BenefitAIMsg: React.FC = () => {
   const f = useCurrentFrame();
   const btn = useIn(50, theme.spring.bouncy);
-  const pressed = f >= 140 ? interpolate(f, [140, 144], [0.94, 1], clamp) : 1;
-  const done = f >= 146;
+  const pressed = f >= 108 ? interpolate(f, [108, 112], [0.94, 1], clamp) : 1;
+  const done = f >= 114;
   return (
     <Field c="cream">
       <DepthIn at={0} dur={16} from={{ rx: 16, ry: -14, z: -400 }} style={{ position: "absolute", left: 70, top: 420, width: 940 }}>
@@ -325,7 +379,7 @@ export const BenefitAIMsg: React.FC = () => {
           <div style={{ marginTop: 20, display: "inline-flex", alignItems: "center", gap: 14, background: done ? T.ink : T.mint, borderRadius: 80, padding: "26px 46px", ...body(42, T.white, 800), transform: `scale(${interpolate(btn, [0, 1], [0.6, 1]) * pressed})`, opacity: btn, transformOrigin: "left center" }}>
             {done ? <><CheckIcon size={44} color={T.mint} /> Enviado</> : "Aprobar y enviar"}
           </div>
-          <Tap x={250} y={700} at={140} />
+          <Tap x={250} y={700} at={108} />
         </div>
       </DepthIn>
     </Field>
@@ -343,20 +397,39 @@ export const Delivered: React.FC = () => (
 
 export const BenefitReturn: React.FC = () => (
   <Field c="ink">
-    <Mono c="ink" text="BENEFICIO 04" at={0} style={{ position: "absolute", left: L, top: 300 }} />
     <Words c="ink" size={170} at={2} lines={[["Tus"], ["clientes"], [{ t: "vuelven.", hl: true }]]} style={{ position: "absolute", left: L, top: 380 }} />
     <Emoji3D name="counterclockwise_arrows_button" size={220} at={16} x={760} y={1380} rotate={-8} depth={1.2} float={0.5} />
   </Field>
 );
 
 // ---------- remate ----------
+const PlusLine: React.FC<{ at: number; word: string }> = ({ at, word }) => {
+  const f = useCurrentFrame();
+  const plus = useIn(at, theme.spring.bouncy);
+  const reveal = interpolate(f, [at + 4, at + 16], [0, 1], { ...clamp, easing: expoOut });
+  const paint = interpolate(f, [at + 10, at + 20], [0, 1], { ...clamp, easing: expoOut });
+  return (
+    <div style={{ display: "flex", alignItems: "center", gap: 28, height: 200 }}>
+      <div style={{ width: 150, height: 150, borderRadius: 40, background: T.mint, display: "grid", placeItems: "center", transform: `scale(${plus}) rotate(${interpolate(plus, [0, 1], [-180, 0])}deg)`, boxShadow: `0 0 ${60 * plus}px rgba(5,171,135,0.5)` }}>
+        <span style={{ ...display(140, T.ink, 800), lineHeight: 1, marginTop: -12 }}>+</span>
+      </div>
+      <div style={{ position: "relative", clipPath: `inset(0 ${(1 - reveal) * 100}% 0 0)` }}>
+        <span style={{ ...display(128, T.cream, 800), letterSpacing: "-0.045em", display: "inline-block", transform: `translateX(${(1 - reveal) * -60}px)` }}>{word}</span>
+        <div style={{ position: "absolute", left: 0, bottom: 6, height: 12, width: `${paint * 100}%`, background: T.star, borderRadius: 8 }} />
+      </div>
+    </div>
+  );
+};
+
+/** + frecuencia. + clientes. + ventas. */
 export const Punch: React.FC = () => (
-  <Field c="mint">
-    <div style={{ position: "absolute", left: L, top: 560, display: "flex", flexDirection: "column", gap: 8 }}>
-      <Words c="mint" size={120} at={0} lines={[["Más", { t: "frecuencia.", hl: true }]]} />
-      <Words c="mint" size={120} at={10} lines={[["Más", { t: "clientes.", hl: true }]]} />
-      <Words c="mint" size={120} at={20} lines={[["Más", { t: "ventas.", hl: true }]]} />
+  <Field c="ink">
+    <Aurora base={T.ink} colors={["rgba(5,171,135,0.35)", "rgba(245,184,61,0.16)", "rgba(5,171,135,0.25)"]} />
+    <Sparkles count={30} seed="pu" area={{ x: 0, y: 0, w: 1080, h: 1920 }} opacity={0.6} />
+    <div style={{ position: "absolute", left: 84, top: 620, display: "flex", flexDirection: "column", gap: 34 }}>
+      <PlusLine at={0} word="frecuencia." />
+      <PlusLine at={10} word="clientes." />
+      <PlusLine at={20} word="ventas." />
     </div>
   </Field>
 );
-

@@ -9,7 +9,7 @@ const b = (n: number) => Math.round(DROP + n * BEAT);
 const span = (from: number, to: number) => ({ from, to, dur: to - from });
 
 // Pulsos por pantalla (después de la subida). Ajustados con el control de legibilidad (Tesseract).
-export const BEATS = { logo: 11, scan: 7, stars: 5, prize: 12, commerce: 5, know: 7, slowQ: 8, slowPanel: 10, slowA: 8, aiQ: 8, wall: 9, aiMsg: 13, lock: 5, ret: 4, punch: 6 } as const;
+export const BEATS = { logo: 10, scan: 7, stars: 5, prize: 9, commerce: 4, know: 6, profile: 9, slowQ: 10, slowPanel: 18, slowChart: 5, aiQ: 5, wall: 12, aiMsg: 10, lock: 5, ret: 4, punch: 6 } as const;
 
 const after = (() => {
   let n = 0;
@@ -30,10 +30,11 @@ export const S = {
   stars: after.stars, // En cada visita, suma estrellitas.
   prize: after.prize, // Desbloquea premios. (celular que da vuelta la tarjeta)
   commerce: after.commerce, // ¿Y tu comercio qué gana?
-  know: after.know, // Conocés a tus clientes.
-  slowQ: after.slowQ, // ¿El sistema detectó que va poca gente los martes?
-  slowPanel: after.slowPanel, // la sugerencia del panel: "Los martes vienen la mitad de clientes…"
-  slowA: after.slowA, // El sistema propone que los martes, cada visita suma dos estrellitas + Activar promo
+  know: after.know, // Conocés a tus clientes. (Nuevos · Frecuentes · En riesgo)
+  profile: after.profile, // perfil de Pedro escaneado
+  slowQ: after.slowQ, // Llená los días más flojos. + El sistema detecta tu día más flojo y te propone una promo.
+  slowPanel: after.slowPanel, // panel: foco en el diagnóstico, en el mensaje, y "Promo automática activada"
+  slowChart: after.slowChart, // Los martes +55% de visitas
   aiQ: after.aiQ, // La IA te sugiere el mensaje para cada cliente.
   wall: after.wall, // la pantalla se llena de sugerencias; la de Juli se ilumina
   aiMsg: after.aiMsg, // el mensaje se tipea → Aprobar → Enviado

@@ -94,7 +94,7 @@ export const Brand: React.FC = () => {
         <LuzSurBadge width={230} />
       </div>
       {/* cinta: sin apps, sin tarjetas, solo WhatsApp */}
-      <Marquee text="SIN APPS  ✦  SIN TARJETAS  ✦  SOLO WHATSAPP" y={1370} rotate={-5} bg={T.mint} color={T.ink} speed={5} size={50} at={30} />
+      <Marquee text="SIN APPS  ✦  SIN TARJETAS  ✦  SOLO WHATSAPP" y={1390} rotate={0} bg={T.mint} color={T.ink} speed={4} size={50} at={30} />
       {/* amigos festejando */}
       <Friend at={14} x={-40} body="PointingUp" hair="Bun" face="SmileBig" width={330} />
       <Friend at={19} x={230} body="Device" hair="Long" face="LoveGrin" width={320} />

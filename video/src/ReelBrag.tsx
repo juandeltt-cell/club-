@@ -37,23 +37,28 @@ const KIT: Record<string, string> = {
   pop: "sfx/bong_001", chip: "sfx/chip-lay-1", card: "sfx/card-place-1", sel: "sfx/select_008", shimmer: "audio/shimmer",
 };
 type Fx = [number, string, number];
-const cuts = [S.claim, S.who, S.scan, S.stars, S.prize, S.commerce, S.know, S.slowQ, S.slowPanel, S.slowA, S.aiQ, S.wall, S.lock, S.ret, S.punch, S.closing];
+const cuts = [S.claim, S.who, S.scan, S.stars, S.prize, S.commerce, S.know, S.profile, S.slowQ, S.slowPanel, S.slowChart, S.aiQ, S.wall, S.lock, S.ret, S.punch, S.closing];
 const SFX: Fx[] = [
   [2, "soft", 0.3], [8, "soft2", 0.22],
   ...cuts.map((s, i): Fx => [s.from - 1, i % 2 ? "cut2" : "cut", 0.22]),
   ...cuts.map((s): Fx => [s.from + 6, "soft", 0.16]),
-  [S.claim.from + 8, "pop", 0.26], [S.who.from + 4, "soft2", 0.26],
+  [S.claim.from + 8, "pop", 0.26], ...[10, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31].map((f): Fx => [S.claim.from + f, "key", 0.12]), [S.who.from + 4, "soft2", 0.26],
   [S.logo.from, "hit", 0.5], [S.logo.from + 1, "shimmer", 0.3], [S.logo.from + 12, "bell", 0.26],
   [S.scan.from + 22, "sel", 0.18], [S.scan.from + 56, "pop", 0.26], [S.scan.from + 60, "shimmer", 0.26], [S.scan.from + 68, "ding", 0.26],
   [S.stars.from + 8, "shimmer", 0.26], ...[0, 1, 2, 3, 4].map((i): Fx => [S.stars.from + 22 + i * 7, "chip", 0.2]),
   [S.prize.from + 12, "chip", 0.26], [S.prize.from + 24, "chip", 0.28], [S.prize.from + 26, "shimmer", 0.3], [S.prize.from + 48, "cut2", 0.2], [S.prize.from + 70, "ding", 0.3],
   [S.who.from + 12, "pop", 0.22], [S.who.from + 20, "sel", 0.16], [S.who.from + 25, "sel", 0.16], [S.who.from + 30, "sel", 0.16],
   [S.lock.from + 26, "pop", 0.3], [S.lock.from + 28, "shimmer", 0.24],
-  [S.slowPanel.from + 18, "sel", 0.2], [S.slowPanel.from + 72, "sel", 0.2],
-  [S.slowA.from + 18, "pop", 0.22], [S.slowA.from + 40, "tap", 0.45], [S.slowA.from + 46, "ding", 0.28], [S.slowA.from + 58, "cut2", 0.18], [S.slowA.from + 84, "pop", 0.26],
-  ...Array.from({ length: 8 }, (_, i): Fx => [S.wall.from + 4 + i * 6, "card", 0.2]), [S.wall.from + S.wall.dur - 34, "shimmer", 0.3], [S.wall.from + S.wall.dur - 18, "cut", 0.28],
+  // conocés: un pop por segmento; perfil: escaneo y un pop por dato
+  ...[14, 20, 26].map((f): Fx => [S.know.from + f, "pop", 0.26]),
+  [S.profile.from + 8, "sel", 0.22], [S.profile.from + 36, "ding", 0.2], ...[38, 50, 62, 74, 86].map((f): Fx => [S.profile.from + f, "pop", 0.24]),
+  // panel de los martes: focos, toque y promo activada
+  [S.slowPanel.from + 12, "sel", 0.2], [S.slowPanel.from + 92, "sel", 0.2], [S.slowPanel.from + 166, "tap", 0.45], [S.slowPanel.from + 172, "ding", 0.3],
+  [S.slowChart.from + 14, "cut2", 0.18], [S.slowChart.from + 40, "pop", 0.24],
+  // sugerencias que se apilan; la de Juli se ilumina
+  ...Array.from({ length: 7 }, (_, i): Fx => [S.wall.from + 4 + i * 17, "card", 0.24]), [S.wall.from + S.wall.dur - 34, "shimmer", 0.3], [S.wall.from + S.wall.dur - 16, "cut", 0.28],
   ...Array.from({ length: 14 }, (_, i): Fx => [S.aiMsg.from + 6 + i * 3, "key", 0.1]),
-  [S.aiMsg.from + 50, "pop", 0.22], [S.aiMsg.from + 140, "tap", 0.45], [S.aiMsg.from + 146, "ding", 0.3],
+  [S.aiMsg.from + 50, "pop", 0.22], [S.aiMsg.from + 108, "tap", 0.45], [S.aiMsg.from + 114, "ding", 0.3],
   [S.punch.from, "hit", 0.32], [S.punch.from + 10, "hit", 0.28], [S.punch.from + 20, "hit", 0.3],
   [S.closing.from + 2, "shimmer", 0.28], [S.closing.from + 3, "bell", 0.24],
 ];
@@ -72,9 +77,10 @@ export const ReelBrag: React.FC = () => {
         <Scene s={S.prize}><Sc.StepPrize /></Scene>
         <Scene s={S.commerce} dir="left"><Sc.Commerce /></Scene>
         <Scene s={S.know}><Sc.BenefitKnow /></Scene>
+        <Scene s={S.profile} dir="left"><Sc.Profile /></Scene>
         <Scene s={S.slowQ} dir="left"><Sc.BenefitSlowQ /></Scene>
         <Scene s={S.slowPanel}><Sc.SlowPanel /></Scene>
-        <Scene s={S.slowA} dir="left"><Sc.SlowPromo /></Scene>
+        <Scene s={S.slowChart} dir="left"><Sc.SlowChart /></Scene>
         <Scene s={S.aiQ} dir="left"><Sc.BenefitAIQ /></Scene>
         <Scene s={S.wall}><Sc.AiWall dur={S.wall.dur} /></Scene>
         <Scene s={S.aiMsg} dir="none"><Sc.BenefitAIMsg /></Scene>
