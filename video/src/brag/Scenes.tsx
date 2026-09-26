@@ -31,7 +31,7 @@ export const HookQuestion: React.FC = () => (
   <Field c="ink">
     <Tickets />
     {/* velo oscuro detrás de la pregunta para que se lea sobre las comandas */}
-    <AbsoluteFill style={{ background: "linear-gradient(180deg, rgba(2,49,42,0.2) 0%, rgba(2,49,42,0.88) 26%, rgba(2,49,42,0.88) 56%, rgba(2,49,42,0.15) 78%)" }} />
+    <AbsoluteFill style={{ background: "linear-gradient(180deg, rgba(2,49,42,0.2) 0%, rgba(2,49,42,0.93) 26%, rgba(2,49,42,0.93) 56%, rgba(2,49,42,0.15) 78%)" }} />
     <Words c="ink" size={128} at={2} per={3} lines={[["¿Tenés", "un"], ["comercio"], [{ t: "gastronómico?", hl: true }]]} style={{ position: "absolute", left: L, top: 560 }} />
   </Field>
 );
@@ -117,13 +117,13 @@ export const HookWho: React.FC<{ dur: number }> = ({ dur }) => {
 // ---------- los tres pasos del cliente ----------
 export const StepScan: React.FC = () => {
   const f = useCurrentFrame();
-  const pill = useIn(78, theme.spring.bouncy);
+  const pill = useIn(66, theme.spring.bouncy);
   return (
     <Field c="cream">
       <Words c="cream" size={96} at={0} per={2} lines={[["El", "cliente", "escanea"], ["el", { t: "QR", hl: true }, "en", "la", "mesa."]]} style={{ position: "absolute", left: 70, top: 250, zIndex: 3 }} />
       <TableScene scanAt={22} />
-      <Star3D size={330} at={66} x={680} y={560} turns={1.5} />
-      {f >= 78 && (
+      <Star3D size={330} at={56} x={680} y={560} turns={1.5} />
+      {f >= 66 && (
         <div style={{ position: "absolute", left: 680, top: 880, background: T.star, borderRadius: 60, padding: "14px 28px", ...display(44, T.ink, 800), transform: `scale(${interpolate(pill, [0, 1], [0.4, 1])}) rotate(-4deg)`, boxShadow: "0 16px 30px -14px rgba(0,0,0,0.45)" }}>
           +1 estrellita
         </div>
@@ -210,7 +210,7 @@ export const SlowPanel: React.FC = () => (
     <DepthIn at={2} from={{ rx: 16, ry: -16, z: -500 }} style={{ position: "absolute", left: 90, top: 330 }}>
       <PanelShot frames={["panel/sugg-tuesday.png"]} srcWidth={1194} srcHeight={1250} width={900}>
         <Spotlight x={236 * kT} y={150 * kT} w={860 * kT} h={210 * kT} at={18} until={66} />
-        <Spotlight x={96 * kT} y={755 * kT} w={990 * kT} h={180 * kT} at={72} until={140} />
+        <Spotlight x={96 * kT} y={755 * kT} w={990 * kT} h={180 * kT} at={70} until={126} />
       </PanelShot>
     </DepthIn>
   </Field>
@@ -219,10 +219,10 @@ export const SlowPanel: React.FC = () => (
 /** "El sistema propone…" + tocar "Activar promo" + las barras del martes suben. */
 export const SlowPromo: React.FC = () => {
   const f = useCurrentFrame();
-  const btn = useIn(24, theme.spring.bouncy);
-  const pressed = f >= 52 ? interpolate(f, [52, 56], [0.93, 1], clamp) : 1;
-  const done = f >= 58;
-  const pill = useIn(100, theme.spring.bouncy);
+  const btn = useIn(18, theme.spring.bouncy);
+  const pressed = f >= 40 ? interpolate(f, [40, 44], [0.93, 1], clamp) : 1;
+  const done = f >= 46;
+  const pill = useIn(84, theme.spring.bouncy);
   return (
     <Field c="ink">
       <Words c="ink" size={88} at={0} per={2} lines={[["El", "sistema", "propone", "que"], ["los", "martes,", "cada", "visita"], ["suma", { t: "dos estrellitas.", hl: true }]]} style={{ position: "absolute", left: 70, top: 230 }} />
@@ -235,13 +235,13 @@ export const SlowPromo: React.FC = () => {
           <div style={{ flex: "none", display: "inline-flex", alignItems: "center", gap: 10, background: done ? T.ink : T.mint, borderRadius: 60, padding: "20px 30px", ...body(34, T.white, 800), transform: `scale(${interpolate(btn, [0, 1], [0.6, 1]) * pressed})`, opacity: btn }}>
             {done ? <><CheckIcon size={36} color={T.mint} /> Activada</> : "Activar promo"}
           </div>
-          <Tap x={800} y={70} at={52} />
+          <Tap x={800} y={70} at={40} />
         </div>
       </DepthIn>
-      <DepthIn at={62} from={{ rx: 20, ry: -10, z: -500 }} style={{ position: "absolute", left: 70, top: 800 }}>
-        <Bars3D at={62} grow={[74, 100]} boostTo={232} width={940} />
+      <DepthIn at={48} from={{ rx: 20, ry: -10, z: -500 }} style={{ position: "absolute", left: 70, top: 800 }}>
+        <Bars3D at={48} grow={[58, 82]} boostTo={232} width={940} />
       </DepthIn>
-      {f >= 100 && (
+      {f >= 84 && (
         <div style={{ position: "absolute", left: 400, top: 970, background: T.mint, borderRadius: 40, padding: "10px 24px", ...display(44, T.ink, 800), transform: `scale(${pill}) rotate(-5deg)`, boxShadow: "0 14px 26px -12px rgba(0,0,0,0.4)" }}>
           +55% los martes
         </div>
@@ -310,8 +310,8 @@ export const AiWall: React.FC<{ dur: number }> = ({ dur }) => {
 export const BenefitAIMsg: React.FC = () => {
   const f = useCurrentFrame();
   const btn = useIn(50, theme.spring.bouncy);
-  const pressed = f >= 118 ? interpolate(f, [118, 122], [0.94, 1], clamp) : 1;
-  const done = f >= 124;
+  const pressed = f >= 140 ? interpolate(f, [140, 144], [0.94, 1], clamp) : 1;
+  const done = f >= 146;
   return (
     <Field c="cream">
       <DepthIn at={0} dur={16} from={{ rx: 16, ry: -14, z: -400 }} style={{ position: "absolute", left: 70, top: 420, width: 940 }}>
@@ -325,7 +325,7 @@ export const BenefitAIMsg: React.FC = () => {
           <div style={{ marginTop: 20, display: "inline-flex", alignItems: "center", gap: 14, background: done ? T.ink : T.mint, borderRadius: 80, padding: "26px 46px", ...body(42, T.white, 800), transform: `scale(${interpolate(btn, [0, 1], [0.6, 1]) * pressed})`, opacity: btn, transformOrigin: "left center" }}>
             {done ? <><CheckIcon size={44} color={T.mint} /> Enviado</> : "Aprobar y enviar"}
           </div>
-          <Tap x={250} y={700} at={118} />
+          <Tap x={250} y={700} at={140} />
         </div>
       </DepthIn>
     </Field>
